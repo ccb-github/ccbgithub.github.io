@@ -1,0 +1,10 @@
+const GET_ALLPRODUCTS = gql`
+  query( name: {input TypeInput {
+    
+  }}) {
+    product {
+      _id
+      name
+    }
+  }
+`;

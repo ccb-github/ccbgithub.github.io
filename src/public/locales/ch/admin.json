@@ -1,0 +1,22 @@
+{
+  
+    "Account edit": "帐号信息",
+    "Enterprise": "公司",
+   
+    "Checker": "检查员",
+    "Product": "产品",
+    "All the enterprise": "企业",
+    "temp":{"else": "Chain key"},
+    "mainPanel": {
+      "Product": "产品",
+      "Account": "帐号管理",
+      "Description for product": "进入产品页面",
+      "Add new catgory": "增加新商品类型"
+    },
+    "sideBar": {
+      "Catgory": "类型注册",
+      "Account management": "管理应用账户",
+      "Data manage": "数据管理",
+      "Regulatory": "监管机构"
+    }
+}
