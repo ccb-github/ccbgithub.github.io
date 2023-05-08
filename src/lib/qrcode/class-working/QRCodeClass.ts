@@ -1,5 +1,6 @@
-//@ts-nocheck
 export class QR8bitByte {
+	mode: number;
+	data: any;
 	constructor(data){		
     this.mode = QRMode.MODE_8BIT_BYTE;
 	  this.data = data;
@@ -24,11 +25,22 @@ export class QR8bitByte {
 //---------------------------------------------------------------------
 
 export default class QRCode{
+	static PAD0: number;
+	static PAD1: number;
+	typeNumber: any;
+	errorCorrectLevel: any;
+	modules: null;
+	moduleCount: number;
+	dataCache: null;
+	dataList: any[];
+	static createBytes(buffer: any, rsBlocks: any) {
+		throw new Error("Method not implemented.");
+	}
 	static {
 	  QRCode.PAD0 = 0xEC;
     QRCode.PAD1 = 0x11;
 	}
-	constructor(typeNumber, errorCorrectLevel) {
+	constructor(typeNumber: number, errorCorrectLevel: number) {
 		//静态信息
 		this.typeNumber = typeNumber;
 		this.errorCorrectLevel = errorCorrectLevel;
@@ -45,7 +57,7 @@ export default class QRCode{
 		this.dataCache = null;
 	}
 	
-	isDark(row, col) {
+	isDark(row: number, col: number) {
 		//Check the argment is valid
 		if (row < 0 || this.moduleCount <= row || col < 0 || this.moduleCount <= col) {
 			throw new Error(row + "," + col);
@@ -53,7 +65,7 @@ export default class QRCode{
 		return this.modules[row][col];
 	}
 
-	getModuleCount () {
+	getModuleCount() {
 		return this.moduleCount;
 	}
 	
@@ -95,13 +107,16 @@ export default class QRCode{
 		//掩模和数据进行运算
 		this.mapData(this.dataCache, maskPattern);
 	}
+	static createData(typeNumber: any, errorCorrectLevel: any, dataList: any): any {
+		throw new Error("Method not implemented.");
+	}
 
-	setupPositionProbePattern(row, col){
+	setupPositionProbePattern(row: number, col: number){
 		
-		for (var r = -1; r <= 7; r++) {
+		for (let r = -1; r <= 7; r++) {
 			if (row + r <= -1 || this.moduleCount <= row + r) 
 			  continue;	
-			for (var c = -1; c <= 7; c++) {
+			for (let c = -1; c <= 7; c++) {
 				if (col + c <= -1 || this.moduleCount <= col + c) 
 				  continue;
 				if ( (0 <= r && r <= 6 && (c == 0 || c == 6) )
@@ -590,11 +605,8 @@ var QRUtil = {
     },
 
     getLengthInBits (mode, type) {
-
 	    if (1 <= type && type < 10) {
-
 		    // 1 - 9
-
 		    switch(mode) {
 		    case QRMode.MODE_NUMBER 	: return 10;
 		    case QRMode.MODE_ALPHA_NUM 	: return 9;
