@@ -190,7 +190,7 @@ export function AccountList({ lng }: { lng: string }) {
       </td>
       <td>
         <NormalButton onClick={() => { deleteItem(account._id) }}>Delete</NormalButton>
-        <NormalButton onClick={() => { }}></NormalButton>
+       
         
       </td>
     </tr>
