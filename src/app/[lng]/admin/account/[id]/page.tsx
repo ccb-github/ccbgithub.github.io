@@ -2,7 +2,7 @@
 import { BasePageParams, BasePageProps } from '#/types/page';
 import AccountProfileManage from '#/components/admin/account/AccountProfileManage';
 import { getUser } from '#/lib/api';
-import { getAllProducts, getByName, getUsers } from '#/components/ApolloEndpoint';
+import { getAllProducts, getByName, getUsers } from '#/lib/api/ApolloEndpoint';
 import { NavItem } from '#/types/webContent';
 
 interface ParamsWithId extends BasePageParams {

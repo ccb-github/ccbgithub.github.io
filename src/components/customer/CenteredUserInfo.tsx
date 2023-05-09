@@ -57,6 +57,10 @@ export default function CenterUserInfo({lng}: {lng: string}) {
           <div className="flex h-14 items-center py-4 px-4 lg:h-auto">
             <span className='font-bold mr-2'>{t("Name") + ":"}</span>{"user alpha"}
           </div>
+          <div className="flex h-14 items-center py-4 px-4 lg:h-auto">
+            <span className='font-bold mr-2'>{t("Password") + ":"}</span>{"**********"}
+            <span className='text-blue-500 cursor-pointer'>{t("Setting password")}</span>
+          </div>
           <hr />
           {/* <div className="flex h-14 items-center py-4 px-4 lg:h-auto">
             <label>Allowed catgory</label>

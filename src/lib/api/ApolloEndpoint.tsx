@@ -34,8 +34,8 @@ export const createClient =
 // 3. GraphQL Query used in SSR TheProduct($name: String!)
 //Query wrapper
 const GET_PRODUCT = gql`
-  query getProduct{
-    catgory{
+  query getRegulatory{
+    regulatory{
       name
     }
   }

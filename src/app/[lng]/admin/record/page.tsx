@@ -1,5 +1,5 @@
 
-import { getAllProducts } from "#/components/ApolloEndpoint";
+import { getAllProducts } from "#/lib/api/ApolloEndpoint";
 import ReactTable from "#/components/common/ReactTable";
 import { useApp } from "#/hooks/useApp";
 import { schemaJson } from "#/lib/constants";

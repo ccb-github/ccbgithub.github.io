@@ -1,5 +1,5 @@
 'use client'
-import { SearchCircleIcon } from "@heroicons/react/solid";
+
 import { SearchIcon } from "../icons";
 import { useEffect, useRef } from "react";
 import { useApp } from "#/hooks/useApp";
@@ -8,7 +8,7 @@ import { useApp } from "#/hooks/useApp";
 import { SchemaResultMapper, SchemaName, SearchResultMap } from "#/types/schema";
 import { schemaJson } from "#/lib/constants";
 import ReactSelect from "react-select";
-import { BSON } from "realm-web";
+
 
 
 
@@ -49,6 +49,7 @@ export default function SearchBySchemaName({
       field="name" 
       value = searchQueryRef.current
     }
+    //@ts-ignore
     filter[field] = value
 
     const myMap = new Map<string, SchemaName | SchemaResultMapper[Exclude<typeof searchSchemaRef.current, undefined>]>([

@@ -5,21 +5,21 @@ import { usePathname, useRouter } from 'next/navigation';
 //import { useTranslation } from '#/lib/i18n/client';
 
 import { useApp } from '#/hooks/useApp';
+import { useTranslation } from '#/lib/i18n/client';
 
 
 export function AddressBar({ className, lng }: {className?: string, lng: string}) {
   const pathname = usePathname();
   const realmApp = useApp()
   const router = useRouter()
-  //const { t } = useTranslation(lng)
-  const t = src => src
+  const { t } = useTranslation(lng)
+  
   return (
     <div
-      className={`flex items-center space-x-2 bg-vercel-blue text-white
-        p-3.5 lg:px-5 lg:py-3 
+      className={`flex items-center space-x-2 h-14 bg-blue-700 lg:px-5 lg:py-3 
         ${className ? className : ''}`}
     >      
-      <div className="text-gray-600">
+      <div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-4"

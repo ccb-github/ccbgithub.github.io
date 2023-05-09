@@ -8,13 +8,13 @@ export default class QRRSBlock{
  
   totalCount: number;
   dataCount: number;
-//   static getRsBlockTable(typeNumber: any, errorCorrectLevel: any) {
-// 	  throw new Error("Method not implemented.");
-//   }
+  //static getRsBlockTable(typeNumber: number, errorCorrectLevel: any) {
+  // 	throw new Error("Method not implemented.");
+  //}
   static RS_BLOCK_TABLE: number[][];
   constructor(totalCount: number, dataCount: number) {
-	this.totalCount = totalCount;
-	this.dataCount  = dataCount;
+		this.totalCount = totalCount;
+		this.dataCount  = dataCount;
   }
   //Why static with {}
   RS_BLOCK_TABLE = [
@@ -265,7 +265,7 @@ export default class QRRSBlock{
 	  
 	];
 	  
-	static getRSBlocks(typeNumber: number, errorCorrectLevel) {
+	static getRSBlocks(typeNumber: number, errorCorrectLevel: 0 | 1 | 2 | 3 ) {
 		  
 		  var rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
 		  
@@ -290,8 +290,8 @@ export default class QRRSBlock{
 		  
 		  return list;
 	}
-	  
-	static getRsBlockTable(typeNumber: number, errorCorrectLevel: any) {
+	//Value set type  
+	static getRsBlockTable(typeNumber: number, errorCorrectLevel: 0 | 1 | 2 | 3) {
 	  
 		  switch(errorCorrectLevel) {
 			case QRErrorCorrectLevel.L :

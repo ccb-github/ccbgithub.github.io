@@ -1,17 +1,17 @@
+//@ts-nocheck
 'use client'
-import { useApp } from '#/hooks/useApp'
+
 import { schemaJson } from '#/lib/constants'
 import { SchemaResultMapper, SchemaName } from '#/types/schema'
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useRef } from 'react'
 import { FaReacteurope, FaSort, FaSortDown, FaSortUp } from 'react-icons/fa'
-import ReactSelect from 'react-select'
-import { Column, FilterValue, Row, useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table'
+import { FilterValue, Row, useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table'
 import { BSON } from 'realm-web'
 import NormalButton from './NormalButton'
 import SearchBar from './SearchBar'
 import { useTranslation } from '#/lib/i18n/client'
 import Link from 'next/link'
-import ConfirmDialog from './dialog/ConfirmDialog'
+
 type BaseFilterProps = {
 
   filterValue: FilterValue,
@@ -99,12 +99,12 @@ type ReactTableProps = {
   data: any, className?: string, trClass?: string,
   schemaType: SchemaName,
   deleteEnabled: boolean,
-  deleteOperation?: (deleteItem : SchemaResultMapper[SchemaName]) => Promise<boolean>
+  deleteOperation?: (deleteItem: SchemaResultMapper[SchemaName]) => Promise<boolean>
   // columns: readonly Column<{}>[]
 }
 
 export default function ReactTable({
-  data, schemaType , deleteEnabled
+  data, schemaType, deleteEnabled
 }: ReactTableProps) {
   //TODO the language props
   const { t } = useTranslation('ch')
@@ -118,9 +118,6 @@ export default function ReactTable({
       })
     )
   );
-  
-  
-  
 
   const defaultColumn = React.useMemo(
     () => ({
@@ -137,7 +134,7 @@ export default function ReactTable({
     rows,
     prepareRow,
   } = useTable({
-    columns: tableHeadRef.current, 
+    columns: tableHeadRef.current,
     data,
     //@ts-ignore
     defaultColumn
@@ -153,22 +150,25 @@ export default function ReactTable({
 
   return (
     <>
-      <SearchBar searchSchemaName={'Enterprise'} onSearchSubmit={function (searchResult: string) {
-        throw new Error('Function not implemented.')
-      } }/>
-      <div className='w-full space-x-1 p-4 border'>
-        <NormalButton onClick={() => {}}><Link href={'./insert'}><FaReacteurope/>{t("Insert")}</Link></NormalButton>
+      <SearchBar
+        searchSchemaName={'Enterprise'}
+        onSearchSubmit={function (searchResult: string) {
+          throw new Error('Function not implemented.')
+        }}>
+        <NormalButton onClick={() => { }}><Link href={'./insert'}><FaReacteurope />{t("Insert")}</Link></NormalButton>
+      </SearchBar>
+
+      {/* <div className='w-full space-x-1 p-4 border'> */}
+
         {/* <ConfirmDialog lng={"en"} confirmAction={function (): boolean {
           alert("confirm")
         } } closeAction={function (): Promise<boolean> {
           alert("closed")
           
         } } /> */}
-      </div>
+      {/* </div> */}
       <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
-        
         <thead>
-
           {headerGroups.map(headerGroup => {
             const { key, ...otherHeaderGroupProps } = headerGroup.getHeaderGroupProps()
             return (
@@ -192,7 +192,7 @@ export default function ReactTable({
                     >
                       {/*@ts-ignore*/}
                       <span className='cursor-pointer' {...column.getSortByToggleProps()}>
-                        {column.render('Header')}{console.log(`${column.id}`, column.placeholderOf)}
+                        {column.render('Header')}
                         {column.isSorted
                           ? column.isSortedDesc
                             ? <FaSortDown className='inline-block' />
@@ -209,7 +209,6 @@ export default function ReactTable({
 
             )
           })}
-
         </thead>
         <tbody {...getTableBodyProps()}>
           {rows.map((row, index) => {
@@ -219,6 +218,7 @@ export default function ReactTable({
               <tr key={key} {...otherRowProps}>
                 <th scope='row'>{index + 1}</th>
                 {row.cells.map(cell => {
+                  //console.log(JSON.stringify(cell))
                   const { key, ...otherCellProps } = cell.getCellProps()
                   return (
                     <td
@@ -228,9 +228,8 @@ export default function ReactTable({
                       style={{
                         padding: '10px',
                         maxWidth: '7rem',
-
                         border: 'solid 1px gray',
-                        background: 'papayawhip',
+                        backgroundColor: 'lightgray'
                       }}
 
                     >
@@ -242,16 +241,15 @@ export default function ReactTable({
 
                 })}
                 <th scope='row'>
-                  <NormalButton onClick={() => {
-                    
-                  }} disabled={deleteEnabled} >{t("Delete")}<FaReacteurope/></NormalButton>
+                  <NormalButton
+                    onClick={() => {
+                    }}
+                    disabled={deleteEnabled} >
+                    {t("Delete")}<FaReacteurope /></NormalButton>
                 </th>
               </tr>
-
             )
-
           })}
-
         </tbody>
       </table>
     </>

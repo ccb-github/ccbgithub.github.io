@@ -7,9 +7,14 @@ import * as Realm from 'realm-web'
 import { useApp } from '#/hooks/useApp';
 
 import Link from 'next/link';
-import { roleUrlMap } from '#/types/user';
+import { useTranslation } from '#/lib/i18n/client';
 
-
+enum roleUrlMap {
+  globalAdmin = "admin",
+  customer = "customer",
+  checker = "checker",
+  enterprise = "enterprise"
+}
 
 
 
@@ -18,15 +23,13 @@ export default function LoginForm({lng}: {lng: string}) {
   const password = useRef('')
   const realmApp = useApp()
   const router = useRouter()
-  
+  console.log("In the body")
   // const { useApp} = appContext
   // const realmApp = useApp()
-  //const {t} = useTranslation(lng, "common")
-  //@ts-ignore
-  const t = src => src
-  useEffect( () => {
-    console.log(realmApp)
-  })
+  const {t} = useTranslation(lng, "common")
+
+ 
+  
   const loginRealmAppAsync = async (event: FormEvent) => {
     event.preventDefault()
     
@@ -41,7 +44,8 @@ export default function LoginForm({lng}: {lng: string}) {
       const loginUser = await realmApp.logIn(credentials) 
       console.log('User id', loginUser.id)
       //@ts-ignore
-      router.push(`./${lng}/${roleUrlMap[loginUser.customData.role]}`)
+      router.push(`./${lng}/admin`)
+      //${roleUrlMap[loginUser.customData.role]}`)
     } catch (error) {
       //@ts-ignore
       switch(error.errorCode){
@@ -66,7 +70,7 @@ export default function LoginForm({lng}: {lng: string}) {
       <form
         id="login-form"
         className="form p-4 border border-solid"
-        action={`${lng}/admin`}
+        // action={`${lng}/admin`}
         onSubmit={() => false}
       > 
         <h2 className="text-info text-center text-xl">{
@@ -102,9 +106,9 @@ export default function LoginForm({lng}: {lng: string}) {
             }
           />
         </div>
-        <div className="form-group">
+        <div className="form-group p-2">
           <span className='space-x-2'>
-            <Link href={`./register`}>{t("Register first")}</Link>
+            <Link href={`./register`}><span className='underline text-blue-400'>{t("Register first")}</span></Link>
             <label htmlFor="remember-me" className="text-info">
               <span>{t("Remember me")}</span> 
               <span>

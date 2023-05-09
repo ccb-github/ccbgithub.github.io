@@ -1,5 +1,5 @@
 "use client"
-import { useTranslation } from "#/lib/i18n/client";
+//import { useTranslation } from "#/lib/i18n/client";
 import { useApp } from "#/hooks/useApp";
 import { UserProfile } from "#/types/data";
 import { useEffect, useRef, useState } from "react";
@@ -12,8 +12,8 @@ import { FaAdjust } from "react-icons/fa";
 export default function AccountFooter({lng}: {lng: string}) {
   const realmApp = useApp()
 	const [userData, setUserData] = useState<UserProfile | undefined>()
-  //const t = (src: string) => src
-	const { t } = useTranslation(lng)
+  const t = (src: string) => src
+	//const { t } = useTranslation(lng)
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
 	const [dialogOpen, toggleDialogOpen] = useState(false)

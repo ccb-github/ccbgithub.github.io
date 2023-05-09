@@ -1,5 +1,5 @@
 'use client'
-import { getAllProducts } from "#/components/ApolloEndpoint";
+import { getAllProducts } from "#/lib/api/ApolloEndpoint";
 import { AppContext } from "#/components/AppProvider";
 import ReactTable from "#/components/common/ReactTable";
 import ConfirmDialog from "#/components/common/dialog/ConfirmDialog";
@@ -59,7 +59,7 @@ export default function AdminEnterpriseManagePage({params: {lng}}: BasePageProps
     return (
       <div
         id="data-table"
-        className="h-full w-full overflow-x-scroll overflow-y-scroll"
+        className="h-full w-full"
       >
         <ReactTable data={datas}  schemaType={"Product"} deleteEnabled={true}/>
       </div>

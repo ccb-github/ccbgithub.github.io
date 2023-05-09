@@ -2,8 +2,6 @@
 import ReactTable from "#/components/common/ReactTable";
 import { useApp } from "#/hooks/useApp";
 import { schemaJson } from "#/lib/constants";
-import { useTranslation } from "#/lib/i18n";
-import { adminSettings } from "#/lib/webcontents/sideBar";
 import { BasePageProps } from "#/types/page";
 import { useEffect, useRef, useState } from "react";
 import { BSON } from "realm-web";

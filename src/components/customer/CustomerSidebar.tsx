@@ -1,12 +1,11 @@
 'use client';
-
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+
 import { MenuAlt2Icon, XIcon } from '@heroicons/react/solid';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 
-import { useApp } from '#/hooks/useApp';
+
 import { customerSideBarItems } from '#/lib/webcontents/sideBar';
 import SideNavItem from '../common/SideNavItem';
 import { useTranslation } from '#/lib/i18n/client';
@@ -74,14 +73,6 @@ export default function CustomerSideBar({lng}: {lng: string}) {
         })}
       >
         <nav className="space-y-6 px-2 py-5" id='side-nav-container'>
-          {/* {userActions.map((section) => {
-            return (
-              <div key={section.name}>
-                <div className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider">
-                  <div>{section.name}</div>
-                </div> */}
-
-          
           {
             customerSideBarItems.map(
               sideBarItem => 
@@ -96,7 +87,6 @@ export default function CustomerSideBar({lng}: {lng: string}) {
                 />
             )
           }
-        
         </nav>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { AdminSideBar } from "#/components/admin/AdminSideBar";
 import ApolloCookie from "#/components/ApolooCookie";
 import { AddressBar } from "#/components/common/AddressBar";
+import TopNavbar from "#/components/common/TopNavbar";
 import AccountFooter from "#/components/normal/AccountFooter";
 import { CommonLayoutProps } from "#/types/page";
 
@@ -12,8 +13,9 @@ export default function AdminRootLayout({
 }: CommonLayoutProps) {
   return (
     <>
-      {/* <AdminSideBar lng={lng} /> */}
+      <AdminSideBar lng={lng} />
       <div className="flex h-full flex-col lg:pl-72">
+        {/*<TopNavbar lng={lng}/>*/}
         <AddressBar className="flex-grow-0" lng={lng}/>
         <div
           id="app-root-container"
@@ -22,7 +24,7 @@ export default function AdminRootLayout({
           {children}
         </div>
         <div className="flex-grow-0 rounded-lg" id="footer">
-          <AccountFooter lng={lng}/>
+          {/* <AccountFooter lng={lng}/> */}
         </div>
       </div>
     </>

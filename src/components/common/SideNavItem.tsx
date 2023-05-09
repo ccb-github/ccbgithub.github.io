@@ -57,8 +57,8 @@ export default function SideNavItem({
         >
           {
             isOpen ? 
-              <FaChevronCircleUp className='self-center'/> : 
-              <FaChevronCircleDown className='self-center'/>
+              <FaChevronCircleUp className='self-center mr-2'/> : 
+              <FaChevronCircleDown className='self-center mr-2'/>
           }
           {name}
         </a>

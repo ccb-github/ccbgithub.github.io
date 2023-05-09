@@ -1,11 +1,10 @@
 import { SchemaPropties } from "#/types/schema"
 import { useState } from "react"
-import { FiRefreshCw } from "react-icons/fi"
-import NormalButton from "../NormalButton"
+
 import TypeSpan from "./TypeSpan"
 
 export default function BooleanInputFieldTemplate(props: SchemaPropties) {
-    const [currentTime, setRefreshedTime] = useState(new Date().toISOString().slice(0, -1))
+    
     return (
       <div key={props.name} className="form-group">
         <div className="w-full p-4 ">

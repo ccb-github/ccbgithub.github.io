@@ -119,26 +119,25 @@ export default function ProductItem({lng, product}: {lng: string, product: {
                 39<span data-v-3bcbdc80="">元</span>
               </td>
             </tr>
+            <tr data-v-3bcbdc80="">
+              <td data-v-3bcbdc80="">
+                <span data-v-3bcbdc80="" className="text-attr">
+                  {t("Preview")}
+                </span>
+              </td>
+              <td data-v-3bcbdc80="">
+                {/* We should adjust the height later */}
+                <BlurImage
+                  width={128}
+                  height={128}
+                  alt={t("Item iamge")}
+                  src={"https://chinatrace.org/barcode/gensvg?type=ean13&msg=697560240206&fmt=png&hrsize=5pt&hrfont=OCR-B&qz=0.2cm&wf=1&mw=0.17mm&height=1cm"}
+                /> 
+              </td>
+            </tr>
           </tbody>
         </table>
-        <div
-          data-v-3bcbdc80=""
-          className="el-row"
-          style={{ marginLeft: "-20px", marginRight: "-20px", marginTop: 10 }}
-        >
-          <div
-            data-v-3bcbdc80=""
-            className="el-col el-col-6"
-            style={{ paddingLeft: 20, paddingRight: 20 }}
-          >
-            <BlurImage
-              className="w-16"
-              alt={t("Item iamge")}
-              src={"https://chinatrace.org/barcode/gensvg?type=ean13&msg=697560240206&fmt=png&hrsize=5pt&hrfont=OCR-B&qz=0.2cm&wf=1&mw=0.17mm&height=1cm"}
-            /> 
-          </div>
-      
-        </div>
+       
       </div>
     )
 }

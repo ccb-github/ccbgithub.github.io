@@ -57,6 +57,9 @@ export type SchemaResultMapper = {
 	Checker: {
 		_id: BSON.ObjectID;
 	},
+	Catgory: {
+		_id: BSON.ObjectID;
+	}
 	Regulatory: {
 		_id: BSON.ObjectID;
 	}

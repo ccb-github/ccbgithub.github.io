@@ -1,11 +1,12 @@
-'use client'
 import { adminMainPanels } from "#/lib/webcontents/mainPanel";
 import { NavItem } from "#/types/webContent";
 import Link from "next/link";
-
+import { cookies } from "next/headers"
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import { useTranslation } from "#/lib/i18n";
 
-//import { useTranslation } from "#/lib/i18n/client";
+import { getOneProduct, gqlQueryNow } from "#/lib/api/ApolloEndpoint";
+
 type PageParams = {
 	lng: string
 }
@@ -14,23 +15,21 @@ const getApolloClient = async (cookie: ReadonlyRequestCookies) => {
   return cookie.get("accessToken")
 }
 export default async function Page({params}: {params: PageParams}) {
-  const {lng} = params
+  const { lng } = params
    
-  console.log("Admin",lng)
-  // const { t } = useTranslation(lng, 'admin')
-  const t = src => src
-  // const cookieStore = cookies()
-  // const  test = await getApolloClient(cookieStore)
+  const { t } = await useTranslation(lng, 'admin')
+  
+  const cookieStore = cookies()
+  const  test = await getApolloClient(cookieStore)
   //const accessToken = cookieStore.get('accessToken')
-  //const {product} = await getEnterprise()
-  // const {product} = await getAllProducts()
-  //console.log(product)
- 
+  const data = await getOneProduct()
+  console.log(data)
+  
   return (
     <>
       {adminMainPanels.map((section) => (
         <div key={section.name} className="space-y-5">
-          <div className="text-xl font-semibold uppercase tracking-wider text-gray-400">
+          <div className="text-xl font-semibold uppercase tracking-wider">
             {t(`mainPanel.${section.name}`)}
           </div>
           {/* <Suspense fallback={<p>Suspense</p>}> */}
@@ -60,6 +59,6 @@ export default async function Page({params}: {params: PageParams}) {
       ))}
       
       {/* <AllowedCatgoryList list={[]}/> */}
-     </>
+    </>
   )
 }

@@ -1,13 +1,13 @@
 'use client'
 import { useTranslation } from "#/lib/i18n/client";
 import { useApp } from "#/hooks/useApp";
-import { getUser, updateCollection } from "#/lib/api";
+import { getUser } from "#/lib/api";
 import { UserProfile } from "#/types/data";
 import { BSON } from 'realm-web'
 import { useEffect, useRef, useState } from "react";
 import ReactSelect from "react-select";
 import { PRODUCT_CATGORY_LIST } from "#/lib/webcontents/products";
-import { getByName } from "#/components/ApolloEndpoint";
+import { getByName } from "#/lib/api/ApolloEndpoint";
 import useDataList from "#/hooks/useDataList";
 
 

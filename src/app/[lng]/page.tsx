@@ -1,8 +1,9 @@
 import LoginForm from '#/components/LoginForm'
+import { BasePageProps } from '#/types/page'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function Home() {
+export default function Login({ params:{lng}}: BasePageProps) {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       {/* <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
@@ -40,7 +41,7 @@ export default function Home() {
           height={37}
           priority
         />
-      </div>
+    </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
         <a
@@ -111,7 +112,10 @@ export default function Home() {
           </p>
         </a>
       </div> */}
-      <LoginForm lng={"en"}/>
+      <LoginForm lng={lng}/>
     </main>
   )
 }
+
+
+

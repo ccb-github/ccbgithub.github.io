@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { usePathname, useSelectedLayoutSegment } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 import { useApp } from '#/hooks/useApp';
@@ -12,14 +12,12 @@ export function AdminSideBar({lng}: {lng: string}) {
   const [isOpen, setIsOpen] = useState(false);
   const close = () => setIsOpen(false);
   
-  const pathName = usePathname()
   const app = useApp()
   const currentUser = useRef(app?.currentUser)
   
   const { t } = useTranslation(lng,'admin.sideBar')
   const [email, setEmail] = useState<string | undefined>()
-  //let email
-  console.log({pathName})
+ 
   
   useEffect(() => {
     console.log(`Lng in AdminSideBar ${lng}`)
@@ -34,8 +32,9 @@ export function AdminSideBar({lng}: {lng: string}) {
   return (
     <div
       id="admin-nav"
-      className="fixed top-0 z-10 flex w-full flex-col border-b border-gray-800 bg-black-tete 
-                 lg:bottom-0 lg:z-auto lg:w-72 lg:border-r lg:border-gray-800"
+      className="fixed top-0 z-10 flex w-full flex-col border-b 
+               border-gray-800 bg-black 
+                 lg:bottom-0 lg:z-auto lg:w-72   lg:border-r lg:border-gray-800"
     >
       <div className="flex h-14 items-center py-4 px-4 lg:h-auto">
         <Link
@@ -74,37 +73,6 @@ export function AdminSideBar({lng}: {lng: string}) {
         })}
       >
         <nav className="space-y-6 px-2" id="side-nav">
-          {/* {userActions.map((section) => {
-            return (
-              <div key={section.name}>
-                <div className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider">
-                  <div>{section.name}</div>
-                </div> */}
-
-          
-            {/* {Object.keys(schemaJson).map((schemaObject) => {
-                    const tableName = schemaJson[schemaObject].name
-                    return (
-                    <SideNavItem 
-                        key={tableName} ,
-                     
-                        name = tableName,
-                        link: `/${lng}`+pathMap["adminQuery"](tableName),
-                        description: `To table ${tableName}`
-                    
-                      close={close} 
-                    />)
-                  })} */}
-            {/* <SideNavItem key={"audit"} 
-                      item={{
-                        name: "Audit",
-                        link: `/${lng}`+ "/audit",
-                        description: `To audit`
-                      }} 
-                      close={close} 
-                  >
-                   <li>Audit</li>
-                  </SideNavItem> */}
             {adminSideBarItems.map((sideBarItem) => {
               
               return (

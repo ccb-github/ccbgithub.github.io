@@ -1,8 +1,7 @@
-//@ts-nocheck
 'use client'
-import  QRCode, { QRErrorCorrectLevel} from './QRCode' 
+import  QRCode, { QRErrorCorrectLevel} from './class-working/QRCodeClass' 
 
-function showQRCode(text, targetElement) {
+function showQRCode(text: string, targetElement: HTMLDivElement | Document) {
   if (arguments.length === 0) {
     throw new Error(`Missing two arguments ${arguments}`)
   }
@@ -37,14 +36,15 @@ function showQRCode(text, targetElement) {
   canvas.setAttribute("height", qrsize * dotsize + padding)
   canvas.setAttribute("width", qrsize * dotsize + padding)
   var shiftForPadding = padding / 2
+  //@ts-ignore
   if (canvas.getContext) {
     for (var r = 0; r < qrsize; r++) {
       for (var c = 0; c < qrsize; c++) {
         if (qr.isDark(r, c)){ 
-          qrCanvasContext.fillStyle = black
+          qrCanvasContext!.fillStyle = black
         }
         
-        else {qrCanvasContext.fillStyle = white}
+        else {qrCanvasContext!.fillStyle = white}
         
         qrCanvasContext.fillRect(
           c * dotsize + shiftForPadding,

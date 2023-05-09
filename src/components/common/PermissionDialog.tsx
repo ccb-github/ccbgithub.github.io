@@ -1,9 +1,9 @@
-import useDataList from "#/hooks/useDataList"
+
 import { useEffect } from "react"
 
 
 export default function PermissionDialog() {
-  const catgorys = useDataList("Catgory")
+  const catgorys = ["A", "B"]
   let viewRef
   useEffect( () => {
     console.log(viewRef)
