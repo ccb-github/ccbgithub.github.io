@@ -3,9 +3,11 @@ import { useApp } from "#/hooks/useApp";
 import { useRef } from "react";
 import { useRouter } from 'next/navigation';
 import * as Realm from 'realm-web'
-import { roleUrlMap } from "#/types/user";
+
 import { t } from "i18next";
 import Link from "next/link";
+import { roleUrlMap } from "#/lib/webcontents/user";
+import { UserProfile } from "#/types/data";
 export default function RegisterForm({lng}: {lng: string}) {
 	const email = useRef("");
 	const password = useRef("");
@@ -32,9 +34,10 @@ export default function RegisterForm({lng}: {lng: string}) {
         const emailPasswordCred = Realm.Credentials.emailPassword(email.current, password.current)
 
         const loginUser = await app.logIn(emailPasswordCred)
+        const userCustomData = loginUser.customData as UserProfile
         console.log(`Login with user ${loginUser.id}`)
 
-        clientRouter.push(`./${lng}/${roleUrlMap[loginUser.customData.role]}`)
+        clientRouter.push(`./${lng}/${roleUrlMap[userCustomData.role ]}`)
       }).catch((error) => {
         event.preventDefault()
         //@ts-ignore

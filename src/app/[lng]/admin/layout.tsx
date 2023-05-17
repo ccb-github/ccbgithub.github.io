@@ -24,7 +24,7 @@ export default function AdminRootLayout({
           {children}
         </div>
         <div className="flex-grow-0 rounded-lg" id="footer">
-          {/* <AccountFooter lng={lng}/> */}
+          <AccountFooter lng={lng}/>
         </div>
       </div>
     </>

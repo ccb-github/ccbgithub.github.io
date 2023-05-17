@@ -16,11 +16,11 @@ export function AdminSideBar({lng}: {lng: string}) {
   const currentUser = useRef(app?.currentUser)
   
   const { t } = useTranslation(lng,'admin.sideBar')
-  const [email, setEmail] = useState<string | undefined>()
+  const [email ] = useState<string | undefined>()
  
   
   useEffect(() => {
-    console.log(`Lng in AdminSideBar ${lng}`)
+    
     console.log(JSON.stringify(currentUser))
     //setEmail(currentUser.current?.profile.email)
     //console.log( getUser(currentUser.current) )
@@ -48,7 +48,7 @@ export function AdminSideBar({lng}: {lng: string}) {
           </div>
 
           <h3 className="font-semibold tracking-wide text-gray-400 group-hover:text-gray-50">
-            {t('Admin')}
+            {t("Admin")}
             <span className="Work in progress">{email}</span>
           </h3>
         </Link>
@@ -62,36 +62,34 @@ export function AdminSideBar({lng}: {lng: string}) {
         <div className="font-medium text-gray-100 group-hover:text-gray-400">
           Menu
         </div>
-       
-        
       </button>
 
       <div
-        className={clsx('overflow-y-auto lg:static lg:block', {
-          'fixed inset-x-0 bottom-0 top-14 mt-px': isOpen,
+        className={clsx("overflow-y-auto lg:static lg:block", {
+          "fixed inset-x-0 bottom-0 top-14 mt-px": isOpen,
           hidden: !isOpen,
         })}
       >
         <nav className="space-y-6 px-2" id="side-nav">
-            {adminSideBarItems.map((sideBarItem) => {
-              
-              return (
-                <SideNavItem
-                  name={t(sideBarItem.name)}
-                  lng={lng}
-                  link={sideBarItem.link ? `/${lng}/${sideBarItem.link}` : undefined}
-                  description={sideBarItem.description}
-                  close={() => false}
-                  key={sideBarItem.name}
-                  items={sideBarItem.items}
-                />
-              )
-            })}
-         
+          {adminSideBarItems.map((sideBarItem) => {
+            return (
+              <SideNavItem
+                name={t(sideBarItem.name)}
+                lng={lng}
+                link={
+                  sideBarItem.link ? `/${lng}/${sideBarItem.link}` : undefined
+                }
+                description={sideBarItem.description}
+                close={() => false}
+                key={sideBarItem.name}
+                items={sideBarItem.items}
+              />
+            );
+          })}
         </nav>
       </div>
     </div>
-  )
+  );
 }
 
 

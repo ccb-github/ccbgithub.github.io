@@ -1,8 +1,6 @@
 {
-  
     "Account edit": "帐号信息",
     "Enterprise": "公司",
-   
     "Checker": "检查员",
     "Product": "产品",
     "All the enterprise": "企业",
@@ -20,6 +18,8 @@
     "sideBar": {
       "Catgory": "类型注册",
       "Admin function": "管理员功能",
+      "Account manage": "帐号管理",
+      "Checker": "检查员",
       "Data manage": "数据管理",
       "Regulatory": "监管机构",
       "Regulatory manage": "监管机构管理"

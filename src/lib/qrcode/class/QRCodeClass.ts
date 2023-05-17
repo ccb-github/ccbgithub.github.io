@@ -1,3 +1,6 @@
+import QRBitBuffer from "./QRBuffer";
+import QRRSBlock from "./QRRSBlock";
+
 export class QR8bitByte {
 	mode: number;
 	data: any;
@@ -338,7 +341,7 @@ export default class QRCode{
 
 QRCode.createData = function(typeNumber, errorCorrectLevel, dataList) {
 	
-	var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
+	const rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
 	
 	var buffer = new QRBitBuffer();
 	
@@ -807,33 +810,32 @@ for (var i = 0; i < 255; i++) {
 // QRPolynomial
 //---------------------------------------------------------------------
 
-function QRPolynomial(num, shift) {
+class QRPolynomial {
+	
+	num: any[];
+	
+  constructor(num, shift){
+		if (num.length == undefined) {
+			throw new Error(num.length + "/" + shift);
+		}
+		var offset = 0;
 
-	if (num.length == undefined) {
-		throw new Error(num.length + "/" + shift);
-	}
-
-	var offset = 0;
-
-	while (offset < num.length && num[offset] == 0) {
-		offset++;
-	}
-
-	this.num = new Array(num.length - offset + shift);
-	for (var i = 0; i < num.length - offset; i++) {
-		this.num[i] = num[i + offset];
-	}
-}
-
-QRPolynomial.prototype = {
-
-	get (index) {
+		while (offset < num.length && num[offset] == 0) {
+			offset++;
+		}
+	
+		this.num = new Array(num.length - offset + shift);
+		for (var i = 0; i < num.length - offset; i++) {
+			this.num[i] = num[i + offset];
+		}
+  }
+	get (index: number) {
 		return this.num[index];
-	},
+	}
 	
 	getLength () {
 		return this.num.length;
-	},
+	}
 	
 	multiply (e) {
 	
@@ -846,7 +848,7 @@ QRPolynomial.prototype = {
 		}
 	
 		return new QRPolynomial(num, 0);
-	},
+	}
 	
 	mod (e) {
 	
@@ -869,7 +871,11 @@ QRPolynomial.prototype = {
 		// recursive call
 		return new QRPolynomial(num, 0).mod(e);
 	}
-};
+
+
+}
+
+
 
 
 

@@ -1,8 +1,6 @@
 //---------------------------------------------------------------------
 // QRRSBlock
-
 import { QRErrorCorrectLevel } from "./QRCodeClass";
-
 //---------------------------------------------------------------------
 export default class QRRSBlock{
  

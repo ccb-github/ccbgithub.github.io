@@ -18,21 +18,11 @@ export default function EnterpriseSideBar({lng}: {lng: string}) {
   const pathName = usePathname()
   const currentUser = useRef(useApp().currentUser)
   
-  const { t } = useTranslation(lng, "enterprise")
+  const { t } = useTranslation(lng, "enterprise.sideBar")
 
   const [email, setEmail] = useState<string | undefined>()
   //let email
-  console.log({pathName})
-  
-  useEffect(() => {
-    console.log(`Lng in AdminSideBar ${lng}`)
-    //setEmail(currentUser.current?.profile.email)
-    
-    //debugger
-    // if(currentUser.current === null){
-    //   throw new Error("User not login!")
-    // }
-  }, [lng])
+ 
   return (
     <div
       id="customer-nav"

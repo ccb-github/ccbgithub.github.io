@@ -4,7 +4,7 @@ import MongoDbList  from "#/components/common/MongodbList"
 
 import { toSchemaTypestring } from "#/lib/stringFactory"
 import '#/styles/table.css'
-import Link from "next/link"
+
 
 type PageProps = {
 	params: {

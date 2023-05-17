@@ -8,13 +8,10 @@ import { useApp } from '#/hooks/useApp';
 
 import Link from 'next/link';
 import { useTranslation } from '#/lib/i18n/client';
+import { roleUrlMap } from '#/lib/webcontents/user';
+import { UserProfile } from '#/types/data';
 
-enum roleUrlMap {
-  globalAdmin = "admin",
-  customer = "customer",
-  checker = "checker",
-  enterprise = "enterprise"
-}
+
 
 
 
@@ -28,8 +25,6 @@ export default function LoginForm({lng}: {lng: string}) {
   // const realmApp = useApp()
   const {t} = useTranslation(lng, "common")
 
- 
-  
   const loginRealmAppAsync = async (event: FormEvent) => {
     event.preventDefault()
     
@@ -43,8 +38,8 @@ export default function LoginForm({lng}: {lng: string}) {
     try {
       const loginUser = await realmApp.logIn(credentials) 
       console.log('User id', loginUser.id)
-      //@ts-ignore
-      router.push(`./${lng}/admin`)
+      const userCustomData = loginUser.customData as UserProfile
+      router.push(`./${lng}/${roleUrlMap[userCustomData.role]}`)
       //${roleUrlMap[loginUser.customData.role]}`)
     } catch (error) {
       //@ts-ignore
@@ -108,7 +103,7 @@ export default function LoginForm({lng}: {lng: string}) {
         </div>
         <div className="form-group p-2">
           <span className='space-x-2'>
-            <Link href={`./register`}><span className='underline text-blue-400'>{t("Register first")}</span></Link>
+            <Link href={`./${lng}/register`}><span className='underline text-blue-400'>{t("Register first")}</span></Link>
             <label htmlFor="remember-me" className="text-info">
               <span>{t("Remember me")}</span> 
               <span>

@@ -3,7 +3,7 @@
 
 import { schemaJson } from '#/lib/constants'
 import { SchemaResultMapper, SchemaName } from '#/types/schema'
-import React, { useRef } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import { FaReacteurope, FaSort, FaSortDown, FaSortUp } from 'react-icons/fa'
 import { FilterValue, Row, useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table'
 import { BSON } from 'realm-web'
@@ -11,6 +11,9 @@ import NormalButton from './NormalButton'
 import SearchBar from './SearchBar'
 import { useTranslation } from '#/lib/i18n/client'
 import Link from 'next/link'
+import { deleteDocuments } from '#/lib/api'
+import { useApp } from '#/hooks/useApp'
+import { AppContext } from '../AppProvider'
 
 type BaseFilterProps = {
 
@@ -98,25 +101,36 @@ function CustomRender({ value, type }: { value: unknown, type: string }) {
 type ReactTableProps = {
   data: any, className?: string, trClass?: string,
   schemaType: SchemaName,
+  columnList?: string[],
   deleteEnabled: boolean,
   deleteOperation?: (deleteItem: SchemaResultMapper[SchemaName]) => Promise<boolean>
   // columns: readonly Column<{}>[]
 }
 
 export default function ReactTable({
-  data, schemaType, deleteEnabled
+  columnList: columnNameListProp,
+  data,
+  schemaType,
+  deleteEnabled,
 }: ReactTableProps) {
   //TODO the language props
-  const { t } = useTranslation('ch')
+  const { t } = useTranslation("ch");
+
   const schemaPropertiesRef = useRef(schemaJson[schemaType].properties);
-  //Table head   
+
+  const { useCollection } = useContext(AppContext);
+  const collection = useCollection("Product");
+  useEffect(() => {
+    console.log(collection);
+  });
+  const columnNameList =
+    columnNameListProp || Object.keys(schemaPropertiesRef.current);
+  //Table head
   const tableHeadRef = useRef(
-    Object.keys(schemaPropertiesRef.current).sort().map(
-      property => ({
-        Header: schemaPropertiesRef.current[property].name,
-        accessor: schemaPropertiesRef.current[property].name
-      })
-    )
+    columnNameList.sort().map((property) => ({
+      Header: schemaPropertiesRef.current[property].name,
+      accessor: schemaPropertiesRef.current[property].name,
+    }))
   );
 
   const defaultColumn = React.useMemo(
@@ -125,135 +139,142 @@ export default function ReactTable({
       Filter: DefaultColumnFilter,
     }),
     []
-  )
+  );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({
-    columns: tableHeadRef.current,
-    data,
-    //@ts-ignore
-    defaultColumn
-    // : {
-    //   Filter: 
-    // }, // Be sure to pass the defaultColumn option
-
-
-  }, useFilters, useGlobalFilter, useSortBy)
-
-
-
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable(
+      {
+        columns: tableHeadRef.current,
+        data,
+        //@ts-ignore
+        defaultColumn,
+        // : {
+        //   Filter:
+        // }, // Be sure to pass the defaultColumn option
+      },
+      useFilters,
+      useGlobalFilter,
+      useSortBy
+    );
 
   return (
     <>
       <SearchBar
-        searchSchemaName={'Enterprise'}
+        searchSchemaName={"Enterprise"}
         onSearchSubmit={function (searchResult: string) {
-          throw new Error('Function not implemented.')
-        }}>
-        <NormalButton onClick={() => { }}><Link href={'./insert'}><FaReacteurope />{t("Insert")}</Link></NormalButton>
-      </SearchBar>
-
-      {/* <div className='w-full space-x-1 p-4 border'> */}
-
-        {/* <ConfirmDialog lng={"en"} confirmAction={function (): boolean {
-          alert("confirm")
-        } } closeAction={function (): Promise<boolean> {
-          alert("closed")
-          
-        } } /> */}
-      {/* </div> */}
-      <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
+          throw new Error("Function not implemented.");
+        }}
+      />
+      <NormalButton onClick={() => {}}>
+        <Link href={"./insert"}>
+          <FaReacteurope />
+          {t("Insert")}
+        </Link>
+      </NormalButton>
+      <table {...getTableProps()} style={{ border: "solid 1px blue" }}>
         <thead>
-          {headerGroups.map(headerGroup => {
-            const { key, ...otherHeaderGroupProps } = headerGroup.getHeaderGroupProps()
+          {headerGroups.map((headerGroup) => {
+            const { key, ...otherHeaderGroupProps } =
+              headerGroup.getHeaderGroupProps();
             return (
               <tr key={key} {...otherHeaderGroupProps}>
-                <th scope='column'>index</th>
-                {headerGroup.headers.map(column => {
-                  const { key, ...otherHeaderProps } = column.getHeaderProps()
+                <th scope="column">index</th>
+                {headerGroup.headers.map((column) => {
+                  const { key, ...otherHeaderProps } = column.getHeaderProps();
                   return (
                     <th
                       key={key}
                       {...otherHeaderProps}
                       className="bg-slate-400"
                       style={{
-                        borderBottom: 'solid 3px red',
-                        maxWidth: '7rem',
-                        background: 'aliceblue',
-                        color: 'black',
-                        fontWeight: 'bold',
+                        borderBottom: "solid 3px red",
+                        maxWidth: "7rem",
+                        background: "aliceblue",
+                        color: "black",
+                        fontWeight: "bold",
                       }}
-
                     >
                       {/*@ts-ignore*/}
-                      <span className='cursor-pointer' {...column.getSortByToggleProps()}>
-                        {column.render('Header')}
-                        {column.isSorted
-                          ? column.isSortedDesc
-                            ? <FaSortDown className='inline-block' />
-                            : <FaSortUp className='inline-block' />
-                          : <FaSort className='inline-block' />}
+                      <span
+                        className="cursor-pointer"
+                        {...column.getSortByToggleProps()}
+                      >
+                        {column.render("Header")}
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <FaSortDown className="inline-block" />
+                          ) : (
+                            <FaSortUp className="inline-block" />
+                          )
+                        ) : (
+                          <FaSort className="inline-block" />
+                        )}
                       </span>
                       {column.render("Filter")}
                     </th>
-
-                  )
+                  );
                 })}
-                <th scope='column'>{t("Action")}</th>
+                <th scope="column">{t("Action")}</th>
               </tr>
-
-            )
+            );
           })}
         </thead>
         <tbody {...getTableBodyProps()}>
           {rows.map((row, index) => {
-            prepareRow(row)
-            const { key, ...otherRowProps } = row.getRowProps()
+            prepareRow(row);
+            const { key, ...otherRowProps } = row.getRowProps();
             return (
               <tr key={key} {...otherRowProps}>
-                <th scope='row'>{index + 1}</th>
-                {row.cells.map(cell => {
+                <th scope="row">{index + 1}</th>
+                {row.cells.map((cell) => {
                   //console.log(JSON.stringify(cell))
-                  const { key, ...otherCellProps } = cell.getCellProps()
+                  const { key, ...otherCellProps } = cell.getCellProps();
                   return (
                     <td
                       key={key}
                       {...otherCellProps}
                       className="overflow-x-clip"
                       style={{
-                        padding: '10px',
-                        maxWidth: '7rem',
-                        border: 'solid 1px gray',
-                        backgroundColor: 'lightgray'
+                        padding: "10px",
+                        maxWidth: "7rem",
+                        border: "solid 1px gray",
+                        backgroundColor: "lightgray",
                       }}
-
                     >
-                      <CustomRender value={cell.value}
-                        type={schemaPropertiesRef.current[cell.column.id].type} />
+                      <CustomRender
+                        value={cell.value}
+                        type={schemaPropertiesRef.current[cell.column.id].type}
+                      />
                     </td>
-
-                  )
-
+                  );
                 })}
-                <th scope='row'>
+                <th scope="row">
                   <NormalButton
+                    dataId={row.cells[0].value}
                     onClick={() => {
+                      deleteDocuments(realm);
                     }}
-                    disabled={deleteEnabled} >
-                    {t("Delete")}<FaReacteurope /></NormalButton>
+                    disabled={!deleteEnabled}
+                  >
+                    {t("Delete")}
+                    <FaReacteurope />
+                  </NormalButton>
                 </th>
               </tr>
-            )
+            );
           })}
         </tbody>
       </table>
     </>
-
-  )
-
+  );
 }
+
+ /* <div className='w-full space-x-1 p-4 border'> 
+
+         <ConfirmDialog lng={"en"} confirmAction={function (): boolean {
+          alert("confirm")
+        } } closeAction={function (): Promise<boolean> {
+          alert("closed")
+          
+        } } /> 
+ </div> */

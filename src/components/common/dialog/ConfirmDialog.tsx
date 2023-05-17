@@ -4,10 +4,14 @@ import { updateQRCode } from '#/lib/qrcode'
 import { useTranslation } from "#/lib/i18n/client";
 import NormalButton from "../NormalButton";
 
-export default function ConfirmDialog(props:{  lng: string,desc?: string, confirmAction : () => boolean,
+export default function ConfirmDialog({lng, confirmAction = () => {
+  console.log("Confirm action")
+}, closeAction = () => {
+  console.log("Close action")
+}}:{  lng: string,desc?: string, confirmAction : () => boolean,
   closeAction : () => Promise<boolean>
 }) {
-  const {lng, confirmAction, closeAction} = props
+  
   // async function windowReady() {
     
   //   const favDialog = document.getElementById('favDialog') as HTMLDialogElement
@@ -43,6 +47,7 @@ export default function ConfirmDialog(props:{  lng: string,desc?: string, confir
       favDialog.showModal()
       
       confirmBtn.onclick = async () => {
+      
         confirmAction()
 
       }

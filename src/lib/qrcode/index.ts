@@ -1,5 +1,5 @@
 'use client'
-import  QRCode, { QRErrorCorrectLevel} from './class-working/QRCodeClass' 
+import  QRCode, { QRErrorCorrectLevel} from './class/QRCodeClass' 
 
 function showQRCode(text: string, targetElement: HTMLDivElement | Document) {
   if (arguments.length === 0) {
@@ -16,12 +16,13 @@ function showQRCode(text: string, targetElement: HTMLDivElement | Document) {
 
   var canvas = document.createElement("canvas")
   var qrCanvasContext = canvas.getContext("2d")
+  let qr
   try {
     // QR Code Error Correction Capability
     // Higher levels improves error correction capability while decreasing the amount of data QR Code size.
     // QRErrorCorrectLevel.L (5%) QRErrorCorrectLevel.M (15%) QRErrorCorrectLevel.Q (25%) QRErrorCorrectLevel.H (30%)
     // eg. L can survive approx 5% damage...etc.
-    var qr = new QRCode(QRCodeVersion, QRErrorCorrectLevel.L)
+    qr = new QRCode(QRCodeVersion, QRErrorCorrectLevel.L)
     qr.addData(text)
     qr.make()
   } catch (err) {
@@ -36,8 +37,8 @@ function showQRCode(text: string, targetElement: HTMLDivElement | Document) {
   canvas.setAttribute("height", qrsize * dotsize + padding)
   canvas.setAttribute("width", qrsize * dotsize + padding)
   var shiftForPadding = padding / 2
-  //@ts-ignore
-  if (canvas.getContext) {
+  
+  // if (canvas.getContext) {
     for (var r = 0; r < qrsize; r++) {
       for (var c = 0; c < qrsize; c++) {
         if (qr.isDark(r, c)){ 
@@ -54,7 +55,7 @@ function showQRCode(text: string, targetElement: HTMLDivElement | Document) {
         ) // x, y, w, h
       }
     }
-  }
+  
 
   var imgElement = document.createElement("img")
   imgElement.src = canvas.toDataURL("image/png")
@@ -66,7 +67,7 @@ export function updateQRCode(text: string, targetElementId?: string) {
   const targetElement = document.getElementById(targetElementId || "qrcode")
   console.log(targetElement)
   //TODO if empty
-  if (targetElement.lastChild)
-    targetElement.replaceChild(showQRCode(text), targetElement.lastChild)
-  else targetElement.appendChild(showQRCode(text))
+  if (targetElement!.lastChild)
+    targetElement!.replaceChild(showQRCode(text), targetElement.lastChild)
+  else targetElement!.appendChild(showQRCode(text))
 }

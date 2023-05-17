@@ -19,6 +19,7 @@ export default function Page( {params} : PagePropsWithTypeParams) {
 	return (
 	  <AddDataForm 
 	    lng={lng} 
-	    schemaObj={schemaJson["Product"]} />
+	    schemaObj={schemaJson["Product"]} 
+		/>
 	);
 }

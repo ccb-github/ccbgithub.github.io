@@ -78,23 +78,7 @@ export default function AccounProfileManage({lng, id, userProfile}: {lng: string
         )
     }
   },[loginUser])
-  const profileSubmit =async (profileData: any) => {
-    
-    //const accountsCollection = mongo.db('qrcodeTraceability').collection(searchCollection);
-    // try {
-    //   const result = await loginUser?.findOneAndUpdate(
-    //     { _id: new BSON.ObjectID(id) },
-    //     {
-    //       $set: {
-    //         ...currentProfileInfo.current,
-    //       },
-    //     },
-    //   )   
-    //   console.log(`Update result ${result}`)   
-    // } catch (error) {
-    //   throw error
-    // }
-  } 
+  
   return (
    
   <div

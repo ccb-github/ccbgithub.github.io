@@ -1,6 +1,7 @@
 'use client'
 import DateInputFieldTemplate from "#/components/common/input/DateInputFieldTemplate";
 import { StringInputFieldTemplate } from "#/components/form/AddDataForm";
+import { schemaJson } from "#/lib/constants";
 import { useTranslation } from "#/lib/i18n";
 import { BasePageProps } from "#/types/page";
 
@@ -39,50 +40,17 @@ export default async function Page({ params }: BasePageProps) {
       action="#"
       id="insertForm"
       onSubmit={addCatgory}
-      className="h-full overflow-y-scrol pt-2"
+      className="h-full overflow-y-scrol pt-2 grid 
+      grid-cols-1 lg:grid-cols-2"
     >
-      <h2>Enter the catgory you want add</h2>
-      <div className="form-group">
-        <div className="w-full p-4">
-          <label className=" control-label" htmlFor="prop.name">
-            {t("Name")}
-          </label>
-          <TypeSign text='string' className='float-right' />
-        </div>
-        <div className="w-full">
-          <input
-            name="name"
-            type="text"
-            placeholder="Please Enter the name of catgory here"
-            className="form-control input-md w-full"
-          />
-        </div>
-      </div>
-
-      <div className="form-group">
-        <div className="w-full p-4">
-          <label className=" control-label" htmlFor="description">
-            {t("Description")}
-          </label>
-          <TypeSign text='string' className='float-right' />
-        </div>
-        <div className="w-full">
-          <input
-            id="description"
-            name="description"
-            type="text"
-            placeholder="please Enter your description here"
-            className="form-control input-md w-full"
-
-          />
-        </div>
-      </div>
+      <h2 className="col-span-1 lg:col-span-2">Enter the catgory you want add</h2>
+  
+      <StringInputFieldTemplate {...schemaJson["Catgory"].properties["name"]}/>
+      <StringInputFieldTemplate {...schemaJson["Catgory"].properties["description"]}/>
       <DateInputFieldTemplate 
         name="createAt" optional={false} 
-        type={"date"} indexed={false} mapTo={""}/>
-      
-     
-
+        type={"date"} indexed={false} mapTo={""}
+      />
       <div className="form-group">
         <button type="submit">Submit</button>
       </div>

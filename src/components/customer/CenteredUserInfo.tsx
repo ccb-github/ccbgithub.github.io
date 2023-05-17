@@ -14,8 +14,9 @@ import NormalButton from '../common/NormalButton';
 
 export default function CenterUserInfo({lng}: {lng: string}) {
   const currentUser = useRef(useApp().currentUser)
-  
+  const realmApp = useApp()
   const {email , name} = currentUser.current!.profile 
+  const [authCatgories, setAuthCatgories] = useState<string[]>(realmApp.currentUser?.customData.authCatgories || [])
   const { t } = useTranslation(lng, "common")
   const [editable, setEditalbe] = useState(false)
 
@@ -68,9 +69,14 @@ export default function CenterUserInfo({lng}: {lng: string}) {
           </div> */}
         </div>
       </div>
-      <div>
-        
-      </div>
+      <section>
+        Authorized catgory {
+          ["A", "B", "C"].map(
+            catgory => <>
+              <label className='mr-4'>A<input type='checkbox' value={authCatgories.includes(catgory)? "true" : "false"}/></label></>
+          )
+        }
+      </section>
     </div>
   );
 }

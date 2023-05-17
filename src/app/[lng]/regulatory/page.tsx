@@ -1,21 +1,27 @@
-'use client'
-
 import { BasePageProps } from '#/types/page';
 import QRCodeImg from '#/components/qrcode/QRCodeImg';
-import { usePathname } from 'next/navigation';
+
 import { NavItem } from '#/types/webContent';
 
 import Link from 'next/link';
 import { useTranslation } from '#/lib/i18n';
+import { getByNameAndFilter } from '#/lib/api/ApolloEndpoint';
+import { cookies } from 'next/headers';
+import ReactTable from '#/components/common/ReactTable';
 
 
-export default async function CheckerPage({ params: {lng}}: BasePageProps) {
-  const pathName = usePathname()
-  const { t } = await useTranslation(lng)
+export default async function RegulatoryPage({ params: {lng}}: BasePageProps) {
   
+  const { t } = await useTranslation(lng)
+
+  const cookieStore = cookies()
+  
+  const accessToken = cookieStore.get('accessToken')
+  const { product } = await getByNameAndFilter(accessToken!.value, "product")
+ 
   return (
     <div className="space-y-4">
-      {checkerMainPanelItems.map((section) => (
+      {/* {checkerMainPanelItems.map((section) => (
           <div key={section.name} className="space-y-5">
             <div className="text-xl font-semibold uppercase tracking-wider text-gray-400">
               {t(section.name)}
@@ -43,9 +49,9 @@ export default async function CheckerPage({ params: {lng}}: BasePageProps) {
             </div>
           </div>
         ))
-      }
-      
-
+      } */}
+       <ReactTable data={[]} columnList={["name"]} 
+                    schemaType={"Checker"} deleteEnabled={true}/>
     </div>
   );
 }

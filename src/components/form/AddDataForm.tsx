@@ -487,7 +487,7 @@ export function AddProductForm() {
       {/* <select>
         <option>Select the related Product</option>
       </select> */}
-      <div className="form-group">
+      <div className="form-group lg:col-span-2">
         <button type="submit" className='w-1/5 p-1'>Submit</button>
       </div>
     </form>

@@ -2,10 +2,12 @@ import { useApp } from "#/hooks/useApp"
 import { SchemaName } from "#/types/schema"
 import { useEffect, useRef, useState } from "react"
 //The id must can be stringify
-export default function RelatedObjectSelect({ objectType, ...props }:{
+export default function RelatedObjectSelect({ objectType, name, label, ...props }:{
 	objectType: SchemaName,
+  name: string,
+  label?: string,
 	linked?: boolean,
-  onChangeValue: (newValue: string) => any
+  onChangeValue?: (newValue: string) => any
 }){
   //TODO provide the type
   const [dataList, setDataList] = useState<any []>([])
@@ -20,10 +22,11 @@ export default function RelatedObjectSelect({ objectType, ...props }:{
   }, [objectType])
   
   return (
-    <select {...props}  defaultValue={`Select the related ${objectType} item id`}>
-      <option key={"default"} value={""}>
+    <select name={name} {...props}  
+      defaultValue={label || `Select the related ${objectType} item id`}>
+      {/* <option key={"default"} value={""}>
        {`Select the related ${objectType} item id`}
-      </option>
+      </option> */}
       {dataList !== undefined
         ? dataList.map((item, key) => {
             return (

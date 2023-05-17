@@ -1,18 +1,11 @@
-'use client'
-import { getAllProducts } from "#/lib/api/ApolloEndpoint";
-import { AppContext } from "#/components/AppProvider";
 import ReactTable from "#/components/common/ReactTable";
 import ConfirmDialog from "#/components/common/dialog/ConfirmDialog";
-import { useApp } from "#/hooks/useApp";
-import { schemaJson } from "#/lib/constants";
-import { useTranslation } from "#/lib/i18n";
-import { adminSettings } from "#/lib/webcontents/sideBar";
+import { getAllProducts, getByName, getByNameAndFilter, getOneProduct } from "#/lib/api/ApolloEndpoint";
 import { BasePageProps } from "#/types/page";
 import { SchemaResultMapper } from "#/types/schema";
-import { useContext, useEffect, useState } from "react";
+import { cookies } from "next/headers";
 
-import { BSON } from "realm-web";
-import { errorMonitor } from "stream";
+
 
 function TypeSign({
   text,
@@ -38,30 +31,23 @@ function TypeSign({
   );
 };
 
-export default function AdminEnterpriseManagePage({params: {lng}}: BasePageProps) {
+export default async function AdminEnterpriseManagePage({params: {lng}}: BasePageProps) {
     //The url is lowercase, but the schema name to search the database are like 'Name', we need to convert first
-    // const { products } = await getAllProducts()
-    // console.log(products)
-    //const appContext = useContext(AppContext)
-    //const {useCollection} = appContext
-    const realmApp = useApp()
-    const [confirmDialog, setConfirmDialog] = useState(false) 
-    const [datas, setDatas] = useState<SchemaResultMapper["Product"]>([])
-    useEffect(() => {
-      //console.log("Product collection",productCollection)
-      realmApp.currentUser?.mongoClient('mongodb-atlas').db("qrcodeTraceability").collection("Product")?.find()
-        .then( results => setDatas(results))
-        .catch( error => {
-          throw Error(error)
-      })
-    } ,[])
-
+   
+    const cookieStore = cookies()
+  
+    const accessToken = cookieStore.get('accessToken')
+    console.log("Token",accessToken)
+    //const product = {"name": "Product one"}
+    //const {product} = await getByName(accessToken!.value, "product")
+    //console.log(catgories)
     return (
       <div
         id="data-table"
         className="h-full w-full"
       >
-        <ReactTable data={datas}  schemaType={"Product"} deleteEnabled={true}/>
+        <ReactTable data={[]} columnList={["name"]} 
+                    schemaType={"Product"} deleteEnabled={true}/>
       </div>
     );
   }

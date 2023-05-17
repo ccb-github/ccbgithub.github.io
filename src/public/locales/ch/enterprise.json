@@ -1,3 +1,8 @@
 {
-    "Enterprise": "企业"
+    "Enterprise": "企业",
+    "sideBar": {
+        "Account": "帐号",
+        "Product manage":"产品管理",
+        "Order": "订单"
+    }
 }

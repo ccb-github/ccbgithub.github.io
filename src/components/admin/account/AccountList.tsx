@@ -41,7 +41,6 @@ const collectionName = "User"
 export function AccountList({ lng }: { lng: string }) {
   const mongoApp = useApp()
   const { t } = useTranslation(lng, "account-list")
-
   const [accounts, setAccounts] = useState<Account[]>()
   const router = useRouter()
   //TODO env vara
@@ -76,7 +75,6 @@ export function AccountList({ lng }: { lng: string }) {
 
   //TODO consider the type of user collection
   const deleteItem = async (id: ObjectID) => {
-
 
     if (confirm("Are you sure you want to delete it")) {
       const mongoCollection = mongoApp
@@ -162,12 +160,14 @@ export function AccountList({ lng }: { lng: string }) {
               ))}
           </select> */}
           </td>
-      <td>
-        <NormalButton
-          className={account.emailVerified ? "" : "bg-gray-100"}
-          disabled={account.emailVerified}
-          onClick={() => {  }}>Pass</NormalButton>
-      </td>
+        <td>
+          <NormalButton
+            className={account.emailVerified ? "" : "bg-gray-100"}
+            disabled={account.emailVerified}
+            onClick={() => {  
+              accountActivate(account._id)
+            }}>Pass</NormalButton>
+        </td>
       <td>
         {/* <a
               href="#"
