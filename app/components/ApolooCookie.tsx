@@ -16,18 +16,25 @@ export default function ApolloCookie({children}) {
      
       setCookie(null, "accessToken", user.accessToken);
       // Refresh token before session expires
-      const TWENTY_MIN_MS = 1200000;
+      const TWENTY_MIN_MS = 12000;
       const resetAccessToken = setInterval(async () => {
         
-        await app?.currentUser?.refreshCustomData();
-        console.log(`The token at ${new Date().toLocaleDateString()}`)
-        setCookie(null, "accessToken", user.accessToken);
+        user
+          .refreshAccessToken()
+          .then(() => {
+            console.log(`The token at ${new Date().toLocaleDateString()} ${user.accessToken}`);
+
+            setCookie(null, "accessToken", user.accessToken);
+          })
+          .catch((error) => {
+            throw error;
+          });
       }, TWENTY_MIN_MS);
       // Clear interval setting access token whenever component unmounts or
       // there's a change in user.
       return () => clearInterval(resetAccessToken);
     }
-  }, [app, app?.currentUser]);
+  }, [app?.currentUser]);
   return (
     <>
      {children}

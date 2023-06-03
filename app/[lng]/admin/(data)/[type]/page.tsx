@@ -3,7 +3,9 @@ import React from "react"
 import MongoDbList  from "#/components/common/MongodbList"
 
 import { toSchemaTypestring } from "#/lib/stringFactory"
-import '#/styles/table.css'
+import { schemaJson } from "#/lib/constants"
+import { error } from "console"
+
 
 
 type PageProps = {
@@ -20,9 +22,14 @@ type PageProps = {
 
 export default function Page({ params, searchParams }: PageProps) {
 	const { type, lng } = params
+	const schemaType = toSchemaTypestring(type)
 	//TODO type of searchParams 
+	if(!Object.keys(schemaJson).includes(schemaType)) {
+		throw error(`The url is incorrect can not find data related to type ${schemaType}`)
+	}
+
 	return (
-		<MongoDbList type={toSchemaTypestring(type)} filter={{ ...searchParams }}
+		<MongoDbList type={schemaType} filter={{ ...searchParams }}
 			lng={lng} sortOption={{}} /> 
 	)
 }

@@ -22,6 +22,7 @@ export default function AccountFooter({lng}: {lng: string}) {
     if(realmApp.currentUser === null){
       throw new Error("You should login to use this AccountFooter")
     }
+    realmApp.currentUser.refreshAccessToken()
     setUserData( () => {
       setIsLoading(false)
       return realmApp.currentUser!.customData as UserProfile

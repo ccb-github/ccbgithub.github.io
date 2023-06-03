@@ -5,7 +5,7 @@ import { NavItem } from '#/types/webContent';
 
 import Link from 'next/link';
 import { useTranslation } from '#/lib/i18n';
-import { getByNameAndFilter } from '#/lib/api/ApolloEndpoint';
+import { getByName, getByNameAndFilter } from '#/lib/api/apolloEndpoint';
 import { cookies } from 'next/headers';
 import ReactTable from '#/components/common/ReactTable';
 
@@ -17,11 +17,11 @@ export default async function RegulatoryPage({ params: {lng}}: BasePageProps) {
   const cookieStore = cookies()
   
   const accessToken = cookieStore.get('accessToken')
-  const { product } = await getByNameAndFilter(accessToken!.value, "product")
- 
+  const { checker } = await getByName(accessToken!.value, "checker")
+  console.log(checker)
   return (
     <div className="space-y-4">
-      {/* {checkerMainPanelItems.map((section) => (
+      {checkerMainPanelItems.map((section) => (
           <div key={section.name} className="space-y-5">
             <div className="text-xl font-semibold uppercase tracking-wider text-gray-400">
               {t(section.name)}
@@ -29,7 +29,7 @@ export default async function RegulatoryPage({ params: {lng}}: BasePageProps) {
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
               {section.items.map((item) => (
                 <Link
-                  href={`${pathName ? pathName : ''}/${item.link}`}
+                  href={`${lng}/regulatory/${item.link}`}
                   key={item.name}
                   className="group block space-y-1.5 rounded-lg bg-gray-900 px-5 py-3 hover:bg-gray-800"
                 >
@@ -49,8 +49,8 @@ export default async function RegulatoryPage({ params: {lng}}: BasePageProps) {
             </div>
           </div>
         ))
-      } */}
-       <ReactTable data={[]} columnList={["name"]} 
+      }
+       <ReactTable data={[checker]} columnList={["name"]} 
                     schemaType={"Checker"} deleteEnabled={true}/>
     </div>
   );

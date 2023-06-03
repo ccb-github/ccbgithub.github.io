@@ -1,6 +1,6 @@
 import ReactTable from "#/components/common/ReactTable";
 import ConfirmDialog from "#/components/common/dialog/ConfirmDialog";
-import { getAllProducts, getByName, getByNameAndFilter, getOneProduct } from "#/lib/api/ApolloEndpoint";
+import { getAllProducts, getByName, getByNameAndFilter, getOneProduct } from "#/lib/api/apolloEndpoint";
 import { BasePageProps } from "#/types/page";
 import { SchemaResultMapper } from "#/types/schema";
 import { cookies } from "next/headers";
@@ -37,16 +37,15 @@ export default async function AdminEnterpriseManagePage({params: {lng}}: BasePag
     const cookieStore = cookies()
   
     const accessToken = cookieStore.get('accessToken')
-    console.log("Token",accessToken)
     //const product = {"name": "Product one"}
-    const {product} = await getOneProduct(accessToken!.value)
-    console.log(product)
+    const {products} = await getAllProducts()
+    console.log(products)
     return (
       <div
         id="data-table"
         className="h-full w-full"
       >
-        <ReactTable data={[]} columnList={["name"]} 
+        <ReactTable data={products} columnList={["name", "assemblePlace"]} 
                     schemaType={"Product"} deleteEnabled={true}/>
       </div>
     );

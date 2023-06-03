@@ -2,16 +2,17 @@
 
 import { useTranslation } from "#/lib/i18n/client";
 import { useApp } from "#/hooks/useApp";
-import { getUsers } from "#/lib/api";
-
+import { getUsers } from "#/lib/api/mongoService";
+import ReactSelect from "react-select"
 import { ObjectID } from "bson";
-import { MouseEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import NormalButton from "#/components/common/NormalButton";
 //Skeleton css file
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import PermissionDialog from "#/components/common/PermissionDialog";
 import Link from "next/link";
+import { useCollection } from "#/hooks/useCollection";
 
 type Account = {
   _id: ObjectID
@@ -41,7 +42,10 @@ const collectionName = "User"
 export function AccountList({ lng }: { lng: string }) {
   const mongoApp = useApp()
   const { t } = useTranslation(lng, "account-list")
+  const accountCollection = useCollection("Order")
   const [accounts, setAccounts] = useState<Account[]>()
+  const searchParams = useSearchParams()
+  console.log("Search params",searchParams.get("verified"))
   const router = useRouter()
   //TODO env vara
   const accountsCollection = useRef( 
@@ -135,8 +139,11 @@ export function AccountList({ lng }: { lng: string }) {
           <th style={{ maxWidth: '8rem', overflowX: 'hidden' }}>{t("User ID")}</th>
           <th style={{ maxWidth: '8rem', overflowX: 'hidden' }}>{t("Email")}</th>
           <th style={{ maxWidth: '8rem', overflowX: 'hidden' }}>{t("role")}</th>
-          <th style={{ maxWidth: '8rem', overflowX: 'hidden' }}>{t("Permission")}</th>
+          <th style={{ maxWidth: '8rem', overflowX: 'hidden' }}>{t("Verified")}</th>
           <th colSpan={3}>{t("Action")}</th>
+          <button onClick={() => {
+            router.push("ch/admin/account?verified=true")
+          }}>Test</button>
         </tr>
       </thead>
       <tbody>

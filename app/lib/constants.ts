@@ -264,6 +264,13 @@ export const schemaJson: SchemaJson = {
 				optional: false,
 				mapTo: "catgory",
 			},
+			category: {
+				name: "category",
+				type: "string",
+				indexed: false,
+				optional: false,
+				mapTo: "catgory",
+			},
 			// checker: {
 			//   name: "checker",
 			//   type: "object",

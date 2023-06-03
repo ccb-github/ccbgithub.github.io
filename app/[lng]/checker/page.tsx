@@ -3,10 +3,11 @@
 import { BasePageProps } from '#/types/page';
 import QRCodeImg from '#/components/qrcode/QRCodeImg';
 import { usePathname } from 'next/navigation';
-import { NavItem } from '#/types/webContent';
+
 
 import Link from 'next/link';
 import { useTranslation } from '#/lib/i18n';
+import { NavItem } from '#/types/webContent';
 
 
 export default async function CheckerPage({ params: {lng}}: BasePageProps) {
@@ -56,8 +57,8 @@ const checkerMainPanelItems: { name: string; items: NavItem[] }[] = [
     items: [
       {
         name: 'Product info enter',
-        link: 'layouts',
-        description: 'Create UI that is shared across routes',
+        link: './',
+        description: 'Insert new check record',
       },
       {
         name: 'Grouped Layouts',

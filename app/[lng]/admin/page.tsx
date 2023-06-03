@@ -1,13 +1,12 @@
 import { adminMainPanels } from "#/lib/webcontents/mainPanel";
-import { NavItem } from "#/types/webContent";
+
 import Link from "next/link";
-import { cookies } from "next/headers"
-import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { useTranslation } from "#/lib/i18n";
-import ModalQRCodeDialog from "#/components/form/ModalQRCodeDialog";
-import Dark from "#/components/admin/Dark";
-import { getAllEnterprise, getAllOrders, getAllProducts, getOneProduct } from "#/lib/api/ApolloEndpoint";
+
+import { getAllOrders } from "#/lib/api/apolloEndpoint";
 import { getCookieByName } from "#/components/util/cookie";
+import { NavItem } from "#/types/webContent";
+import RelatedItemDialog from "#/components/form/RelatedItemDialog";
 
 
 type PageParams = {
@@ -18,12 +17,12 @@ export default async function AdminHomePage({params}: {params: PageParams}) {
   const { lng } = params   
   const { t } = await useTranslation(lng, 'admin')
   const accessToken = getCookieByName("accessToken")
-  const data = await getAllOrders(accessToken!)
-  console.log(data)
+ 
+ 
   return (
     <>
       {/* <ModalQRCodeDialog lng={lng} src='This is an dialog'/> */}
-      <Dark/>
+      <Link href={"./admin/other"}>Intercept</Link>
       {adminMainPanels.map((section) => (
         <div key={section.name} className="space-y-5">
           <div className="text-xl font-semibold uppercase tracking-wider">

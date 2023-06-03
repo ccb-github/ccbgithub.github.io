@@ -11,11 +11,17 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  params: {
+    lng
+  }
 }: {
-  children: React.ReactNode
+  children: React.ReactNode,
+  params: {
+    lng: string
+  }
 }) {
   return (
-    <html lang="en">
+    <html lang={lng}>
       <body className={inter.className}>
         <ApolloCookie>
           {children}

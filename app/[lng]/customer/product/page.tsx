@@ -1,7 +1,7 @@
 import EnterpriseItem from "#/components/common/item/EnterpriseItem";
 import ProductItem from "#/components/common/item/ProductItem";
 import { getCookieByName } from "#/components/util/cookie";
-import { getOneProduct } from "#/lib/api/ApolloEndpoint";
+import { getOneProduct } from "#/lib/api/apolloEndpoint";
 import { BasePageProps } from "#/types/page";
 import { ArrowDownIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import Link from "next/link";

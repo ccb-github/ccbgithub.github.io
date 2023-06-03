@@ -11,17 +11,17 @@ import NormalButton from './NormalButton'
 import SearchBar from './SearchBar'
 import { useTranslation } from '#/lib/i18n/client'
 import Link from 'next/link'
-import { deleteDocuments } from '#/lib/api'
+import { deleteDocuments } from '#/lib/api/mongoService'
 import { useApp } from '#/hooks/useApp'
 import { AppContext } from '../AppProvider'
+import fieldConvert from '#/lib/fieldConvert'
+import { usePathname, useRouter } from 'next/navigation'
 
 type BaseFilterProps = {
-
   filterValue: FilterValue,
   setFilter: any,
   preFilteredRows: Row[],
   id: string
-
 }
 function DefaultColumnFilter({
   column: { filterValue, preFilteredRows, setFilter },
@@ -32,6 +32,7 @@ function DefaultColumnFilter({
 
   return (
     <input
+      className='max-w-full'
       value={filterValue || ''}
       onChange={e => {
         setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
@@ -88,7 +89,7 @@ function CustomRender({ value, type }: { value: unknown, type: string }) {
     case "string":
       return <p>{(value as string)}</p>
     case "objectId":
-      return <p>{(value as BSON.ObjectID).toString()}</p>
+      return <Link href={(value as BSON.ObjectID).toString()}>{(value as BSON.ObjectID).toString()}</Link>;
     // case "object":
     //   return <p></p>
     case "date":
@@ -103,6 +104,7 @@ type ReactTableProps = {
   schemaType: SchemaName,
   columnList?: string[],
   deleteEnabled: boolean,
+  lng: string,
   deleteOperation?: (deleteItem: SchemaResultMapper[SchemaName]) => Promise<boolean>
   // columns: readonly Column<{}>[]
 }
@@ -112,17 +114,17 @@ export default function ReactTable({
   data,
   schemaType,
   deleteEnabled,
+  lng
 }: ReactTableProps) {
   //TODO the language props
-  const { t } = useTranslation("ch");
-
+  const { t } = useTranslation(lng, schemaType.toLowerCase());
+  const realmApp = useApp()
   const schemaPropertiesRef = useRef(schemaJson[schemaType].properties);
+  const currentPath = usePathname()
+  const router = useRouter()
+ 
 
-  const { useCollection } = useContext(AppContext);
-  const collection = useCollection("Product");
-  useEffect(() => {
-    console.log(collection);
-  });
+ 
   const columnNameList =
     columnNameListProp || Object.keys(schemaPropertiesRef.current);
   //Table head
@@ -148,9 +150,6 @@ export default function ReactTable({
         data,
         //@ts-ignore
         defaultColumn,
-        // : {
-        //   Filter:
-        // }, // Be sure to pass the defaultColumn option
       },
       useFilters,
       useGlobalFilter,
@@ -166,7 +165,7 @@ export default function ReactTable({
         }}
       />
       <NormalButton onClick={() => {}}>
-        <Link href={"./insert"}>
+        <Link href={`./${currentPath.split('/').at(-1)}/insert`}>
           <FaReacteurope />
           {t("Insert")}
         </Link>
@@ -187,7 +186,6 @@ export default function ReactTable({
                       {...otherHeaderProps}
                       className="bg-slate-400"
                       style={{
-                        borderBottom: "solid 3px red",
                         maxWidth: "7rem",
                         background: "aliceblue",
                         color: "black",
@@ -227,7 +225,7 @@ export default function ReactTable({
               <tr key={key} {...otherRowProps}>
                 <th scope="row">{index + 1}</th>
                 {row.cells.map((cell) => {
-                  //console.log(JSON.stringify(cell))
+                  console.log(cell.value);
                   const { key, ...otherCellProps } = cell.getCellProps();
                   return (
                     <td
@@ -250,9 +248,20 @@ export default function ReactTable({
                 })}
                 <th scope="row">
                   <NormalButton
-                    dataId={row.cells[0].value}
-                    onClick={() => {
-                      deleteDocuments(realm);
+                    dataId={data[0]._id}
+                    onClick={(event) => {
+                      // console.log(event.currentTarget)
+                      
+                      const self = event.currentTarget;
+                      deleteDocuments(realmApp.currentUser, schemaType, {
+                        _id: fieldConvert(
+                          self.dataset.id,
+                          schemaPropertiesRef.current["_id"].type
+                        ),
+                      }).then( () => {router.refresh()}).catch(
+                        error => {throw error}
+                      )
+                      
                     }}
                     disabled={!deleteEnabled}
                   >

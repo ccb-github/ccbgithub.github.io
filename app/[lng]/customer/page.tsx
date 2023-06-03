@@ -9,6 +9,7 @@ import CheckerItem from '#/components/common/item/CheckerItem';
 import EnterpriseItem from '#/components/common/item/EnterpriseItem';
 import DefaultItem from '#/components/common/item/DefaultItem';
 import { useApp } from '#/hooks/useApp';
+import OrderItem from '#/components/common/item/OrderItem';
 
 
 
@@ -24,6 +25,8 @@ const SearchResultWrapper = ({type, data, lng}: {type: SchemaName, data: any, ln
       return <CheckerItem lng={lng} item={data}/>
     case "Enterprise":
       return <EnterpriseItem lng={lng} item={data}/>
+    case "Order":
+      return <OrderItem lng={lng} order={data}/>
     default: 
       return <DefaultItem lng={lng} item={data}/>
   }

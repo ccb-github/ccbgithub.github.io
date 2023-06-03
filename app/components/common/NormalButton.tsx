@@ -17,7 +17,7 @@ export default  function NormalButton({
 }: {
   onClick?: () => void;
   text?: string;
-  dataId?: any,
+  dataId?: string,
   type?: "button" | "submit" | "reset";
   children?: React.ReactNode;
   disabled?: boolean;
@@ -42,7 +42,6 @@ export default  function NormalButton({
         px-3 py-1 text-sm font-medium text-black
         ${className}`,{
           "hover:bg-blue-500 hover:text-white": !disabled,
-
         })
       }  
     ><span>

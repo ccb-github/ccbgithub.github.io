@@ -1,5 +1,5 @@
 
-import { getAllProducts } from "#/lib/api/ApolloEndpoint";
+import { getAllProducts } from "#/lib/api/apolloEndpoint";
 import ReactTable from "#/components/common/ReactTable";
 import { useApp } from "#/hooks/useApp";
 import { schemaJson } from "#/lib/constants";
@@ -42,7 +42,7 @@ export default async function CheckerRecord({params: {lng}}: BasePageProps) {
         id="data-table"
         className="h-full w-full overflow-x-scroll overflow-y-scroll"
       >
-        <ReactTable data={[]}  schemaType={"Product"}/>
+        <ReactTable data={[]} schemaType={"Product"} deleteEnabled={false}/>
       </div>
     );
   }

@@ -3,7 +3,7 @@ import MongodbList  from "#/components/common/MongodbListBefore"
 import { BasePageProps } from "#/types/page"
 import ProductItem from "#/components/common/item/ProductItem"
 import EnterpriseItem from "#/components/common/item/EnterpriseItem"
-import { getEnterprise } from "#/lib/api/ApolloEndpoint"
+import { getEnterprise } from "#/lib/api/apolloEndpoint"
 
 interface PageProps extends BasePageProps{
   params :{

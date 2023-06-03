@@ -1,5 +1,5 @@
 'use client'
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import * as Realm from 'realm-web'
 import { useApp } from '#/hooks/useApp';
@@ -8,6 +8,8 @@ import { useTranslation } from '#/lib/i18n/client';
 import { roleUrlMap } from '#/lib/webcontents/user';
 import { UserProfile } from '#/types/data';
 import Dark from '../admin/Dark';
+import ThumbnailImage from '../common/ThumbnailImage';
+import { DirectoryIcon } from '../icons';
 
 export default function LoginForm({lng}: {lng: string}) {
   const email = useRef('')
@@ -18,7 +20,7 @@ export default function LoginForm({lng}: {lng: string}) {
   const {t} = useTranslation(lng, "common")
   const viewRef = useRef(null) 
   const [name, setName] = useState("")
-
+  const currentPath = usePathname()
   useEffect(() => {
     //const checkerWIndowInterval = setInterval( () => {
       // if(typeof window !== undefined) 
@@ -39,7 +41,10 @@ export default function LoginForm({lng}: {lng: string}) {
       const loginUser = await realmApp.logIn(credentials) 
       console.log('User id', loginUser.id)
       const userCustomData = loginUser.customData as UserProfile
-      router.push(`./${lng}/${roleUrlMap[userCustomData.role]}`)
+      if(!userCustomData.emailVerified) {
+        alert(t("Your account is unverified, contact the admin", "message"))
+      }
+      router.push(`./${lng}/${roleUrlMap[userCustomData.role]}?id=${loginUser.id}`)
      
     } catch (error) {
       //@ts-ignore
@@ -62,7 +67,10 @@ export default function LoginForm({lng}: {lng: string}) {
   // <CheckInCircleIcon/>
   return (
     <div id="login-form-container" className='pt-4' ref={viewRef}>
-      <progress value={0.5}/>
+      {/* <progress value={0.5}/>
+    
+      <ThumbnailImage/> */}
+     
       <form
         id="login-form"
         className="form p-4 border border-solid"

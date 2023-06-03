@@ -4,16 +4,16 @@ import QRRSBlock from "./QRRSBlock";
 export class QR8bitByte {
 	mode: number;
 	data: any;
-	constructor(data){		
+	constructor(data: any){		
     this.mode = QRMode.MODE_8BIT_BYTE;
 	  this.data = data;
   }
 
-	getLength(buffer): number {
+	getLength(_buffer: any): number {
 		return this.data.length;
 	}
 	
-	write(buffer): void {
+	write(buffer: { put: (arg0: any, arg1: number) => void; }): void {
 		for (var i = 0; i < this.data.length; i++) {
 			// not JIS ...
 			buffer.put(this.data.charCodeAt(i), 8);
@@ -54,8 +54,8 @@ export default class QRCode{
 		this.dataList = new Array();
   }
 
-	addData(data) {
-		debugger
+	addData(data: string) {
+		
 		var newData = new QR8bitByte(data);
 		this.dataList.push(newData);
 		this.dataCache = null;
@@ -77,7 +77,7 @@ export default class QRCode{
 		this.makeImpl(false, this.getBestMaskPattern() );
 	}
 	
-	makeImpl (test, maskPattern) {
+	makeImpl (test: boolean, maskPattern: number) {
 		
 		this.moduleCount = this.typeNumber * 4 + 17;
 		this.modules = new Array(this.moduleCount);
@@ -154,7 +154,7 @@ export default class QRCode{
 		return pattern;
 	}
 	
-	createMovieClip (target_mc, instance_name, depth) {
+	createMovieClip (target_mc: { createEmptyMovieClip: (arg0: any, arg1: any) => any; }, instance_name: any, depth: any) {
 
 		var qr_mc = target_mc.createEmptyMovieClip(instance_name, depth);
 		var cs = 1;
@@ -231,7 +231,7 @@ export default class QRCode{
 		}
 	}
 	
-	setupTypeNumber (test) {
+	setupTypeNumber (test: boolean) {
 	
 		var bits = QRUtil.getBCHTypeNumber(this.typeNumber);
 	
@@ -246,7 +246,7 @@ export default class QRCode{
 		}
 	}
 	
-	setupTypeInfo (test, maskPattern) {
+	setupTypeInfo (test: boolean, maskPattern: number) {
 	
 		const data = (this.errorCorrectLevel << 3) | maskPattern;
 		const bits = QRUtil.getBCHTypeInfo(data);
@@ -284,7 +284,7 @@ export default class QRCode{
 	
 	}
 	
-	mapData (data, maskPattern) {
+	mapData (data: string | any[] | null, maskPattern: any) {
 		
 		var inc = -1;
 		var row = this.moduleCount - 1;
@@ -547,7 +547,7 @@ var QRUtil = {
     G18 : (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0),
     G15_MASK : (1 << 14) | (1 << 12) | (1 << 10)	| (1 << 4) | (1 << 1),
 
-    getBCHTypeInfo (data) {
+    getBCHTypeInfo (data: number) {
 	    var d = data << 10;
 	    while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
 		    d ^= (QRUtil.G15 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) ) ); 	
@@ -555,7 +555,7 @@ var QRUtil = {
 	    return ( (data << 10) | d) ^ QRUtil.G15_MASK;
     },
 
-    getBCHTypeNumber (data) {
+    getBCHTypeNumber (data: number) {
 	    var d = data << 12;
 	    while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
 		    d ^= (QRUtil.G18 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) ) ); 	
@@ -563,7 +563,7 @@ var QRUtil = {
 	    return (data << 12) | d;
     },
 
-    getBCHDigit (data) {
+    getBCHDigit (data: number) {
 
 	    var digit = 0;
 
@@ -575,11 +575,11 @@ var QRUtil = {
 	    return digit;
     },
 
-    getPatternPosition (typeNumber) {
+    getPatternPosition (typeNumber: number) {
 	    return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
     },
 
-    getMask (maskPattern, i, j) {
+    getMask (maskPattern: string, i: number, j: number) {
 	    
 	    switch (maskPattern) {
 		    
@@ -597,7 +597,7 @@ var QRUtil = {
 				}
     },
 
-    getErrorCorrectPolynomial (errorCorrectLength) {
+    getErrorCorrectPolynomial (errorCorrectLength: number) {
 
 	    var a = new QRPolynomial([1], 0);
 
@@ -608,7 +608,7 @@ var QRUtil = {
 	    return a;
     },
 
-    getLengthInBits (mode, type) {
+    getLengthInBits (mode: string, type: string | number) {
 	    if (1 <= type && type < 10) {
 		    // 1 - 9
 		    switch(mode) {
@@ -651,7 +651,7 @@ var QRUtil = {
 	    }
     },
 
-    getLostPoint (qrCode) {
+    getLostPoint (qrCode: this) {
 	    
 	    var moduleCount = qrCode.getModuleCount();
 	    
@@ -766,7 +766,7 @@ var QRUtil = {
 
 var QRMath = {
 
-	glog (n) {
+	glog (n: string | number) {
 	
 		if (n < 1) {
 			throw new Error("glog(" + n + ")");
@@ -775,7 +775,7 @@ var QRMath = {
 		return QRMath.LOG_TABLE[n];
 	},
 	
-	gexp (n) {
+	gexp (n: number) {
 	
 		while (n < 0) {
 			n += 255;
@@ -815,7 +815,7 @@ class QRPolynomial {
 	
 	num: any[];
 	
-  constructor(num, shift){
+  constructor(num: string | any[], shift: string | number){
 		if (num.length == undefined) {
 			throw new Error(num.length + "/" + shift);
 		}
@@ -838,7 +838,7 @@ class QRPolynomial {
 		return this.num.length;
 	}
 	
-	multiply (e) {
+	multiply (e: QRPolynomial) {
 	
 		var num = new Array(this.getLength() + e.getLength() - 1);
 	
@@ -851,7 +851,7 @@ class QRPolynomial {
 		return new QRPolynomial(num, 0);
 	}
 	
-	mod (e) {
+	mod (e: QRPolynomial) {
 	
 		if (this.getLength() - e.getLength() < 0) {
 			return this;

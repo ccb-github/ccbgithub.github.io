@@ -2,5 +2,15 @@
     "Product": "产品",
     "Product name": "产品名称",
     "Brand Name": "品牌名",
-    "Name": "名字"
+    "Name": "名字",
+    "assemblePlace": "生产地",
+    "catgory": "分类",
+   
+    
+    "name": "名字",
+   
+    "status": "状态",
+   
+    "shelfLife": "生产日期"
+   
 }

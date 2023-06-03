@@ -4,7 +4,10 @@ const nextConfig = {
     domains: [
       "chinatrace.org"
     ]
-  }
+  },
+  experimental: {
+    serverActions: true
+  },
 }
 
 module.exports = nextConfig

@@ -9,14 +9,18 @@ import { CommonLayoutProps } from "#/types/page";
 
 export default function AdminRootLayout({
   children,
+  modal,
   params: { lng },
+ 
 }: CommonLayoutProps) {
+  
   return (
     <>
       <AdminSideBar lng={lng} />
       <div className="flex h-full flex-col lg:pl-72">
         {/*<TopNavbar lng={lng}/>*/}
         <AddressBar className="flex-grow-0" lng={lng}/>
+        
         <div
           id="app-root-container"
           className="flex-grow rounded-lg p-2 shadow-lg shadow-black/20"

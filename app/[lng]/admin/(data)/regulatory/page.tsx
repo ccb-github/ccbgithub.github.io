@@ -5,6 +5,7 @@ import { schemaJson } from "#/lib/constants";
 import { useTranslation } from "#/lib/i18n";
 import { adminSettings } from "#/lib/webcontents/sideBar";
 import { BasePageProps } from "#/types/page";
+import { SchemaResultMapper } from "#/types/schema";
 import { useEffect, useRef, useState } from "react";
 import { BSON } from "realm-web";
 
@@ -46,17 +47,17 @@ export default function AdminRegulatoryManagePage({params: {lng}}: BasePageProps
    
     
     //TODO type
-    const [datas, setDatas] = useState<any[]>([]);
+    const [datas, setDatas] = useState<SchemaResultMapper[""][]>([]);
     const mongodbApp = useApp();
     useEffect(() => {
       if (mongodbApp?.currentUser) {
         const mongoClient = mongodbApp.currentUser?.mongoClient('mongodb-atlas');
         const mongoCollection = mongoClient.db('qrcodeTraceability').collection(schemaType);
-        Object.defineProperty(filter, "_id",  {
-          writable: true,
-          enumerable: true,
-          value: new BSON.ObjectId(),
-        }) 
+        // Object.defineProperty(filter, "_id",  {
+        //   writable: true,
+        //   enumerable: true,
+        //   value: new BSON.ObjectId(),
+        // }) 
         
         // mongoCollection.updateMany({}, { $set: {
         //   name: `Checker ${Math.random().toFixed(3).slice(1)}`
@@ -80,46 +81,16 @@ export default function AdminRegulatoryManagePage({params: {lng}}: BasePageProps
   
     
     
-    const updateItem = async (e: Event) => {
-      e.preventDefault()
-          
-      let beforeData, afterData
-      const mongoCollection = mongodbApp
-        ?.currentUser
-        ?.mongoClient('mongodb-atlas')
-        .db('qrcodeTraceability')
-        .collection(schemaType);
-      //@ts-ignore
-      await mongoCollection?.updateOne({_id: beforeData._id},afterData)
-    }
-    const deleteItem = async (id: string) => {
-      console.log(mongodbApp?.currentUser?.id)
-      
-      if(confirm("Are you sure you want to delete it")) {
-        const mongoCollection = mongodbApp
-          ?.currentUser
-          ?.mongoClient('mongodb-atlas')
-          .db('qrcodeTraceability')
-          .collection(schemaType);
-        //@ts-ignore
-        mongoCollection?.deleteOne({_id: BSON.ObjectId(id)})
-          .then( result => alert(result))
-          .catch(
-            error => console.error(error)	
-          )
-      }
-    }
+
     
-    // if(id){
-    //   return <ProductItem lng={lng} product={datas[0]}/>
-    // } 
+   
     
     return (
       <div
         id="data-table"
         className="h-full w-full overflow-x-scroll overflow-y-scroll"
       >
-        <ReactTable data={datas} schemaType={schemaType}/>
+        <ReactTable data={datas} schemaType={schemaType} deleteEnabled={true} lng={lng}/>
       </div>
     );
   }

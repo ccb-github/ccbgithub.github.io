@@ -1,9 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useApp } from '#/hooks/useApp';
-import DataItem from '#/components/normal/DataItem';
 
-import type { SchemaObject } from '#/types/schema';
 import { schemaJson } from '#/lib/constants'
 
 
@@ -122,7 +120,7 @@ export default function MongodbList({ type, id, lng, sortOption: sortOptionProps
       id="data-table"
       className="h-full w-full overflow-x-scroll overflow-y-scroll"
     >
-      <ReactTable data={datas}  schemaType={schemaType}/>
+      <ReactTable data={datas} schemaType={schemaType} deleteEnabled={false}/>
     </div>
   );
 }

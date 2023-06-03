@@ -2,7 +2,7 @@
 import ReactTable from "#/components/common/ReactTable";
 import { getCookieByName } from "#/components/util/cookie";
 import { useApp } from "#/hooks/useApp";
-import { getAllEnterprise } from "#/lib/api/ApolloEndpoint";
+import { getAllEnterprise } from "#/lib/api/apolloEndpoint";
 import { schemaJson } from "#/lib/constants";
 import { BasePageProps } from "#/types/page";
 import { cookies } from "next/headers";

@@ -1,6 +1,5 @@
 'use client'
 import { useTranslation } from "#/lib/i18n/client"
-import { Enterprise } from "#/types/schema"
 
 export default function CheckerItem({lng, item}: {lng: string, item: any}){
     const {t} = useTranslation(lng)
