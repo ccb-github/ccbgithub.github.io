@@ -1190,3 +1190,16 @@ QRBitBuffer.prototype = {
 		this.length++;
 	}
 };
+/**
+ * Initize the download link with the qrcode in canvas tag
+ * With the principle <a href={data} download={qrcode.png}>
+ * 
+*/
+function download() {
+  const canvasEl = qrcodeEl.querySelector('canvas');
+  let data = canvasEl.toDataURL('image/png');
+
+  downloadEl.setAttribute('href', data);
+  downloadEl.setAttribute('download', 'qrcode.png');
+  downloadEl.style.display = 'inline-block';
+}

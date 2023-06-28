@@ -6,7 +6,7 @@ import { getUsers } from "#/lib/api/mongoService";
 import ReactSelect from "react-select"
 import { ObjectID } from "bson";
 import { useEffect, useRef, useState } from "react";
-import NormalButton from "#/components/common/NormalButton";
+import Button from "#/components/common/Button";
 //Skeleton css file
 
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -133,24 +133,27 @@ export function AccountList({ lng }: { lng: string }) {
   }
 
   return (
-    <table>
+    <table className="border-none">
       <thead>
         <tr>
-          <th style={{ maxWidth: '8rem', overflowX: 'hidden' }}>{t("User ID")}</th>
-          <th style={{ maxWidth: '8rem', overflowX: 'hidden' }}>{t("Email")}</th>
-          <th style={{ maxWidth: '8rem', overflowX: 'hidden' }}>{t("role")}</th>
-          <th style={{ maxWidth: '8rem', overflowX: 'hidden' }}>{t("Verified")}</th>
+          <th style={{ maxWidth: "8rem", overflowX: "hidden" }}>
+            {t("User ID")}
+          </th>
+          <th style={{ maxWidth: "8rem", overflowX: "hidden" }}>
+            {t("Email")}
+          </th>
+          <th style={{ maxWidth: "8rem", overflowX: "hidden" }}>{t("role")}</th>
+          <th style={{ maxWidth: "8rem", overflowX: "hidden" }}>
+            {t("Verified")}
+          </th>
           <th colSpan={3}>{t("Action")}</th>
-          <button onClick={() => {
-            router.push("ch/admin/account?verified=true")
-          }}>Test</button>
         </tr>
       </thead>
       <tbody>
         {accounts?.map((account, index) => (
           <tr key={index}>
             <td>{account._userId}</td>
-            <td>{account?.email || 'null'}</td>
+            <td>{account?.email || "null"}</td>
             <td>
               {account.role}
               {/* <label htmlFor="role-select">{t('Choose')}</label>
@@ -166,17 +169,20 @@ export function AccountList({ lng }: { lng: string }) {
             </option>
               ))}
           </select> */}
-          </td>
-        <td>
-          <NormalButton
-            className={account.emailVerified ? "" : "bg-gray-100"}
-            disabled={account.emailVerified}
-            onClick={() => {  
-              accountActivate(account._id)
-            }}>Pass</NormalButton>
-        </td>
-      <td>
-        {/* <a
+            </td>
+            <td>
+              <Button
+                className={account.emailVerified ? "" : "bg-gray-100"}
+                disabled={account.emailVerified}
+                onClick={() => {
+                  accountActivate(account._id);
+                }}
+              >
+                Pass
+              </Button>
+            </td>
+            <td>
+              {/* <a
               href="#"
               onClick={(e: MouseEvent<HTMLAnchorElement>) => {
                 const roleSelect =
@@ -189,23 +195,22 @@ export function AccountList({ lng }: { lng: string }) {
             >
               {t('Submit')}
             </a> */}
-        <a
-          href={`./account/${account._id.toHexString()}`}>
-          Edit
-        </a>
-
-      </td>
-      <td>
-        <NormalButton onClick={() => { deleteItem(account._id) }}>Delete</NormalButton>
-       
-        
-      </td>
-    </tr>
-  ))
-}
-    <PermissionDialog/>
-      </tbody >
-    </table >
-  )
+              <a href={`./account/${account._id.toHexString()}`}>Edit</a>
+            </td>
+            <td>
+              <Button
+                onClick={() => {
+                  deleteItem(account._id);
+                }}
+              >
+                Delete
+              </Button>
+            </td>
+          </tr>
+        ))}
+        {/* <PermissionDialog /> */}
+      </tbody>
+    </table>
+  );
 }
 

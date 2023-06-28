@@ -33,7 +33,7 @@ function showQRCode(text: string, targetElement?: HTMLDivElement | Document) {
     return errorChild
   }
 
-  //Adjust the canvas size according to qrcode size setting
+  //Adjust the canvas size according to qrcode version setting
   var qrsize = qr.getModuleCount()
   //@ts-ignore
   canvas.setAttribute("height", qrsize * dotsize + padding)

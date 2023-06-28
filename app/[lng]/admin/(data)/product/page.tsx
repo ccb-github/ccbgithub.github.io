@@ -31,22 +31,20 @@ function TypeSign({
   );
 };
 
-export default async function AdminEnterpriseManagePage({params: {lng}}: BasePageProps) {
+export default async function AdminProductManagePage({params: {lng}}: BasePageProps) {
     //The url is lowercase, but the schema name to search the database are like 'Name', we need to convert first
    
-    const cookieStore = cookies()
-  
-    const accessToken = cookieStore.get('accessToken')
-    //const product = {"name": "Product one"}
     const {products} = await getAllProducts()
     console.log(products)
     return (
-      <div
-        id="data-table"
-        className="h-full w-full"
-      >
-        <ReactTable data={products} columnList={["name", "assemblePlace"]} 
-                    schemaType={"Product"} deleteEnabled={true}/>
+      <div id="data-table" className="h-full w-full">
+        <ReactTable
+          data={products}
+          columnList={["name", "assemblePlace"]}
+          schemaType={"Product"}
+          deleteEnabled={true}
+          lng={lng}
+        />
       </div>
     );
   }

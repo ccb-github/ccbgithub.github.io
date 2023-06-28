@@ -16,6 +16,7 @@ import { useApp } from '#/hooks/useApp'
 import { AppContext } from '../AppProvider'
 import fieldConvert from '#/lib/fieldConvert'
 import { usePathname, useRouter } from 'next/navigation'
+import { EditIcon } from '../icons'
 
 type BaseFilterProps = {
   filterValue: FilterValue,
@@ -93,7 +94,7 @@ function CustomRender({ value, type }: { value: unknown, type: string }) {
     // case "object":
     //   return <p></p>
     case "date":
-      return <p>{(value as Date).toDateString()}</p>
+      return <p>{value}</p>
     default:
       return <p>{JSON.stringify(value)}</p>
   }
@@ -108,7 +109,17 @@ type ReactTableProps = {
   deleteOperation?: (deleteItem: SchemaResultMapper[SchemaName]) => Promise<boolean>
   // columns: readonly Column<{}>[]
 }
+/**
+ * Prop def
+ * @typedef {ReactTableProps} TheProps
+ * @member {SchemaName} schemaType
+ */
 
+/**
+ * Description
+ * @param {ReactTableProps} props -- The react props
+ * @returns {React.ReactNode}
+ */
 export default function ReactTable({
   columnList: columnNameListProp,
   data,
@@ -154,7 +165,7 @@ export default function ReactTable({
       useFilters,
       useGlobalFilter,
       useSortBy
-    );
+    )
 
   return (
     <>
@@ -163,13 +174,14 @@ export default function ReactTable({
         onSearchSubmit={function (searchResult: string) {
           throw new Error("Function not implemented.");
         }}
-      />
-      <NormalButton onClick={() => {}}>
-        <Link href={`./${currentPath.split('/').at(-1)}/insert`}>
-          <FaReacteurope />
-          {t("Insert")}
-        </Link>
-      </NormalButton>
+      >
+        <NormalButton onClick={() => {}}>
+          <Link href={`./${currentPath.split('/').at(-1)}/insert`}>
+            <FaReacteurope />
+            {t("Insert")}
+          </Link>
+        </NormalButton>
+      </SearchBar>
       <table {...getTableProps()} style={{ border: "solid 1px blue" }}>
         <thead>
           {headerGroups.map((headerGroup) => {
@@ -246,28 +258,39 @@ export default function ReactTable({
                     </td>
                   );
                 })}
-                <th scope="row">
+                <th scope="row" className='flex flex-row w-80'>
+                  <div>
                   <NormalButton
                     dataId={data[0]._id}
+                    className="h-4/5"
                     onClick={(event) => {
                       // console.log(event.currentTarget)
-                      
+
                       const self = event.currentTarget;
                       deleteDocuments(realmApp.currentUser, schemaType, {
                         _id: fieldConvert(
                           self.dataset.id,
                           schemaPropertiesRef.current["_id"].type
                         ),
-                      }).then( () => {router.refresh()}).catch(
-                        error => {throw error}
-                      )
-                      
+                      })
+                        .then(() => {
+                          router.refresh();
+                        })
+                        .catch((error) => {
+                          throw error;
+                        });
                     }}
                     disabled={!deleteEnabled}
                   >
                     {t("Delete")}
                     <FaReacteurope />
                   </NormalButton>
+                  </div>
+                  <div>
+                  <NormalButton className="h-4/5" onClick={() => {}}>
+                    <EditIcon />
+                  </NormalButton>
+                  </div>
                 </th>
               </tr>
             );

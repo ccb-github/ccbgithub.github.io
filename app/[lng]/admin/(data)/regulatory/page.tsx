@@ -47,7 +47,7 @@ export default function AdminRegulatoryManagePage({params: {lng}}: BasePageProps
    
     
     //TODO type
-    const [datas, setDatas] = useState<SchemaResultMapper[""][]>([]);
+    const [datas, setDatas] = useState<SchemaResultMapper["Regulatory"][]>([]);
     const mongodbApp = useApp();
     useEffect(() => {
       if (mongodbApp?.currentUser) {
@@ -90,7 +90,13 @@ export default function AdminRegulatoryManagePage({params: {lng}}: BasePageProps
         id="data-table"
         className="h-full w-full overflow-x-scroll overflow-y-scroll"
       >
-        <ReactTable data={datas} schemaType={schemaType} deleteEnabled={true} lng={lng}/>
+        <ReactTable
+          data={datas}
+          schemaType={schemaType}
+          deleteEnabled={true}
+          columnList={["address", "name", "_id"]}
+          lng={lng}
+        />
       </div>
     );
   }

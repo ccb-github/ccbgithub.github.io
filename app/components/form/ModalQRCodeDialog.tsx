@@ -12,7 +12,7 @@ export default function ModalQRCodeDialog(props: {
 }) {
   const { closeAction } = props
   async function windowReady() {
-    debugger;
+    
     alert("Window ready called");
     //   const qrCodeDialog = document.getElementById('qrCodeDialog') as HTMLDialogElement
 
@@ -34,6 +34,7 @@ export default function ModalQRCodeDialog(props: {
   const { t } = useTranslation(props.lng, "dialog");
   const dialogRef = useRef<HTMLDialogElement>(null);
   const qrContainerRef = useRef<HTMLDivElement>(null);
+  const downloadLinkRef = useRef<HTMLAnchorElement>(null)
   useEffect(() => {
     // "Confirm" button of form triggers "close" on dialog because of [method="dialog"]
     // qrCodeDialog.addEventListener('close', () => {
@@ -44,11 +45,24 @@ export default function ModalQRCodeDialog(props: {
     updateQRCode(props.src, qrContainerRef.current!);
     window.onload = windowReady;
   }, []);
+  /**
+ * Initize the download link with the qrcode in canvas tag
+ * With the principle <a href={data} download={qrcode.png}>
+ * 
+*/
+function download() {
+  const canvasEl = dialogRef.current!.querySelector('canvas');
+  let data = canvasEl.toDataURL('image/png');
 
+  downloadLinkRef.current!.setAttribute('href', data);
+  downloadLinkRef.current!.setAttribute('download', 'qrcode.png');
+  //downloadEl.style.display = 'inline-block';
+}
   return (
     <>
       <button
         onClick={() => {
+          //@ts-ignore
           window.qrCodeDialog?.showModal();
         }}
       >
@@ -66,6 +80,7 @@ export default function ModalQRCodeDialog(props: {
         <form method="dialog">
           <h2>{t("Download the qrcode image for your need")}</h2>
           <div id="qrcode" ref={qrContainerRef}></div>
+         
           <div className="w-full flex">
             <button
               type="submit"
@@ -73,7 +88,7 @@ export default function ModalQRCodeDialog(props: {
               className="flex-1"
               value="default"
             >
-              {t("Confirm")}
+              <a >{t("Confirm")}</a>
             </button>
             <button value="cancel" className="flex-1">
               {t("Cancel")}

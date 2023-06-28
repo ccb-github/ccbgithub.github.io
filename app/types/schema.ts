@@ -7,7 +7,7 @@ export interface SchemaPropties {
   type: PropType;
   indexed: boolean;
   mapTo: string;
-  objectType?: string;
+  objectType?: SchemaName;
 }
 //TODO keep two field exclusive
 type PropType =
@@ -22,16 +22,22 @@ type PropType =
   | "uuid"
   | "bool";
 
-export type SchemaName =
+//Mongodb has two types of schema(one embedded for sub data purly exists for main data, other one normal)
+export type EmbeddedSchemaName = "Location" | "Qrcode"
+
+export type NormalSchemaName =
   | "Enterprise"
   | "Order"
   | "Product"
   | "Checker"
   | "Regulatory"
   | "Category";
+
+export type SchemaName = EmbeddedSchemaName | NormalSchemaName
+
 export interface SchemaObject {
   name: SchemaName;
-  primaryKey?: string;
+  primaryKey: string;
   embedded: boolean;
   properties: {
     _id: SchemaPropties;
@@ -298,7 +304,99 @@ type Email = string;
 //     UserSchema,
 //   ];
 // }
-export type SchemaResultMapper {
+export namespace SchemaTypeSet {
+  type Checker = {
+    _id: BSON.ObjectID;
+    address?: string;
+    belong?: Regulatory;
+    email: string;
+    name?: string;
+    ownerId: string;
+  };
+
+ 
+
+  type Enterprise = {
+    _id: BSON.ObjectID;
+    address?: string;
+    createdAt: Date;
+    creditCode: string;
+    description: string;
+    email?: string;
+    name?: string;
+    ownerId: string;
+    registerPlace: string;
+    tradeMark?: string;
+  };
+ 
+  type Location = {
+    latitude: number;
+    longitude: number;
+  };
+
+ 
+
+  type Order = {
+    _id: BSON.ObjectID;
+    customerId: string;
+    orderTime: Date;
+    products: Array<Product>;
+  };
+
+
+  type Regulatory = {
+    _id: BSON.ObjectID;
+  }
+  
+  type Producer = {
+    _id: BSON.ObjectID;
+    description: string;
+    location?: Location;
+    ownerId: string;
+  };
+
+  type Category = {
+    _id: BSON.ObjectID;
+    description: string;
+    name: string;
+    
+  }
+  type Product = {
+    _id: BSON.ObjectID;
+    assemlePlace?: string;
+    catgory: string;
+    checker?: Checker;
+    description: string;
+    name: string;
+    ownerId: string;
+    produceDay: Date;
+    producer?: Enterprise;
+    shelfLife: number;
+    standard: string;
+    status: boolean;
+  };
+
+ 
+
+  type Qrcode = {
+    value: string;
+  };
+
+ 
+
+  type Record = {
+    _id: BSON.ObjectID;
+    code?: Qrcode;
+    createdAt: Date;
+    description: string;
+    isVerified: boolean;
+    location?: Location;
+    ownerId: string;
+    url: string;
+  };
+}
+
+export type SchemaResultMapper = {
   Checker : {
     _id: BSON.ObjectID;
     address?: string;

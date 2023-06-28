@@ -9,13 +9,14 @@ export default class QRRSBlock{
   //static getRsBlockTable(typeNumber: number, errorCorrectLevel: any) {
   // 	throw new Error("Method not implemented.");
   //}
-  static RS_BLOCK_TABLE: number[][];
+  
   constructor(totalCount: number, dataCount: number) {
 		this.totalCount = totalCount;
 		this.dataCount  = dataCount;
+		
   }
-  //Why static with {}
-  RS_BLOCK_TABLE = [
+ 
+  static RS_BLOCK_TABLE = [
 		// L
 		// M
 		// Q
@@ -262,7 +263,14 @@ export default class QRRSBlock{
 		[20, 45, 15, 61, 46, 16]
 	  
 	];
-	  
+	
+ /**
+  * Give  qrcode typeNumber(1-40) and errorCorrectLevel. 
+	* Return the list interpretation of the rstable(---The link)
+  * @param {number} typeNumber:number
+  * @param {any} errorCorrectLevel:0|1|2|3
+  * @returns {number[]}
+  */
 	static getRSBlocks(typeNumber: number, errorCorrectLevel: 0 | 1 | 2 | 3 ) {
 		  
 		  var rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
@@ -288,7 +296,7 @@ export default class QRRSBlock{
 		  
 		  return list;
 	}
-	//Value set type  
+	//Rsblocktable according to Give a type number(1-40) 
 	static getRsBlockTable(typeNumber: number, errorCorrectLevel: 0 | 1 | 2 | 3) {
 	  
 		  switch(errorCorrectLevel) {
@@ -308,13 +316,4 @@ export default class QRRSBlock{
 
 
 
-function getRSBlocks(typeNumber: any, number: any, errorCorrectLevel: any) {
-	throw new Error("Function not implemented.");
-}
 
-function getRsBlockTable(typeNumber: any, errorCorrectLevel: any) {
-	throw new Error("Function not implemented.");
-}
-// function getRSBlocks(typeNumber: any, number: any, errorCorrectLevel: any) {
-// 	throw new Error("Function not implemented.");
-// }

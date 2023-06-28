@@ -11,13 +11,9 @@
   "dependencies": {
     "@apollo/client": "^3.7.14",
     "@heroicons/react": "^1.0.6",
-    "@types/node": "20.1.0",
-    "@types/react": "18.2.5",
-    "@types/react-dom": "18.2.4",
     "accept-language": "3.0.18",
     "autoprefixer": "10.4.14",
     "clsx": "^1.2.1",
-    "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
     "heroicons": "^2.0.17",
     "i18next": "^22.4.15",
@@ -35,5 +31,13 @@
     "realm-web": "^2.0.0",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.5",
+    "@types/react": "^18.2.8",
+    "@types/react-dom": "^18.2.4",
+    "encoding": "^0.1.13",
+    "eslint": "^8.42.0",
+    "jsdoc": "^4.0.2"
   }
 }

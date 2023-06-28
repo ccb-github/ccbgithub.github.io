@@ -120,7 +120,7 @@ export default function MongodbList({ type, id, lng, sortOption: sortOptionProps
       id="data-table"
       className="h-full w-full overflow-x-scroll overflow-y-scroll"
     >
-      <ReactTable data={datas} schemaType={schemaType} deleteEnabled={false}/>
+      <ReactTable data={datas} lng={lng} schemaType={schemaType} deleteEnabled={false}/>
     </div>
   );
 }

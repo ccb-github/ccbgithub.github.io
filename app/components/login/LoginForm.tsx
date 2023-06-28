@@ -7,11 +7,11 @@ import Link from 'next/link';
 import { useTranslation } from '#/lib/i18n/client';
 import { roleUrlMap } from '#/lib/webcontents/user';
 import { UserProfile } from '#/types/data';
-import Dark from '../admin/Dark';
+
 import ThumbnailImage from '../common/ThumbnailImage';
 import { DirectoryIcon } from '../icons';
 
-export default function LoginForm({lng}: {lng: string}) {
+export default function LoginForm({lng, className}: {lng: string, className?: string}) {
   const email = useRef('')
   const password = useRef('')
   const realmApp = useApp()
@@ -66,7 +66,7 @@ export default function LoginForm({lng}: {lng: string}) {
   }
   // <CheckInCircleIcon/>
   return (
-    <div id="login-form-container" className='pt-4' ref={viewRef}>
+    <div id="login-form-container" className={`pt-4 ${className || ""}`} ref={viewRef}>
       {/* <progress value={0.5}/>
     
       <ThumbnailImage/> */}

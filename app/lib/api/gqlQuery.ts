@@ -25,8 +25,13 @@ export const GET_ALL_CATGORY = gql`
 // tradeMark;
 export const GET_ALL_ENTERPRISE = gql`
   query getAllEnterprise {
-    catgory {
+    enterprises {
       name
+      address
+      createdAt
+      creditCode
+      name
+      registerPlace
     }
   }
 `;
@@ -47,7 +52,7 @@ export const GET_ALL_PRODUCTS = gql`
       _id
       name
       assemblePlace
-      catgory
+      category
     }
   }
 `;

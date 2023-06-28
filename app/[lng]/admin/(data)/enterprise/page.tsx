@@ -3,7 +3,7 @@ import ReactTable from "#/components/common/ReactTable";
 import { getCookieByName } from "#/components/util/cookie";
 import { useApp } from "#/hooks/useApp";
 import { getAllEnterprise } from "#/lib/api/apolloEndpoint";
-import { schemaJson } from "#/lib/constants";
+import { schemaJson } from "#/lib/schema";
 import { BasePageProps } from "#/types/page";
 import { cookies } from "next/headers";
 import { useEffect, useRef, useState } from "react";
@@ -37,14 +37,26 @@ export default async function AdminEnterpriseManagePage({params: {lng}}: BasePag
     //The url is lowercase, but the schema name to search the database are like 'Name', we need to convert first
     const schemaType = "Enterprise"
     const accessToken = getCookieByName("accessToken")
-    const data = await getAllEnterprise(accessToken!)
-    console.log(data)
+    const { enterprises } = await getAllEnterprise()
+    
     return (
       <div
         id="data-table"
         className="h-full w-full overflow-x-scroll overflow-y-scroll"
       >
-        <ReactTable data={[]} schemaType={"Enterprise"} deleteEnabled={true}/>
+        <ReactTable
+          lng={lng}
+          data={enterprises}
+          schemaType={"Enterprise"}
+          columnList={[
+            "name",
+            "address",
+            "createdAt",
+            "creditCode",
+            "registerPlace",
+          ]}
+          deleteEnabled={true}
+        />
       </div>
     );
   }

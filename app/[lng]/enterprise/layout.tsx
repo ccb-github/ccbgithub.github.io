@@ -2,7 +2,7 @@ import { CommonLayoutProps } from "#/types/page";
 
 import CustomerSideBar from "#/components/customer/CustomerSidebar";
 import AccountFooter from "#/components/normal/AccountFooter";
-import { AddressBar } from "#/components/common/AddressBar";
+import { BreadCrumb } from "#/components/common/AddressBar";
 import EnterpriseSideBar from "#/components/enterprise/EnterpriseSideBar";
 
 
@@ -18,7 +18,7 @@ export default function CustomerRootLayout({
       <EnterpriseSideBar lng={lng}/>
 
       <div className="flex h-full flex-col lg:pl-72">
-        <AddressBar className="flex-grow-0" lng={lng}/>
+        <BreadCrumb className="flex-grow-0" lng={lng}/>
 
         <div
           id="app-root-container"

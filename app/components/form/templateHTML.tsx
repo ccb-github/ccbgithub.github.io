@@ -1,14 +1,12 @@
-'use client';
 import React from 'react';
 import type { SchemaName, SchemaPropties } from '#/types/schema';
-import RelatedObjSelect from './RelatedObjSelect';
-import NormalButton from '../common/NormalButton';
-import DateInputFieldTemplate from '../common/input/DateInputFieldTemplate';
-import TypeSpan from '../common/input/TypeSpan';
-import IntInputFieldTemplate from '../common/input/IntInputFieldTemplate';
-import BooleanInputFieldTemplate from '../common/input/BooleanInputFieldTemplate';
-import { StringInputFieldTemplate } from './AddDataForm';
-
+import RelatedObjSelect from '#/components/form/related/RelatedObjSelect';
+import Button from '#/components/common/Button';
+import DateInputFieldTemplate from '#/components/common/input/DateInputFieldTemplate';
+import TypeSpan from '#/components/common/input/TypeSpan';
+import IntInputFieldTemplate from '#/components/common/input/IntInputFieldTemplate';
+import BooleanInputFieldTemplate from '#/components/common/input/BooleanInputFieldTemplate';
+import { StringInputFieldTemplate } from '#/components/form/AddDataForm';
 
 export function templateHTML(prop: SchemaPropties) {
   var DATE_FORMAT = 'YYYY-MM-DD HH:MM:SS';
@@ -28,7 +26,7 @@ export function templateHTML(prop: SchemaPropties) {
             {prop.name}
           </label>
           <TypeSpan text='date' className='float-right' />
-          <NormalButton text='refresh' className='float-right'
+          <Button text='refresh' className='float-right'
             onClick={() => { }} />
         </div>
         <div className=" w-full">
@@ -71,39 +69,52 @@ export function templateHTML(prop: SchemaPropties) {
       </div>
     );
   }
+  else if (prop.type === 'select') {
+    return (
+      <div key={prop.name} className="form-group">
+        <div className="w-full p-4">
+          <label className="control-label" htmlFor={prop.name}>
+            {prop.name}
+          </label>
+        </div>
+        <div className="w-full">
+          <RelatedObjSelect objectType={prop.objectType!}/>
+        </div>
+      </div>
+    );
+  }
   else if (prop.type === 'objectId') {
     return null;
   }
   else if (prop.type === 'object' && prop.objectType === 'Location') {
-    console.log('Embed field Loation ' + JSON.stringify(prop));
     return (
       <div key={prop.name} className="form-group">
         <div>
           <label className=" control-label" htmlFor={prop.name}>
             {prop.name}
           </label>
-          <button>location</button>
-          <button disabled>required</button>
+          <TypeSpan>location</TypeSpan>
         </div>
         <div className="w-full">
           <label
             className="control-label"
             htmlFor={`${prop.name}Longitude`}
-          >{`${prop.name}.longitude`}</label>
+          >{`${prop.name}.longitude`}
           <input
             id={`${prop.name}-longitude`}
             name={prop.name}
             type="text"
             placeholder={`please Enter your ${prop.name}.longtitude here, Location content, required=${prop.optional}`} />
-          <label className="control-label" htmlFor={`${prop.name}_Latitude`}>
-            {' '}
-            {`${prop.name}.latitude`}{' '}
+          </label>
+          <br/>
+          <label className="control-label" htmlFor={`${prop.name}-latitude`}>
+            latitude          
           </label>
           <input
             id={`${prop.name}-latitude`}
             name={`${prop.name}`}
             type="text"
-            placeholder={`please Enter your ${prop.name} latitude here, Location content,    required=" + prop.optional `} />
+            placeholder={`please Enter your ${prop.name} latitude here, Location content`} />
         </div>
       </div>
     );

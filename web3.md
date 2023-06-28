@@ -21,3 +21,9 @@ contract.methods.myFunction().call().then(result => {
   console.error(error);
 });
 ```
+
+|31 | 13 | 14 | 15| 15|
+|--|--|--|--|--|
+| 1 | Test that a user can successfully log in with valid credentials | User is authenticated and redirected to the dashboard page | User is authenticated and redirected to the dashboard page | Yes |
+| 2 | Test that a user cannot log in with invalid credentials | User is shown an error message indicating invalid username or password | User is shown an error message indicating invalid username or password | Yes |
+| 3 | Test that a user can successfully log out | User is logged out and redirected to the login page | User is logged out and redirected to the login page | Yes |

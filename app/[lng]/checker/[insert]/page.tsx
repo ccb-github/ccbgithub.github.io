@@ -10,8 +10,10 @@ export default function Page({ params: {lng}}: BasePageProps) {
   return (
     
     <>
-      <AddDataForm schemaObj={schemaJson["Checker"]} lng={lng} />
-      <RelatedObjectSelect objectType="Product" />
+      <AddDataForm schemaObj={schemaJson["Product"]} lng={lng}>
+        <RelatedObjectSelect objectType="Product" />  
+      </AddDataForm>
+      
     </>
   );
 }

@@ -1,30 +1,105 @@
-import { AdminSideBar } from "#/components/admin/AdminSideBar";
-import ApolloCookie from "#/components/ApolooCookie";
-import { AddressBar } from "#/components/common/AddressBar";
-import TopNavbar from "#/components/common/TopNavbar";
+import BreadCrumb  from "#/components/common/BreadCrumb";
+import SideNavItem from "#/components/common/SideNavItem";
+
 import AccountFooter from "#/components/normal/AccountFooter";
+import { useTranslation } from "#/lib/i18n";
+import { adminSideBarItems } from "#/lib/webcontents/sideBar";
 import { CommonLayoutProps } from "#/types/page";
+import clsx from "clsx";
+import { t } from "i18next";
+import Link from "next/link";
+import SideBarToggleButton from "../SideBarToggleButton";
+//import { useState } from "react";
+
+type AdminLayoutProps = CommonLayoutProps & {
+  modal: React.ReactNode
+}
 
 
-
-export default function AdminRootLayout({
+export default async function AdminRootLayout({
   children,
-  modal,
+  modal, 
   params: { lng },
  
-}: CommonLayoutProps) {
+}: AdminLayoutProps & { one: React.ReactNode}) {
   
+  const {t} = await useTranslation(lng, "admin")
+  const isOpen = true
   return (
     <>
-      <AdminSideBar lng={lng} />
+      {/* <the nav sidebar */}
+      <div
+        id="admin-nav"
+        className="fixed top-0 z-10 flex w-full flex-col border-b 
+                border-gray-800 bg-black 
+                  lg:bottom-0 lg:z-auto lg:w-72   lg:border-r lg:border-gray-800"
+      >
+        <div className="flex h-14 items-center py-4 px-4 lg:h-auto">
+          <Link
+            href={`/${lng}`}
+            id="backToHomeLink"
+            className="group flex w-full items-center space-x-2.5"
+            
+          >
+            {/* <div className="h-7 w-7 rounded-full border border-white/30 group-hover:border-white/50">
+              Admin
+             
+            </div> */}
+
+            <h3 className="font-semibold tracking-wide text-gray-400 group-hover:text-gray-50">
+              Admin
+            </h3>
+          </Link>
+        </div>
+        <SideBarToggleButton/>
+        {/* <button
+          type="button"
+          className="group absolute right-0 top-0 flex h-14 items-center space-x-2 px-4 lg:hidden"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          
+          <div className="font-medium text-gray-100 group-hover:text-gray-400">
+            Menu
+          </div>
+        </button> */}
+
+        <div
+          className={clsx("overflow-y-auto lg:static lg:block", {
+            "fixed inset-x-0 bottom-0 top-14 mt-px": isOpen,
+            hidden: !isOpen,
+          })}
+        >
+          <nav className="space-y-6 px-2" id="side-nav">
+            {adminSideBarItems.map((sideBarItem) => {
+              return (
+                <SideNavItem
+                  lng={lng}
+                  name={t(`sideBar.${sideBarItem.name}`)}
+                  lng={lng}
+                  link={
+                    sideBarItem.link ? `/${lng}/${sideBarItem.link}` : undefined
+                  }
+                  description={sideBarItem.description}
+                  close={async () => {
+                    "use server"
+                    return false
+                  }}
+                  key={sideBarItem.name}
+                  items={sideBarItem.items}
+                />
+              )
+            })}
+          </nav>
+        </div>
+      </div>
       <div className="flex h-full flex-col lg:pl-72">
         {/*<TopNavbar lng={lng}/>*/}
-        <AddressBar className="flex-grow-0" lng={lng}/>
-        
+        <BreadCrumb className="flex-grow-0" lng={lng}/>
         <div
           id="app-root-container"
           className="flex-grow rounded-lg p-2 shadow-lg shadow-black/20"
-        >
+        > 
+          {modal}
           {children}
         </div>
         <div className="flex-grow-0 rounded-lg" id="footer">

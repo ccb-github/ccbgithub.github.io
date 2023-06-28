@@ -18,7 +18,10 @@ export default function RelatedObjectSelect({ objectType, name, label, className
     .collection(objectType)
   )
   useEffect(() => {
-	  mongoCol.current?.find({}).then( res => setDataList(res))
+	  mongoCol.current?.find({}).then( res => 
+      {
+        setDataList(res)
+      })
   }, [objectType])
   
   return (

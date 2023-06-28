@@ -1,71 +1,10 @@
-//@ts-nocheck
 import { SchemaJson } from "#/types/schema";
-
-const dataTypeMap = {
-	"Product": ["Enterprise", "ProductItem"],
-
-}
+import Category from "./category";
+import Checker from "./checker";
 
 export const schemaJson: SchemaJson = {
-	Catgory: {
-		"name": "Catgory",
-		"type": "selectList",
-		
-		"properties": {
-			"_id": {
-				"name": "_id", "type": "objectId", "indexed": true, "optional": false, "mapTo": "_id"
-			},
-			"description": { "name": "description", "type": "string", "indexed": false, "optional": false, "mapTo": "description" },
-			"name": { "name": "name", "type": "string", "indexed": false, "optional": true, "mapTo": "name" },
-			"createdAt": { "name": "createdAt", "type": "date", "indexed": false, "optional": false, "mapTo": "createdAt" }
-		},
-		"primaryKey": "_id",
-		"embedded": false
-	},
-	Checker: {
-		name: "Checker",
-		properties: {
-			_id: {
-				name: "_id", 
-				type: "objectId", 
-				indexed: true, 
-				optional: false, 
-				mapTo: "_id",
-			},
-			address: {
-				name: "address",
-				type: "string",
-				indexed: false,
-				optional: true,
-				mapTo: "address",
-			},
-			belong: {
-				name: "belong",
-				type: "object",
-				objectType: "Regulatory",
-				indexed: false,
-				optional: true,
-				mapTo: "belong",
-			},
-			email: {
-				name: "email",
-				type: "string",
-				indexed: false,
-				optional: false,
-				mapTo: "email",
-			},
-			name: {
-				name: "name",
-				type: "string",
-				indexed: false,
-				optional: true,
-				mapTo: "name",
-			},
-
-		},
-		primaryKey: "_id",
-		embedded: false,
-	},
+  Category,
+	Checker,
 	
 	Enterprise: {
 	  name: "Enterprise",
@@ -257,29 +196,16 @@ export const schemaJson: SchemaJson = {
 				optional: true,
 				mapTo: "assemblePlace",
 			},
-			catgory: {
-				name: "catgory",
-				type: "string",
-				indexed: false,
-				optional: false,
-				mapTo: "catgory",
-			},
+		
 			category: {
 				name: "category",
-				type: "string",
+				type: "select",
+				objectType: "Category",
 				indexed: false,
 				optional: false,
-				mapTo: "catgory",
+				mapTo: "category",
 			},
-			// checker: {
-			//   name: "checker",
-			//   type: "object",
-			//   objectType: "Checker",
-			//   indexed: false,
-			//   optional: true,
-			//   mapTo: "checker",
-			// },
-			description: {
+description: {
 				name: "description",
 				type: "string",
 				indexed: false,
@@ -454,28 +380,5 @@ export const schemaJson: SchemaJson = {
 	  },
 	  primaryKey: "_id",
 	  embedded: false,
-	},
-}
-
-const EmbeddedType = {
-	Location: {
-	  name: "Location",
-	  properties: {
-		latitude: {
-		  name: "latitude",
-		  type: "float",
-		  indexed: false,
-		  optional: false,
-		  mapTo: "latitude",
-		},
-		longitude: {
-		  name: "longitude",
-		  type: "float",
-		  indexed: false,
-		  optional: false,
-		  mapTo: "longitude",
-		},
-	  },
-	  embedded: true,
 	},
 }

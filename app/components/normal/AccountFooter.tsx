@@ -3,7 +3,7 @@
 import { useApp } from "#/hooks/useApp";
 import { UserProfile } from "#/types/data";
 import { useEffect, useRef, useState } from "react";
-import NormalButton from "../common/NormalButton";
+import Button from "../common/Button";
 import { useRouter } from "next/navigation";
 import { FaAdjust } from "react-icons/fa";
 
@@ -31,7 +31,7 @@ export default function AccountFooter({lng}: {lng: string}) {
 
 	return (
     <div className="flex items-center space-x-4 p-3.5 lg:px-5 lg:py-3">
-       <NormalButton 
+       <Button 
         className='fixed w-auto right-2 bottom-8' 
         onClick={
           async () => {
@@ -42,7 +42,7 @@ export default function AccountFooter({lng}: {lng: string}) {
                 throw error
             })
           }
-        }>{t("Log out")}<FaAdjust className="h-8 inline"/></NormalButton> 
+        }>{t("Log out")}<FaAdjust className="h-8 inline"/></Button> 
       {/* <div className="text-sm text-gray-400"> */}
       { 
         isLoading ? <p className="font-extrabold">Loading...</p> :

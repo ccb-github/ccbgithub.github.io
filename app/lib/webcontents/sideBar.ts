@@ -3,7 +3,7 @@ import { NavItem } from "#/types/webContent";
 //All the link should be absloute(regardless of the current path)
 export const adminSideBarItems: NavItem[] = [
 	{
-	  name: 'Admin function',
+	  name: 'Admin Navgation menu',
 	  items: [
 		{
 		  name: 'Account Manage',
@@ -25,7 +25,7 @@ export const adminSideBarItems: NavItem[] = [
 				},
 				{
 					name: 'Catgory register',
-					link: '/admin/catgory/insert',
+					link: '/admin/category/insert',
 					description: 'Register new catgory',
 				}
 			]
@@ -39,9 +39,9 @@ export const adminSideBarItems: NavItem[] = [
 					  description: 'Manage the regulatory',
 				  },
 				  {
-					name: '质量检测记录',
+					name: '',
 					link: '/admin/regulatory',
-					description: 'Manage the regulatory',
+					description: 'Manage the record',
 				  },
 			  ]
 		},

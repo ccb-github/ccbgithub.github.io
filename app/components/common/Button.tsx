@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import CSS from 'csstype';
 import { ButtonHTMLAttributes } from 'react';
 //TODO className 
-export default  function NormalButton({
+export default function Button({
   onClick = () => {},
   id,
   text,

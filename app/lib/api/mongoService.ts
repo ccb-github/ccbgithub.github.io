@@ -1,12 +1,16 @@
 import { SchemaName, SchemaObject } from "#/types/schema";
+import { schemaJson } from "#/lib/schema";
+if(process.env.NEXT_PUBLIC_MONGODB_ATLA_DATABASE === undefined) {
+  console.log(process.env)
+  throw Error("Missing env varaiable MONGODB_ATLA_DATABASE")
+}
+const DB_NAME = process.env.NEXT_PUBLIC_MONGODB_ATLA_DATABASE
 
-import { App } from "realm-web";
-import { schemaJson } from "../constants";
-const DB_NAME = "qrcodeTraceability"
+
 export async function getUsers(realmUser: Realm.User, filter?: Realm.Services.MongoDB.Filter): Promise<any | null> {
   const collection = realmUser
     .mongoClient('mongodb-atlas')
-    .db(DB_NAME)
+    .db(DB_NAME!)
     .collection('User')
   const results = await collection.find(
     filter
@@ -23,7 +27,7 @@ export async function getUsers(realmUser: Realm.User, filter?: Realm.Services.Mo
 export async function getData(realmUser: Realm.User, schemaName: SchemaName,filter?: Realm.Services.MongoDB.Filter): Promise<any | null> {
   const collection = realmUser
     .mongoClient('mongodb-atlas')
-    .db(DB_NAME)
+    .db(DB_NAME!)
     .collection(schemaName)
   const results = await collection.findOne(
     filter
@@ -34,11 +38,16 @@ export async function getData(realmUser: Realm.User, schemaName: SchemaName,filt
     return null;
   }
 }
-
+/**
+ * 
+ * @param realmUser: The realm user which do the operation 
+ * @param filter 
+ * @returns 
+ */
 export async function getUser(realmUser: Realm.User, filter?: Realm.Services.MongoDB.Filter): Promise<any | null> {
   const collection = realmUser
     .mongoClient('mongodb-atlas')
-    .db(DB_NAME)
+    .db(DB_NAME!)
     .collection('User')
   const results = await collection.findOne(
     filter
@@ -58,7 +67,7 @@ export async function insertDataToCol(
   typeof schemaJson[name].properties 
   const insertCollection = user
     ?.mongoClient('mongodb-atlas')
-    .db('qrcodeTraceability')
+    .db(DB_NAME!)
     .collection(name)
   try {
     const result = await insertCollection.insertOne(insertDoc)
@@ -76,7 +85,7 @@ export async function updateCollection(
 ) {
   const updateCollection = user
     ?.mongoClient('mongodb-atlas')
-    .db('qrcodeTraceability')
+    .db(DB_NAME!)
     .collection(name)
   try {
     const result = await updateCollection.updateMany(filter, {
@@ -99,5 +108,3 @@ export  async function deleteDocuments(user: Realm.User, name: SchemaName, filte
   }
 }
 
-
-export const generalSearchEndpoint = "https://data.mongodb-api.com/app/application-qrcode-ukplu/endpoint/product"

@@ -1,5 +1,5 @@
 import AddDataForm, { AddProductForm } from "#/components/form/AddDataForm";
-import { schemaJson } from "#/lib/constants";
+import { schemaJson } from "#/lib/schema";
 import { toSchemaTypestring } from "#/lib/stringFactory";
 import { BasePageProps } from "#/types/page";
 

@@ -1,9 +1,8 @@
 import React from "react"
-import MongodbList  from "#/components/common/MongodbListBefore"
 import { BasePageProps } from "#/types/page"
 import ProductItem from "#/components/common/item/ProductItem"
-import EnterpriseItem from "#/components/common/item/EnterpriseItem"
-import { getEnterprise } from "#/lib/api/apolloEndpoint"
+import { getAllEnterprise } from "#/lib/api/apolloEndpoint";
+
 
 interface PageProps extends BasePageProps{
   params :{
@@ -15,7 +14,7 @@ interface PageProps extends BasePageProps{
 export default async function Page({ params }: PageProps) {
 	const {type,  lng} = params
   console.log('Type', type)
-  const enterprise = await getEnterprise()
+  const enterprise = await getAllEnterprise()
   console.log(enterprise)
 	return (
     <div>

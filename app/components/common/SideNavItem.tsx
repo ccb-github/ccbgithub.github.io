@@ -1,3 +1,4 @@
+"use client"
 import { NavItem } from '#/types/webContent';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -18,7 +19,7 @@ export default function SideNavItem({
   description ?: string,
   items?: NavItem[],
   lng: string,
-  close: () => false | void;
+  close?: () => Promise<false | void>;
 }) {
   //TODO what does it mean to return false in link
   const segment = useSelectedLayoutSegment();
@@ -73,7 +74,7 @@ export default function SideNavItem({
                 name={item.name}
                 link={item.link}
                 description={item.description}
-                close={() => false}
+                
                 items={item.items}
               />
           ) : 

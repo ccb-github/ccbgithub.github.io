@@ -16,7 +16,7 @@ import { BSON } from "realm-web";
 
 import type { SchemaName, SchemaObject, SchemaPropties } from "types/schema";
 
-import { schemaJson } from "#/lib/constants";
+import { schemaJson } from "#/lib/schema";
 
 
 import ModalQRCodeDialog from "./ModalQRCodeDialog";
