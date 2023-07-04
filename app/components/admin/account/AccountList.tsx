@@ -38,14 +38,13 @@ type RoleList = keyof RoleNameLabel
 const roleList = ["globalAdmin", "enterprise", "customer", "checker"]
 
 console.log(roleNameLabelMap)
-const collectionName = "User"
+
 export function AccountList({ lng }: { lng: string }) {
   const mongoApp = useApp()
   const { t } = useTranslation(lng, "account-list")
-  const accountCollection = useCollection("Order")
   const [accounts, setAccounts] = useState<Account[]>()
-  const searchParams = useSearchParams()
-  console.log("Search params",searchParams.get("verified"))
+  //The collection name of user profile(store as custom data)
+  const userprofileCollName = "User"
   const router = useRouter()
   //TODO env vara
   const accountsCollection = useRef( 
@@ -58,22 +57,7 @@ export function AccountList({ lng }: { lng: string }) {
           setAccounts(accounts)
         })
         .catch((error) => console.error(error))
-      /* 	
-      const mongo = mongoApp?.currentUser?.mongoClient('mongodb-atlas');
-      const searchCollection = 'User'
-      const accountsCollection = mongo.db('qrcodeTraceability').collection(searchCollection);
-      const customUserData = mongoApp.currentUser.customData;
-      const {profile, providerType, deviceId} = mongoApp.currentUser
-      console.log(`${JSON.stringify(profile) + deviceId}`)
-      accountsCollection
-        .find({},{projection: {name: 1, role: 1, email: 1, emailVerified: 1}})
-        .then((foundAccounts) => {
-          console.log(foundAccounts.length)
-          setAccounts((_currentDatas) => {
-            return [...foundAccounts]
-          })
-        })
-        .catch((error) => console.error(error)) */
+      
     }
   }, [mongoApp, mongoApp?.currentUser])
 
@@ -85,7 +69,7 @@ export function AccountList({ lng }: { lng: string }) {
         ?.currentUser
         ?.mongoClient('mongodb-atlas')
         .db('qrcodeTraceability')
-        .collection(collectionName);
+        .collection(userprofileCollName);
       //@ts-ignore
       mongoCollection?.deleteOne({ _id: id })
         .then(result => {
@@ -131,18 +115,20 @@ export function AccountList({ lng }: { lng: string }) {
         throw error
       }
   }
-
+ 
   return (
     <table className="border-none">
       <thead>
         <tr>
-          <th style={{ maxWidth: "8rem", overflowX: "hidden" }}>
+          <th className="max-w-32 overflow-x-hidden" style={{ maxWidth: "8rem", overflowX: "hidden" }}>
             {t("User ID")}
           </th>
           <th style={{ maxWidth: "8rem", overflowX: "hidden" }}>
             {t("Email")}
           </th>
-          <th style={{ maxWidth: "8rem", overflowX: "hidden" }}>{t("role")}</th>
+          <th style={{ maxWidth: "8rem", overflowX: "hidden" }}>
+            {t("role")}
+          </th>
           <th style={{ maxWidth: "8rem", overflowX: "hidden" }}>
             {t("Verified")}
           </th>
@@ -178,24 +164,11 @@ export function AccountList({ lng }: { lng: string }) {
                   accountActivate(account._id);
                 }}
               >
-                Pass
+                {account.emailVerified ? t("passed", "common") : t("pass","common")}
               </Button>
             </td>
             <td>
-              {/* <a
-              href="#"
-              onClick={(e: MouseEvent<HTMLAnchorElement>) => {
-                const roleSelect =
-                  e.currentTarget.parentElement?.parentElement?.querySelector(
-                    '#roleSelect',
-                  ) as HTMLSelectElement
-
-                profileSubmit({ role: roleSelect.value, _id: account._id })
-              }}
-            >
-              {t('Submit')}
-            </a> */}
-              <a href={`./account/${account._id.toHexString()}`}>Edit</a>
+              <a href={`./account?id=${account._id.toHexString()}`}>{t("Edit", "common")}</a>
             </td>
             <td>
               <Button
@@ -203,7 +176,7 @@ export function AccountList({ lng }: { lng: string }) {
                   deleteItem(account._id);
                 }}
               >
-                Delete
+                {t("Delete", "common")}
               </Button>
             </td>
           </tr>

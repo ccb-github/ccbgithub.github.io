@@ -1,7 +1,5 @@
-import MongodbList from "#/components/common/MongodbList";
 import ReactTable from "#/components/common/ReactTable";
-import { getByNameAndFilter, getCatgories, getOneProduct } from "#/lib/api/apolloEndpoint";
-import { useTranslation } from "#/lib/i18n";
+import { getCatgories } from "#/lib/api/apolloEndpoint";
 import { BasePageProps } from "#/types/page";
 import { cookies } from "next/headers";
 
@@ -17,12 +15,13 @@ export default async function AdminEnterpriseManagePage({params: {lng}}: BasePag
   const {catgories} = await getCatgories(accessToken!.value)
   console.log(catgories)
   return (
-    <div
-      id="data-table"
-      className="h-full w-full"
-    >
-      <ReactTable data={catgories} columnList={["name", "description"]}
-      schemaType={"Category"} deleteEnabled={true} lng={lng}/>
+    <div id="data-table" className="h-full w-full">
+      <ReactTable
+        data={catgories}
+        schemaType={"Category"}
+        deleteEnabled={true}
+        lng={lng}
+      />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 //---------------------------------------------------------------------
 // QRRSBlock
-import { QRErrorCorrectLevel } from "./QRCodeClass";
 //---------------------------------------------------------------------
 export default class QRRSBlock{
  
@@ -17,7 +16,7 @@ export default class QRRSBlock{
   }
  
   static RS_BLOCK_TABLE = [
-		// L
+		// L * moduleNumber
 		// M
 		// Q
 		// H
@@ -281,7 +280,7 @@ export default class QRRSBlock{
 	  
 		  var length = rsBlock.length / 3;
 		  
-		  var list = new Array();
+		  var list: QRRSBlock[] = new Array();
 		  
 		  for (var i = 0; i < length; i++) {
 	  
@@ -313,6 +312,17 @@ export default class QRRSBlock{
 		  }
 	  }
 }
+
+//---------------------------------------------------------------------
+// QRErrorCorrectLevel
+//---------------------------------------------------------------------
+ 
+export const QRErrorCorrectLevel = {
+	L : 1,
+	M : 0,
+	Q : 3,
+	H : 2
+};
 
 
 

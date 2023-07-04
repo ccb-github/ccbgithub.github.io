@@ -1,25 +1,8 @@
+import QR8bitByte, { QRMode } from "./QR8bitByte";
 import QRBitBuffer from "./QRBuffer";
 import QRRSBlock from "./QRRSBlock";
 
-export class QR8bitByte {
-	mode: number;
-	data: string;
-	constructor(data: string){		
-    this.mode = QRMode.MODE_8BIT_BYTE;
-	  this.data = data;
-  }
 
-	getLength(_buffer: any): number {
-		return this.data.length;
-	}
-	
-	write(buffer: { put: (arg0: any, arg1: number) => void; }): void {
-		for (let i = 0; i < this.data.length; i++) {
-			// not JIS ...
-			buffer.put(this.data.charCodeAt(i), 8);
-		}
-	}
-}
 
 
 
@@ -34,8 +17,8 @@ export default class QRCode{
 	errorCorrectLevel: any;
 	modules: (boolean | null)[][] = [];
 	moduleCount: number;
-	dataCache: null;
-	dataList: any[];
+	dataCache: any[] | null;
+	dataList: QR8bitByte[];
 
 	constructor(typeNumber: number, errorCorrectLevel: number) {
 		//静态信息
@@ -47,8 +30,14 @@ export default class QRCode{
 		this.dataCache = null;
 		this.dataList = new Array();
   }
-  
-	static createData (typeNumber: number, errorCorrectLevel, dataList) {
+  /**
+	 * Calculate data segment
+	 * @param typeNumber 
+	 * @param errorCorrectLevel 
+	 * @param dataList 
+	 * @returns 
+	 */
+	static createData (typeNumber: number, errorCorrectLevel, dataList: QR8bitByte[]) {
 	
 		const rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
 		
@@ -58,7 +47,7 @@ export default class QRCode{
 			let data = dataList[i];
 			buffer.put(data.mode, 4);
 			buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
-			data.write(buffer);
+			data.writeToBuffer(buffer);
 		}
 	
 		// calc num max data.
@@ -98,7 +87,71 @@ export default class QRCode{
 			buffer.put(QRCode.PAD1, 8);
 		}
 	
-		return this.createBytes(buffer, rsBlocks);
+		return QRCode.createBytes(buffer, rsBlocks);
+	}
+	static createBytes(buffer: QRBitBuffer, rsBlocks: QRRSBlock[]) {
+
+		let offset = 0;
+		
+		let maxDcCount = 0;
+		let maxEcCount = 0;
+		
+		const dcdata: number[][] = new Array(rsBlocks.length);
+		const ecdata: number[][] = new Array(rsBlocks.length);
+		
+		for (var r = 0; r < rsBlocks.length; r++) {
+	
+			var dcCount = rsBlocks[r].dataCount;
+			var ecCount = rsBlocks[r].totalCount - dcCount;
+	
+			maxDcCount = Math.max(maxDcCount, dcCount);
+			maxEcCount = Math.max(maxEcCount, ecCount);
+			
+			dcdata[r] = new Array(dcCount);
+			
+			for (var i = 0; i < dcdata[r].length; i++) {
+				dcdata[r][i] = 0xff & buffer.buffer[i + offset];
+			}
+			offset += dcCount;
+			
+			var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+			var rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
+	
+			var modPoly = rawPoly.mod(rsPoly);
+			ecdata[r] = new Array(rsPoly.getLength() - 1);
+			for (var i = 0; i < ecdata[r].length; i++) {
+							var modIndex = i + modPoly.getLength() - ecdata[r].length;
+				ecdata[r][i] = (modIndex >= 0)? modPoly.get(modIndex) : 0;
+			}
+	
+		}
+		
+		var totalCodeCount = 0;
+		for (var i = 0; i < rsBlocks.length; i++) {
+			totalCodeCount += rsBlocks[i].totalCount;
+		}
+	
+		var data = new Array(totalCodeCount);
+		var index = 0;
+	
+		for (var i = 0; i < maxDcCount; i++) {
+			for (var r = 0; r < rsBlocks.length; r++) {
+				if (i < dcdata[r].length) {
+					data[index++] = dcdata[r][i];
+				}
+			}
+		}
+	
+		for (var i = 0; i < maxEcCount; i++) {
+			for (var r = 0; r < rsBlocks.length; r++) {
+				if (i < ecdata[r].length) {
+					data[index++] = ecdata[r][i];
+				}
+			}
+		}
+	
+		return data;
+	
 	}
 	
 	addData(data: string) {
@@ -107,6 +160,8 @@ export default class QRCode{
 		this.dataList.push(newData);
 		this.dataCache = null;
 	}
+
+
 	/**
 	 * Return the module value
 	 */
@@ -347,7 +402,7 @@ export default class QRCode{
 	}
 
 	
-	mapData (data: string[], maskPattern: any) {
+	mapData (data: number[], maskPattern: any) {
 		
 		let inc = -1;
 		let row = this.moduleCount - 1;
@@ -397,6 +452,49 @@ export default class QRCode{
 		}
 		
 	}
+
+	getQRcodeImage(document: Document,option: {}){
+		let dotsize = 5 // size of box drawn on canvas
+		let padding = 10 // (white area around your QRCode)
+		let black = "rgb(0,0,0)"
+		let white = "rgb(255,255,255)"
+	  
+	
+	  
+		let canvas = document.createElement("canvas")
+		let qrCanvasContext = canvas.getContext("2d")
+	
+		//Adjust the canvas size according to qrcode version setting
+		let qrsize = this.getModuleCount()
+		//@ts-ignore
+		canvas.setAttribute("height", qrsize * dotsize + padding)
+		//@ts-ignore
+		canvas.setAttribute("width", qrsize * dotsize + padding)
+		let shiftForPadding = padding / 2
+		
+		for (let r = 0; r < qrsize; r++) {
+			for (let c = 0; c < qrsize; c++) {
+				if (this.isDark(r, c)){ 
+					qrCanvasContext!.fillStyle = black
+				}
+				
+				else {
+					qrCanvasContext!.fillStyle = white
+				}
+				
+				qrCanvasContext!.fillRect(
+					c * dotsize + shiftForPadding,
+					r * dotsize + shiftForPadding,
+					dotsize,
+					dotsize
+				) // x, y, w, h
+			}
+		}  
+		
+		let imgElement = document.createElement("img")
+		imgElement.src = canvas.toDataURL("image/png")
+		return imgElement
+	}
 }
 
 
@@ -406,27 +504,9 @@ export default class QRCode{
 
 
 
-//---------------------------------------------------------------------
-// QRMode 二维码的模式
-//---------------------------------------------------------------------
 
-let QRMode = {
-	MODE_NUMBER :		1 << 0,
-	MODE_ALPHA_NUM : 	1 << 1,
-	MODE_8BIT_BYTE : 	1 << 2,
-	MODE_KANJI :		1 << 3
-};
 
-//---------------------------------------------------------------------
-// QRErrorCorrectLevel
-//---------------------------------------------------------------------
- 
-export const QRErrorCorrectLevel = {
-	L : 1,
-	M : 0,
-	Q : 3,
-	H : 2
-};
+
 
 //---------------------------------------------------------------------
 // QRMaskPattern
@@ -448,80 +528,80 @@ enum QRMaskPattern{
 //---------------------------------------------------------------------
  
 const QRUtil = {
-    PATTERN_POSITION_TABLE : [
-	    [],
-	    [6, 18],
-	    [6, 22],
-	    [6, 26],
-	    [6, 30],
-	    [6, 34],
-	    [6, 22, 38],
-	    [6, 24, 42],
-	    [6, 26, 46],
-	    [6, 28, 50],
-	    [6, 30, 54],		
-	    [6, 32, 58],
-	    [6, 34, 62],
-	    [6, 26, 46, 66],
-	    [6, 26, 48, 70],
-	    [6, 26, 50, 74],
-	    [6, 30, 54, 78],
-	    [6, 30, 56, 82],
-	    [6, 30, 58, 86],
-	    [6, 34, 62, 90],
-	    [6, 28, 50, 72, 94],
-	    [6, 26, 50, 74, 98],
-	    [6, 30, 54, 78, 102],
-	    [6, 28, 54, 80, 106],
-	    [6, 32, 58, 84, 110],
-	    [6, 30, 58, 86, 114],
-	    [6, 34, 62, 90, 118],
-	    [6, 26, 50, 74, 98, 122],
-	    [6, 30, 54, 78, 102, 126],
-	    [6, 26, 52, 78, 104, 130],
-	    [6, 30, 56, 82, 108, 134],
-	    [6, 34, 60, 86, 112, 138],
-	    [6, 30, 58, 86, 114, 142],
-	    [6, 34, 62, 90, 118, 146],
-	    [6, 30, 54, 78, 102, 126, 150],
-	    [6, 24, 50, 76, 102, 128, 154],
-	    [6, 28, 54, 80, 106, 132, 158],
-	    [6, 32, 58, 84, 110, 136, 162],
-	    [6, 26, 54, 82, 110, 138, 166],
-	    [6, 30, 58, 86, 114, 142, 170]
-    ],
+	PATTERN_POSITION_TABLE : [
+		[],
+		[6, 18],
+		[6, 22],
+		[6, 26],
+		[6, 30],
+		[6, 34],
+		[6, 22, 38],
+		[6, 24, 42],
+		[6, 26, 46],
+		[6, 28, 50],
+		[6, 30, 54],		
+		[6, 32, 58],
+		[6, 34, 62],
+		[6, 26, 46, 66],
+		[6, 26, 48, 70],
+		[6, 26, 50, 74],
+		[6, 30, 54, 78],
+		[6, 30, 56, 82],
+		[6, 30, 58, 86],
+		[6, 34, 62, 90],
+		[6, 28, 50, 72, 94],
+		[6, 26, 50, 74, 98],
+		[6, 30, 54, 78, 102],
+		[6, 28, 54, 80, 106],
+		[6, 32, 58, 84, 110],
+		[6, 30, 58, 86, 114],
+		[6, 34, 62, 90, 118],
+		[6, 26, 50, 74, 98, 122],
+		[6, 30, 54, 78, 102, 126],
+		[6, 26, 52, 78, 104, 130],
+		[6, 30, 56, 82, 108, 134],
+		[6, 34, 60, 86, 112, 138],
+		[6, 30, 58, 86, 114, 142],
+		[6, 34, 62, 90, 118, 146],
+		[6, 30, 54, 78, 102, 126, 150],
+		[6, 24, 50, 76, 102, 128, 154],
+		[6, 28, 54, 80, 106, 132, 158],
+		[6, 32, 58, 84, 110, 136, 162],
+		[6, 26, 54, 82, 110, 138, 166],
+		[6, 30, 58, 86, 114, 142, 170]
+	],
 
-    G15 : (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0),
-    G18 : (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0),
-    G15_MASK : (1 << 14) | (1 << 12) | (1 << 10)	| (1 << 4) | (1 << 1),
+	G15 : (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0),
+	G18 : (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0),
+	G15_MASK : (1 << 14) | (1 << 12) | (1 << 10)	| (1 << 4) | (1 << 1),
 
-    getBCHTypeInfo (data: number) {
-	    let d = data << 10;
-	    while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
-		    d ^= (QRUtil.G15 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) ) ); 	
-	    }
-	    return ( (data << 10) | d) ^ QRUtil.G15_MASK;
-    },
+	getBCHTypeInfo (data: number) {
+		let d = data << 10;
+		while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
+			d ^= (QRUtil.G15 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) ) ); 	
+		}
+		return ( (data << 10) | d) ^ QRUtil.G15_MASK;
+	},
 
-    getBCHTypeNumber (data: number) {
-	    let d = data << 12;
-	    while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
-		    d ^= (QRUtil.G18 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) ) ); 	
-	    }
-	    return (data << 12) | d;
-    },
+	getBCHTypeNumber (data: number) {
+		let d = data << 12;
+		while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
+			d ^= (QRUtil.G18 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) ) ); 	
+		}
+		return (data << 12) | d;
+	},
 
-    getBCHDigit (data: number) {
+	getBCHDigit (data: number) {
 
-	    let digit = 0;
+		let digit = 0;
 
-	    while (data != 0) {
-		    digit++;
-		    data >>>= 1;
-	    }
+		while (data != 0) {
+			digit++;
+			data >>>= 1;
+		}
 
-	    return digit;
-    },
+		return digit;
+	},
 
     getPatternPosition (typeNumber: number) {
 	    return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
@@ -810,7 +890,7 @@ class QRPolynomial {
 		return new QRPolynomial(num, 0);
 	}
 	
-	mod (e: QRPolynomial) {
+	mod (e: QRPolynomial): QRPolynomial {
 	
 		if (this.getLength() - e.getLength() < 0) {
 			return this;

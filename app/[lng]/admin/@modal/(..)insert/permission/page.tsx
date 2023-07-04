@@ -12,22 +12,26 @@ export default function PermissionDialog({ params: {lng}}: {params: {lng: string
     //@ts-ignore
     (window.permissionDialog).showModal()
   })
-  return ( 
+  return (
     <dialog id="permissionDialog">
-      <form method="post" >
+      <form method="post">
         <div className="w-full flex">
-          <Button id="confirmBtn" type="submit" className="flex-1 bg-slate-50" onClick={async (
-          ) => {  router.back()
-          }}>
+          <Button
+            id="confirmBtn"
+            type="submit"
+            className="flex-1 bg-slate-50"
+            onClick={async () => {
+              router.back();
+            }}
+          >
             {t("Confirm")}
           </Button>
-         
+
           <Button id="cancelBtn" className="flex-1 bg-slate-50">
             {t("Cancel")}
           </Button>
         </div>
       </form>
     </dialog>
-
   );
 }

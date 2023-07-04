@@ -1,7 +1,5 @@
-'use client'
-
 import { BasePageProps } from '#/types/page';
-import QRCodeImg from '#/components/qrcode/QRCodeImg';
+
 import { usePathname } from 'next/navigation';
 
 

@@ -8,16 +8,13 @@ import { useTranslation } from '#/lib/i18n/client';
 import { roleUrlMap } from '#/lib/webcontents/user';
 import { UserProfile } from '#/types/data';
 
-import ThumbnailImage from '../common/ThumbnailImage';
-import { DirectoryIcon } from '../icons';
-
 export default function LoginForm({lng, className}: {lng: string, className?: string}) {
   const email = useRef('')
   const password = useRef('')
   const realmApp = useApp()
   const router = useRouter()
   
-  const {t} = useTranslation(lng, "common")
+  const {t} = useTranslation(lng)
   const viewRef = useRef(null) 
   const [name, setName] = useState("")
   const currentPath = usePathname()
@@ -91,8 +88,7 @@ export default function LoginForm({lng, className}: {lng: string, className?: st
             id="username"
             className="form-control"
             onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
-              { setName(event.target.value)
-                email.current = event.target.value}
+              email.current = event.target.value
             }
           />
         </div>

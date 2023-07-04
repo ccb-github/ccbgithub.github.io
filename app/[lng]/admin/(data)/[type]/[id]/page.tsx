@@ -25,7 +25,7 @@ export default async function Page({ params }: PageProps) {
           case 'Enterprise':
             return <h1>Enterprise</h1>
           default:
-            return <h1>Not implement yet</h1>
+            return <h1>Not implement yet type <strong>{type}</strong></h1>
         }
       })()}
     </div>

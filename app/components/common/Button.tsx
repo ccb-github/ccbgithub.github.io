@@ -1,7 +1,8 @@
+'use client'
 import clsx from 'clsx';
-import CSS from 'csstype';
-import { ButtonHTMLAttributes } from 'react';
-//TODO className 
+import type CSS from 'csstype';
+import { ButtonHTMLAttributes, MouseEventHandler } from 'react';
+//TODO className   //(event?: MouseEvent) => void;
 export default function Button({
   onClick = () => {},
   id,
@@ -15,7 +16,8 @@ export default function Button({
   backgroundColor = "blue",
   ...otherProps
 }: {
-  onClick?: () => void;
+  onClick?: MouseEventHandler
+
   text?: string;
   dataId?: string,
   type?: "button" | "submit" | "reset";

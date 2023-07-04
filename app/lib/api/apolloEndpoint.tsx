@@ -21,18 +21,7 @@ export const createClient = (token: string) => {
       })
     )
 }
-// const GQL_QUERY_NOW =  gql`query Now {
-//     now(id: "1")
-// }`;
-// export async function gqlQueryNow(){
-//   const client = createClient("placeholder");
-//   const {
-//     data
-//   } = await client.query({
-//     query: GQL_QUERY_NOW
-//   });
-//   return data
-// }
+
 
 export async function getCatgories(token: string) {
   try {

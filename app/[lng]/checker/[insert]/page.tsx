@@ -3,8 +3,8 @@
 import type { BasePageProps } from "#/types/page";
 
 import AddDataForm from "#/components/form/AddDataForm";
-import { schemaJson } from "#/lib/constants";
-import RelatedObjectSelect from "#/components/form/RelatedObjSelect";
+import { schemaJson } from "#/lib/schema";
+import RelatedObjectSelect from "#/components/form/related/RelatedObjSelect";
 
 export default function Page({ params: {lng}}: BasePageProps) {
   return (

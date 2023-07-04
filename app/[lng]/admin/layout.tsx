@@ -9,6 +9,8 @@ import clsx from "clsx";
 import { t } from "i18next";
 import Link from "next/link";
 import SideBarToggleButton from "../SideBarToggleButton";
+import TopNavbar from "#/components/common/TopNavbar";
+import TopTabBar from "#/components/common/TopTabBar";
 //import { useState } from "react";
 
 type AdminLayoutProps = CommonLayoutProps & {
@@ -47,7 +49,7 @@ export default async function AdminRootLayout({
             </div> */}
 
             <h3 className="font-semibold tracking-wide text-gray-400 group-hover:text-gray-50">
-              Admin
+              {t`Admin`}
             </h3>
           </Link>
         </div>
@@ -75,14 +77,15 @@ export default async function AdminRootLayout({
                 <SideNavItem
                   lng={lng}
                   name={t(`sideBar.${sideBarItem.name}`)}
-                  lng={lng}
+          
                   link={
                     sideBarItem.link ? `/${lng}/${sideBarItem.link}` : undefined
                   }
                   description={sideBarItem.description}
-                  close={async () => {
-                    "use server"
-                    return false
+                  close={
+                    async () => {
+                      "use server"
+                      return false
                   }}
                   key={sideBarItem.name}
                   items={sideBarItem.items}
@@ -93,7 +96,7 @@ export default async function AdminRootLayout({
         </div>
       </div>
       <div className="flex h-full flex-col lg:pl-72">
-        {/*<TopNavbar lng={lng}/>*/}
+        <TopTabBar lng={lng}/>
         <BreadCrumb className="flex-grow-0" lng={lng}/>
         <div
           id="app-root-container"

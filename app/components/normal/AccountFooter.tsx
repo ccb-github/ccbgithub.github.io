@@ -51,7 +51,7 @@ export default function AccountFooter({lng}: {lng: string}) {
             <span className="mr-2 font-extrabold">{t('Email')}</span>
             <a
               className="underline decoration-dotted underline-offset-4 hover:text-gray-400"
-              href="https://github.com/vercel/app-playground"
+              href="#"
               target="_blank"
               rel="noreferrer"
             >
@@ -62,7 +62,7 @@ export default function AccountFooter({lng}: {lng: string}) {
             <span className="mr-2 font-extrabold">{t('Role')}</span>
             <a
               className="underline decoration-dotted underline-offset-4 hover:text-gray-400"
-              href="https://github.com/vercel/app-playground"
+              href="#"
               target="_blank"
               rel="noreferrer"
             >

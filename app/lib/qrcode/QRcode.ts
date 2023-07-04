@@ -20,8 +20,7 @@ QR8bitByte.prototype = {
 //---------------------------------------------------------------------
 // QRCode
 //---------------------------------------------------------------------
-
-export default function QRCode(typeNumber, errorCorrectLevel) {
+function QRCode(typeNumber, errorCorrectLevel) {
 	this.typeNumber = typeNumber;
 	this.errorCorrectLevel = errorCorrectLevel;
 	this.modules = null;
@@ -52,7 +51,7 @@ QRCode.prototype = {
 		this.makeImpl(false, this.getBestMaskPattern() );
 	},
 	
-	makeImpl : function(test, maskPattern) {
+	makeImpl : function(test: boolean, maskPattern) {
 		
 		this.moduleCount = this.typeNumber * 4 + 17;
 		this.modules = new Array(this.moduleCount);
@@ -445,8 +444,7 @@ var QRMode = {
 //---------------------------------------------------------------------
 // QRErrorCorrectLevel
 //---------------------------------------------------------------------
- 
-export const  QRErrorCorrectLevel = {
+  const  QRErrorCorrectLevel = {
 	L : 1,
 	M : 0,
 	Q : 3,

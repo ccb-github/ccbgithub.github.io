@@ -52,7 +52,7 @@ export default function ModalQRCodeDialog(props: {
 */
 function download() {
   const canvasEl = dialogRef.current!.querySelector('canvas');
-  let data = canvasEl.toDataURL('image/png');
+  let data = canvasEl!.toDataURL('image/png');
 
   downloadLinkRef.current!.setAttribute('href', data);
   downloadLinkRef.current!.setAttribute('download', 'qrcode.png');

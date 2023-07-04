@@ -2,6 +2,8 @@
     "Login": "登录",
     "Log out": "登出",
     "Email": "邮件",
+    "Edit": "编辑",
+    "Delete": "删除",
     "Password": "密码",
     "Role": "角色",
     "Remember me": "记住我",
@@ -16,9 +18,11 @@
     "Product name": "产品名称",
     "Brand Name": "品牌名",
     "Name": "名字",
+    "pass": "验证",
+    "passed": "已验证",
     "Checker record": "质检记录",
     "creditCode": "信用代码",
     "Checker": "质检",
-    "Enter the catgory you want add": "添加新的产品类型",
+    "Enter the category you want add": "添加新的产品类型",
     "Traceability system powered by Nextjs": "Nextjs 追溯系统"
 }

@@ -8,7 +8,9 @@ export default class QRBitBuffer {
     this.buffer = new Uint8Array();
     this.length = 0;
   }
-
+  /**
+   * get the bit value at index
+   */
   get(index: number) {
     var bufIndex = Math.floor(index / 8);
     return ((this.buffer[bufIndex] >>> (7 - (index % 8))) & 1) == 1;

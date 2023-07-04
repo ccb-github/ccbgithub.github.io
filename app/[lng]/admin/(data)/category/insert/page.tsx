@@ -11,7 +11,7 @@ import { BSON } from "realm-web";
 
 
 export default async function Page({ params:{lng} }: BasePageProps) {
-  const { t } = await useTranslation(lng)
+  const { t } = await useTranslation(lng, "common")
   const accessToken = getCookieByName("accessToken")
   const { catgories } = await getCatgories(accessToken!)
   // async function submitOtherData(data){
@@ -56,27 +56,36 @@ export default async function Page({ params:{lng} }: BasePageProps) {
     <form
       method="post"
       action={submitData}
-      id="insertForm" 
+      id="insertForm"
       className="
         h-full overflow-y-scrol pt-2 
         grid grid-cols-1 lg:grid-cols-2
       "
     >
-      <h2 className="col-span-1 lg:col-span-2">Enter the catgory you want add</h2>
-  
-      <StringInputFieldTemplate {...schemaJson["Category"].properties["name"]}/>
-      <StringInputFieldTemplate {...schemaJson["Category"].properties["description"]}/>
-      <DateInputFieldTemplate 
-        name="createdAt" optional={false} 
-        type={"date"} indexed={false} mapTo={""}
+      <h2 className="col-span-1 lg:col-span-2">
+        {t("The category you want to add")}
+      </h2>
+
+      <StringInputFieldTemplate
+        {...schemaJson["Category"].properties["name"]}
+        name={t("name", { ns: "Category" })}
+      />
+      <StringInputFieldTemplate
+        {...schemaJson["Category"].properties["description"]}
+        name={t("description")}
+      />
+      <DateInputFieldTemplate
+        optional={false}
+        type={"date"}
+        indexed={false}
+        mapTo={""}
+        name={t("createAt")}
       />
       <div className="form-group col-span-1 lg:col-span-2">
         <button type="submit">Submit</button>
       </div>
     </form>
-
-
-  )
+  );
 }
 
 

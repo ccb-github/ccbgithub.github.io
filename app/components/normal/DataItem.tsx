@@ -10,7 +10,7 @@ import { useApp } from "#/hooks/useApp";
 import { SchemaName, SchemaPropties } from "#/types/schema";
 import fieldConvert from "#/lib/fieldConvert";
 import { PropertyType } from "realm";
-import NormalButton from "../common/NormalButton";
+import Button from "../common/Button";
 //When to use: 1. primary key is _id 
 //Hint text
 function ObjectLink({style, href, name}: {style?: CSSProperties, href: string, name: string}){
@@ -184,7 +184,7 @@ export default function DataItem({
 
           }}
         }>Pass</a>
-        <NormalButton href="#">Other</NormalButton>
+        <Button href="#">Other</Button>
       </td>
     </tr>
   )

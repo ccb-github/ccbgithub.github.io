@@ -1,13 +1,10 @@
 'use client'
 import ReactTable from "#/components/common/ReactTable";
 import { useApp } from "#/hooks/useApp";
-import { schemaJson } from "#/lib/constants";
-import { useTranslation } from "#/lib/i18n";
-import { adminSettings } from "#/lib/webcontents/sideBar";
+import { schemaJson } from "#/lib/schema";
 import { BasePageProps } from "#/types/page";
 import { SchemaResultMapper } from "#/types/schema";
 import { useEffect, useRef, useState } from "react";
-import { BSON } from "realm-web";
 
 function TypeSign({
   text,

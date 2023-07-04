@@ -1,6 +1,7 @@
 import { BSON } from "realm-web";
 //TODO with different shape
 export interface SchemaPropties {
+  defaultValue?: any;
   min?: number;
   name: string;
   optional: boolean;

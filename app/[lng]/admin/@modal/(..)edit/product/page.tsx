@@ -1,4 +1,4 @@
-'use client'
+
 import Button from "#/components/common/Button";
 
 import { templateHTML } from "#/components/form/templateHTML";

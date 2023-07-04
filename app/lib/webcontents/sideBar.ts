@@ -3,7 +3,7 @@ import { NavItem } from "#/types/webContent";
 //All the link should be absloute(regardless of the current path)
 export const adminSideBarItems: NavItem[] = [
 	{
-	  name: 'Admin Navgation menu',
+	  name: 'Admin function',
 	  items: [
 		{
 		  name: 'Account Manage',
@@ -46,7 +46,7 @@ export const adminSideBarItems: NavItem[] = [
 			  ]
 		},
 		{
-			name: '过程管理',
+			name: 'Process manage',
 			link: '/admin/process',
 			description: 'All the process',
 		},
