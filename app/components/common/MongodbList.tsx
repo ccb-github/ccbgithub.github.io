@@ -1,14 +1,12 @@
 'use client';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useApp } from '#/hooks/useApp';
-
-import { schemaJson } from '#/lib/constants'
-
-
 import { BSON } from 'realm-web';
 import { toSchemaTypestring } from '#/lib/stringFactory';
 
 import ReactTable from './ReactTable';
+import { schemaJson } from '#/lib/schema';
+import { SchemaName } from '#/types/schema';
 
 
 interface MongodbListProps {
@@ -24,10 +22,10 @@ console.log(schemaJson)
  * Describ
  * Search by filter, given param id will filter._id
  * @date 2023-03-29
- * @param {any} type : schema name(Like table name in sql)
+ * @param {SchemaName} type : schema name(Like table name in sql)
  * @param {any} filter 
  * @param {string} id: The objectid(primary key) string
- * @param {string} lng}: Language string, etc: ch, en
+ * @param {string} lng: Language string, etc: ch, en
  * @returns {SchemaObject}
  */
 export default function MongodbList({ type, id, lng, sortOption: sortOptionProps }: MongodbListProps) {

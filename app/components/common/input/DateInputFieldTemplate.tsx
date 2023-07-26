@@ -2,7 +2,7 @@
 import { SchemaPropties } from "#/types/schema"
 import { useState } from "react"
 import { FiRefreshCw } from "react-icons/fi"
-import NormalButton from "../NormalButton"
+import Button from "../Button"
 import TypeSpan from "./TypeSpan"
 
 export default function DateInputFieldTemplate(props: SchemaPropties) {
@@ -15,19 +15,20 @@ export default function DateInputFieldTemplate(props: SchemaPropties) {
           </label>
           <TypeSpan text='date' className='float-right'/>
           
-          <NormalButton text={"refresh"} className='float-right' onClick={() => {
+          <Button text={"refresh"} className='float-right' onClick={() => {
             refreshTime(new Date().toISOString().slice(0, -1))
           }}>
             <FiRefreshCw className="w-4 inline-block"/>
-          </NormalButton>
+          </Button>
         </div>
         <div className="w-full">
           <input
             id={props.name}
             name={props.name}
             type="datetime-local"
-            defaultValue={currentTime}
+            value={currentTime}
             onChange={(event) => {
+              //defaultValue={currentTime}
               refreshTime(event.currentTarget.value)
             }}
             className="form-control input-md w-full"

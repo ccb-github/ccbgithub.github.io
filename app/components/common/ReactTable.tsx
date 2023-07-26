@@ -1,74 +1,80 @@
-//@ts-nocheck
-'use client'
+"use client";
 
-import { schemaJson } from '#/lib/constants'
-import { SchemaResultMapper, SchemaName } from '#/types/schema'
-import React, { useContext, useEffect, useRef } from 'react'
-import { FaReacteurope, FaSort, FaSortDown, FaSortUp } from 'react-icons/fa'
-import { FilterValue, Row, useFilters, useGlobalFilter, useSortBy, useTable } from 'react-table'
-import { BSON } from 'realm-web'
-import NormalButton from './NormalButton'
-import SearchBar from './SearchBar'
-import { useTranslation } from '#/lib/i18n/client'
-import Link from 'next/link'
-import { deleteDocuments } from '#/lib/api/mongoService'
-import { useApp } from '#/hooks/useApp'
-import { AppContext } from '../AppProvider'
-import fieldConvert from '#/lib/fieldConvert'
-import { usePathname, useRouter } from 'next/navigation'
-import { EditIcon } from '../icons'
+import { schemaJson } from "#/lib/schema";
+import { SchemaResultMapper, SchemaName } from "#/types/schema";
+import React, { useContext, useEffect, useRef } from "react";
+import { FaReacteurope, FaSort, FaSortDown, FaSortUp } from "react-icons/fa";
+import {
+  FilterValue,
+  Row,
+  useFilters,
+  useGlobalFilter,
+  useSortBy,
+  useTable,
+} from "react-table";
+import { BSON } from "realm-web";
+import Button from "./Button";
+import SearchBar from "./SearchBar";
+import { useTranslation } from "#/lib/i18n/client";
+import Link from "next/link";
+import { deleteDocuments } from "#/lib/api/mongoService";
+import { useApp } from "#/hooks/useApp";
+import { AppContext } from "../AppProvider";
+import fieldConvert from "#/lib/fieldConvert";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import { EditIcon } from "../icons";
 
 type BaseFilterProps = {
-  filterValue: FilterValue,
-  setFilter: any,
-  preFilteredRows: Row[],
-  id: string
-}
+  filterValue: FilterValue;
+  setFilter: any;
+  preFilteredRows: Row[];
+  id: string;
+};
 function DefaultColumnFilter({
   column: { filterValue, preFilteredRows, setFilter },
 }: {
-  column: BaseFilterProps
+  column: BaseFilterProps;
 }) {
-  const count = preFilteredRows.length
+  const count = preFilteredRows.length;
 
   return (
     <input
-      className='max-w-full'
-      value={filterValue || ''}
-      onChange={e => {
-        setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+      className="max-w-full"
+      value={filterValue || ""}
+      onChange={(e) => {
+        setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
       }}
       placeholder={`Search ${count} records...`}
     />
-  )
+  );
 }
 
 function SelectColumnFilter({
   column: { filterValue, setFilter, preFilteredRows, id },
 }: {
   column: {
-    filterValue: FilterValue,
-    setFilter: any,
-    preFilteredRows: Row[],
-    id: string
-  }
+    filterValue: FilterValue;
+    setFilter: any;
+    preFilteredRows: Row[];
+    id: string;
+  };
 }) {
   // Calculate the options for filtering
   // using the preFilteredRows
   const options = React.useMemo(() => {
-    const options = new Set<string>()
-    preFilteredRows.forEach(row => {
-      options.add(row.values[id])
-    })
-    return [...options.values()]
-  }, [id, preFilteredRows])
+    const options = new Set<string>();
+    preFilteredRows.forEach((row) => {
+      options.add(row.values[id]);
+    });
+    return [...options.values()];
+  }, [id, preFilteredRows]);
 
   // Render a multi-select box
   return (
     <select
       value={filterValue}
-      onChange={e => {
-        setFilter(e.target.value || undefined)
+      onChange={(e) => {
+        setFilter(e.target.value || undefined);
       }}
     >
       <option value="">All</option>
@@ -78,37 +84,45 @@ function SelectColumnFilter({
         </option>
       ))}
     </select>
-  )
+  );
 }
 
-function CustomRender({ value, type }: { value: unknown, type: string }) {
+function CustomRender({ value, type }: { value: unknown; type: string }) {
   switch (type) {
     case "int":
-      return <p>{(value as number)}</p>
+      return <p>{value as number}</p>;
     case "double":
-      return <p>{(value as number)}</p>
+      return <p>{value as number}</p>;
     case "string":
-      return <p>{(value as string)}</p>
+      return <p>{value as string}</p>;
     case "objectId":
-      return <Link href={(value as BSON.ObjectID).toString()}>{(value as BSON.ObjectID).toString()}</Link>;
+      return (
+        <Link href={(value as BSON.ObjectID).toString()}>
+          {(value as BSON.ObjectID).toString()}
+        </Link>
+      );
     // case "object":
     //   return <p></p>
     case "date":
-      return <p>{value}</p>
+      return <p>{value}</p>;
     default:
-      return <p>{JSON.stringify(value)}</p>
+      return <p>{JSON.stringify(value)}</p>;
   }
 }
 
 type ReactTableProps = {
-  data: any, className?: string, trClass?: string,
-  schemaType: SchemaName,
-  columnList?: string[],
-  deleteEnabled: boolean,
-  lng: string,
-  deleteOperation?: (deleteItem: SchemaResultMapper[SchemaName]) => Promise<boolean>
+  data: any;
+  className?: string;
+  trClass?: string;
+  schemaType: SchemaName;
+  columnList?: string[];
+  deleteEnabled: boolean;
+  lng: string;
+  deleteOperation?: (
+    deleteItem: SchemaResultMapper[SchemaName]
+  ) => Promise<boolean>;
   // columns: readonly Column<{}>[]
-}
+};
 /**
  * Prop def
  * @typedef {ReactTableProps} TheProps
@@ -125,20 +139,20 @@ export default function ReactTable({
   data,
   schemaType,
   deleteEnabled,
-  lng
+  lng,
 }: ReactTableProps) {
   //TODO the language props
   const { t } = useTranslation(lng, schemaType.toLowerCase());
-  const realmApp = useApp()
+  // const { } = useParams()
+  const realmApp = useApp();
   const schemaPropertiesRef = useRef(schemaJson[schemaType].properties);
-  const currentPath = usePathname()
-  const router = useRouter()
- 
+  const currentPath = usePathname();
+  const router = useRouter();
 
- 
   const columnNameList =
     columnNameListProp || Object.keys(schemaPropertiesRef.current);
-  //Table head
+
+  //TODO customize Table head
   const tableHeadRef = useRef(
     columnNameList.sort().map((property) => ({
       Header: schemaPropertiesRef.current[property].name,
@@ -165,7 +179,7 @@ export default function ReactTable({
       useFilters,
       useGlobalFilter,
       useSortBy
-    )
+    );
 
   return (
     <>
@@ -175,12 +189,12 @@ export default function ReactTable({
           throw new Error("Function not implemented.");
         }}
       >
-        <NormalButton onClick={() => {}}>
-          <Link href={`./${currentPath.split('/').at(-1)}/insert`}>
+        <Button onClick={() => {}}>
+          <Link href={`./${currentPath.split("/").at(-1)}/insert`}>
             <FaReacteurope />
-            {t("Insert")}
+            {t("Insert", {ns: "common"})}
           </Link>
-        </NormalButton>
+        </Button>
       </SearchBar>
       <table {...getTableProps()} style={{ border: "solid 1px blue" }}>
         <thead>
@@ -209,7 +223,7 @@ export default function ReactTable({
                         className="cursor-pointer"
                         {...column.getSortByToggleProps()}
                       >
-                        {column.render("Header")}
+                        {t(column.render("Header"))}
                         {column.isSorted ? (
                           column.isSortedDesc ? (
                             <FaSortDown className="inline-block" />
@@ -258,11 +272,10 @@ export default function ReactTable({
                     </td>
                   );
                 })}
-                <th scope="row" className='flex flex-row w-80'>
-                  <div>
-                  <NormalButton
+                <th scope="row" className="space-x-2 h-8">
+                  <Button
+                    className="m-auto"
                     dataId={data[0]._id}
-                    className="h-4/5"
                     onClick={(event) => {
                       // console.log(event.currentTarget)
 
@@ -282,15 +295,17 @@ export default function ReactTable({
                     }}
                     disabled={!deleteEnabled}
                   >
-                    {t("Delete")}
-                    <FaReacteurope />
-                  </NormalButton>
-                  </div>
-                  <div>
-                  <NormalButton className="h-4/5" onClick={() => {}}>
-                    <EditIcon />
-                  </NormalButton>
-                  </div>
+                    {t("Delete", "common")}
+                    <FaReacteurope className='inline-block w-4 h-4'/>
+                  </Button>
+                  <Button 
+                    className="m-auto"
+                    onClick={() => {}}>
+                    <Link href={`/${lng}/admin/edit/product`}>
+                      {t("Edit", "common")}
+                      <EditIcon className='inline-block w-4 h-4'/>
+                    </Link>
+                  </Button>
                 </th>
               </tr>
             );
@@ -301,12 +316,3 @@ export default function ReactTable({
   );
 }
 
- /* <div className='w-full space-x-1 p-4 border'> 
-
-         <ConfirmDialog lng={"en"} confirmAction={function (): boolean {
-          alert("confirm")
-        } } closeAction={function (): Promise<boolean> {
-          alert("closed")
-          
-        } } /> 
- </div> */

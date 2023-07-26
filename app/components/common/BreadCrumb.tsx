@@ -14,7 +14,7 @@ export default function BreadCrumb({ className, lng }: {className?: string, lng:
   
   return (
     <div
-      className={`flex  items-center space-x-2 h-14 bg-blue-700 lg:px-5 lg:py-3 
+      className={`flex  items-center space-x-2 h-14  lg:px-5 lg:py-3 
         ${className ? className : ''}`}
     >      
       <div>
@@ -43,7 +43,7 @@ export default function BreadCrumb({ className, lng }: {className?: string, lng:
                   <span>
                     <span
                       key={segment}
-                      className="animate-[highlight_1s_ease-in-out_1] rounded-full px-1.5 py-0.5 text-gray-100"
+                      className="animate-[highlight_1s_ease-in-out_1] rounded-full px-1.5 py-0.5 text-black-100"
                     >
                       {segment}
                     </span>

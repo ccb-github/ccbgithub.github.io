@@ -1,4 +1,5 @@
 "use client"
+import { useTranslation } from '#/lib/i18n/client';
 import { NavItem } from '#/types/webContent';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -24,6 +25,7 @@ export default function SideNavItem({
   //TODO what does it mean to return false in link
   const segment = useSelectedLayoutSegment();
   const isActive = link === segment;
+  const { t } = useTranslation(lng, "customer.sideBar")
   const [isOpen, setIsOpen] = useState(false)
   console.log("The link",link)
   return (
@@ -40,7 +42,7 @@ export default function SideNavItem({
             },
           )}
         >
-          {name}
+          {t(name)}
           
         </Link> : 
         <a

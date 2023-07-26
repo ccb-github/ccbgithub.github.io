@@ -11,6 +11,7 @@ import Link from "next/link";
 import SideBarToggleButton from "../SideBarToggleButton";
 import TopNavbar from "#/components/common/TopNavbar";
 import TopTabBar from "#/components/common/TopTabBar";
+import Script from "next/script";
 //import { useState } from "react";
 
 type AdminLayoutProps = CommonLayoutProps & {
@@ -26,7 +27,7 @@ export default async function AdminRootLayout({
 }: AdminLayoutProps & { one: React.ReactNode}) {
   
   const {t} = await useTranslation(lng, "admin")
-  const isOpen = true
+ 
   return (
     <>
       {/* <the nav sidebar */}
@@ -54,6 +55,7 @@ export default async function AdminRootLayout({
           </Link>
         </div>
         <SideBarToggleButton/>
+       
         {/* <button
           type="button"
           className="group absolute right-0 top-0 flex h-14 items-center space-x-2 px-4 lg:hidden"
@@ -64,14 +66,11 @@ export default async function AdminRootLayout({
             Menu
           </div>
         </button> */}
-
-        <div
-          className={clsx("overflow-y-auto lg:static lg:block", {
-            "fixed inset-x-0 bottom-0 top-14 mt-px": isOpen,
-            hidden: !isOpen,
-          })}
+        
+        <div id="side-nav-container"
+          className={clsx("overflow-y-auto hidden  lg:block")}
         >
-          <nav className="space-y-6 px-2" id="side-nav">
+          <nav id="side-nav">
             {adminSideBarItems.map((sideBarItem) => {
               return (
                 <SideNavItem
@@ -100,7 +99,7 @@ export default async function AdminRootLayout({
         <BreadCrumb className="flex-grow-0" lng={lng}/>
         <div
           id="app-root-container"
-          className="flex-grow rounded-lg p-2 shadow-lg shadow-black/20"
+          className="flex-grow rounded-lg p-2 shadow-lg shadow-black/20 overflow-y-scroll"
         > 
           {modal}
           {children}
@@ -109,6 +108,19 @@ export default async function AdminRootLayout({
           <AccountFooter lng={lng}/>
         </div>
       </div>
+      <Script id={"toggle-button"} strategy={"lazyOnload"}>
+        {`
+       console.log("Script execute")
+       const x = document.querySelector('#sidebar-toggle')
+       console.log(x)
+         document.querySelector('#sidebar-toggle').onclick =  (event) => {
+           console.log('Event handler')
+           document.querySelector('#side-nav-container').classList.toggle("sidebar-open")
+         }
+        
+     `}
+
+      </Script>
     </>
   )
 }

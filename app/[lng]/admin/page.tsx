@@ -20,9 +20,9 @@ export default async function AdminHomePage({params}: {params: PageParams}) {
     <>
       {adminMainPanels.map((section) => (
         <div key={section.name} className="space-y-5">
-          <div className="text-xl font-semibold uppercase tracking-wider">
+          {/* <div className="text-xl font-semibold uppercase tracking-wider">
             {t(`mainPanel.${section.name}`)}
-          </div>
+          </div> */}
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
             <div className="flex flex-row items-start rounded-lg">
               <UserCircleIcon className="w-24" />
