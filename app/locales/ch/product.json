@@ -10,7 +10,7 @@
     "name": "名字",
    
     "status": "状态",
-   
-    "shelfLife": "生产日期"
+    "produceDay": "生产日期",
+    "shelfLife": "保质期"
    
 }

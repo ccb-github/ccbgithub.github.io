@@ -26,14 +26,14 @@ export default async function AdminHomePage({params}: {params: PageParams}) {
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
             <div className="flex flex-row items-start rounded-lg">
               <UserCircleIcon className="w-24" />
-              <div className="flex-grow">
+              <section className="flex-grow">
                 <div className="p-4 text-left">
                   <p>Users</p>
                 </div>
                 <div className="p-4 pt-0 text-left">
                   <p className="font-bold text-lg">{56}</p>
                 </div>
-              </div>
+              </section>
             </div>
             {section.items.map((item: NavItem) => (
               <Link
@@ -55,7 +55,7 @@ export default async function AdminHomePage({params}: {params: PageParams}) {
         </div>
       ))}
       <section>
-        <QRCodeImg src="This is a demo qrcode"/>
+        <QRCodeImg src="https://cn.bing.com"/>
       </section>
     </>
   );

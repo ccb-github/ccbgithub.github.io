@@ -59,7 +59,7 @@ function showQRCode(text: string, targetElement?: HTMLDivElement | Document) {
   if (arguments.length === 1) {
     targetElement = document
   }
-  let QRCodeVersion = 15    
+  let QRCodeVersion = 8    
   // 1-40 see http://www.denso-wave.com/qrcode/qrgene2-e.html
 
   let canvas = document.createElement("canvas")
@@ -73,6 +73,7 @@ function showQRCode(text: string, targetElement?: HTMLDivElement | Document) {
     qr = new QRCode(QRCodeVersion, QRErrorCorrectLevel.L)
     qr.addData(text)
     qr.make()
+    // const result = document.createElement('img')
     const result = qr.getQRcodeImage(document, {})
     return result
   } catch (err) {

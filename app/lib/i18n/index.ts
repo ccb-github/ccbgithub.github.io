@@ -5,7 +5,7 @@ import { getOptions } from './settings'
 export type Language = string
 export type LanguageNameSpace = string 
 
-const initI18next = async (lng: Language, ns: LanguageNameSpace) => {
+const initI18next = async (lng: Language, ns?: LanguageNameSpace) => {
   // on server side we create a new instance for each render, because during compilation everything seems to be executed in parallel
   const i18nInstance = createInstance()
   await i18nInstance
@@ -16,7 +16,7 @@ const initI18next = async (lng: Language, ns: LanguageNameSpace) => {
   return i18nInstance
 }
 
-export async function useTranslation(lng: Language, ns: LanguageNameSpace, options: {
+export async function useTranslation(lng: Language, ns?: LanguageNameSpace, options: {
   keyPrefix?: KeyPrefix<Namespace>
 } = {}) {
   const i18nextInstance = await initI18next(lng, ns)

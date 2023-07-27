@@ -114,6 +114,17 @@ tr:last-child td {
 
 }
 
+.sidebar-open {
+ 
+  display: block;
+  left: 0px;
+  right: 0px;
+  position: fixed;
+  bottom: 0px;
+  top: 3.5rem;
+  background-color: black;
+}
+
 dialog::backdrop {
   background: repeating-linear-gradient(
     45deg,

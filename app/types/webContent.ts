@@ -9,5 +9,5 @@ export type PanelItem = {
   name: string,
   link?: string,
   description?: string,
-  
+  image?: string
 }

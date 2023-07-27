@@ -21,7 +21,8 @@ type PropType =
   | "date"
   | "list"
   | "uuid"
-  | "bool";
+  | "bool"
+  | "select";
 
 //Mongodb has two types of schema(one embedded for sub data purly exists for main data, other one normal)
 export type EmbeddedSchemaName = "Location" | "Qrcode"
@@ -401,7 +402,7 @@ export type SchemaResultMapper = {
   Checker : {
     _id: BSON.ObjectID;
     address?: string;
-    belong?: Regulatory;
+    belong?: SchemaResultMapper["Regulatory"];
     email: string;
     name?: string;
     ownerId: string;
@@ -427,13 +428,11 @@ export type SchemaResultMapper = {
     longitude: number;
   };
 
- 
-
   Order:{
     _id: BSON.ObjectID;
     customerId: string;
     orderTime: Date;
-    products: Array<Product>;
+    products: Array<SchemaResultMapper["Product"]>;
   };
 
   OrderSchema : {
@@ -449,6 +448,7 @@ export type SchemaResultMapper = {
 
   Regulatory: {
     _id: BSON.ObjectID;
+    name?: string
   }, 
   Producer: {
     _id: BSON.ObjectID;
@@ -463,32 +463,28 @@ export type SchemaResultMapper = {
     name: string;
     
   };
- Product: {
+  Product: {
     _id: BSON.ObjectID;
     assemlePlace?: string;
     catgory: string;
-    checker?: Checker;
+    checker?: SchemaResultMapper["Checker"];
     description: string;
     name: string;
     ownerId: string;
     produceDay: Date;
-    producer?: Enterprise;
+    producer?: SchemaResultMapper["Enterprise"];
     shelfLife: number;
     standard: string;
     status: boolean;
   };
 
- 
-
   Qrcode : {
     value: string;
   };
 
- 
-
   Record: {
     _id: BSON.ObjectID;
-    code?: Qrcode;
+    code?: SchemaResultMapper["Qrcode"];
     createdAt: Date;
     description: string;
     isVerified: boolean;
@@ -496,16 +492,6 @@ export type SchemaResultMapper = {
     ownerId: string;
     url: string;
   };
-
- 
-
-
-
-
-  
-
- 
-
 }
 export type SearchResultMap = Map<
   string,

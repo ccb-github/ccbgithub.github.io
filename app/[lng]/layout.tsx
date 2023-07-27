@@ -1,4 +1,5 @@
-import ApolloCookie from '#/components/ApolooCookie'
+import ApolloCookieWrapper from '#/components/ApolooCookieWrapper'
+import { ConfirmContextProvider as ConfirmDialogContextProvider } from '#/context/ConfirmContextProvider'
 import '#/styles/global.css'
 import { Inter } from 'next/font/google'
 
@@ -11,7 +12,6 @@ export const metadata = {
 
 export default function RootLayout({
   children,
-  
   params: {
     lng
   }
@@ -24,9 +24,11 @@ export default function RootLayout({
   return (
     <html lang={lng}>
       <body className={inter.className}>
-        <ApolloCookie>
-          {children}
-        </ApolloCookie>
+        <ApolloCookieWrapper>
+          <ConfirmDialogContextProvider>
+            {children}
+          </ConfirmDialogContextProvider>
+        </ApolloCookieWrapper>
       </body>
     </html>
   )

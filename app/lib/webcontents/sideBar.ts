@@ -3,11 +3,60 @@ import { NavItem } from "#/types/webContent";
 //All the link should be absloute(regardless of the current path)
 export const adminSideBarItems: NavItem[] = [
 	{
-	  name: 'Admin function',
+	  name: 'Admin',
+	  items: [
+		{
+		  name: 'Account manage',
+		  link: '/admin/account',
+		  description: 'Manage user account for the app',
+		},
+		{
+		  name: 'Traceability info',
+			items: [
+				{
+					name: 'Product',
+					link: '/admin/product',
+					description: 'Manage product',
+				},
+			
+				{
+					name: 'Category register',
+					link: '/admin/category/insert',
+					description: 'Register new category',
+				}
+			]
+		},
+		{
+			name: 'Organization manage',
+			  items: [
+				  {
+					  name: 'Regulatory',
+					  link: '/admin/regulatory',
+					  description: 'Manage the regulatory',
+				  },
+				  {
+					name: 'Enterprise',
+					link: '/admin/enterprise',
+					description: 'Manage the enterprise',
+				  },
+			  ]
+		},
+		{
+			name: 'Process manage',
+			link: '/admin/process',
+			description: 'All the process',
+		},
+	  ],
+	},
+]
+
+export const regulatorySideBarItems: NavItem[] = [
+	{
+	  name: 'Regulatory function',
 	  items: [
 		{
 		  name: 'Account Manage',
-		  link: '/admin/account',
+		  link: '/regulatory/account',
 		  description: 'Manage user account for the app',
 		},
 		{
