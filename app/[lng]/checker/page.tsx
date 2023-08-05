@@ -1,4 +1,4 @@
-import { BasePageProps } from '#/types/page';
+import { BasePageProps } from '#/types/pageProp';
 
 import { usePathname } from 'next/navigation';
 

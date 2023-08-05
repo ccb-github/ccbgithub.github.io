@@ -1,6 +1,6 @@
-import { NavItem } from "#/types/webContent";
+import { PanelItem } from "#/types/webContent";
 
-export const adminMainPanels: { name: string; items: NavItem[] }[] = [	
+export const adminMainPanels: { name: string; items: PanelItem[] }[] = [	
    
     {
       name: 'Show data',
@@ -8,8 +8,8 @@ export const adminMainPanels: { name: string; items: NavItem[] }[] = [
         {
           name: 'Product',
           link: 'product',
-          description:
-            'Description for product',
+          description:'QRCode sample',
+          image: 'qrcode://'
         },
         {
           name: 'Enterprise',
@@ -30,7 +30,7 @@ export const adminMainPanels: { name: string; items: NavItem[] }[] = [
     }
 ]
 
-export const enterpriseMainPanels: { name: string; items: NavItem[] }[] = [	
+export const enterpriseMainPanels: { name: string; items: PanelItem[] }[] = [	
     {
       name: 'Operation Panel',
       items: [

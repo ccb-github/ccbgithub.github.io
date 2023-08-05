@@ -1,5 +1,5 @@
 import ProductItem from "#/components/common/item/ProductItem";
-import { BasePageProps } from "#/types/page";
+import { BasePageProps } from "#/types/pageProp";
 import { ArrowDownIcon } from "@heroicons/react/solid";
 
 export default function ExampleProductPage({params:{lng}}: BasePageProps){

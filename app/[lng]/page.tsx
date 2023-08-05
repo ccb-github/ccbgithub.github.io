@@ -1,6 +1,6 @@
 import LoginForm from '#/components/login/LoginForm'
 import ModalQRCodeDialog from '#/components/form/ModalQRCodeDialog'
-import { BasePageProps } from '#/types/page'
+import { BasePageProps } from '#/types/pageProp'
 import { useTranslation } from '#/lib/i18n'
 
 export default async function LoginPage({ params:{lng}}: BasePageProps) {

@@ -1,10 +1,10 @@
 import QR8bitByte, { QRMode } from "./QR8bitByte";
 import QRBitBuffer from "./QRBuffer";
-import QRRSBlock from "./QRRSBlock";
+import QRRSBlock, { QRErrorCorrectLevel } from "./QRRSBlock";
 
 
 
-
+//TODO optimize type of enum member
 
 //---------------------------------------------------------------------
 // QRCode 保存QR码数据矩阵
@@ -37,7 +37,7 @@ export default class QRCode{
 	 * @param dataList 
 	 * @returns 
 	 */
-	static createData (typeNumber: number, errorCorrectLevel, dataList: QR8bitByte[]) {
+	static createData (typeNumber: number, errorCorrectLevel:  typeof QRErrorCorrectLevel[keyof typeof QRErrorCorrectLevel], dataList: QR8bitByte[]) {
 	
 		const rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
 		
@@ -181,7 +181,7 @@ export default class QRCode{
 		this.makeImpl(false, this.getBestMaskPattern() );
 	}
 	
-	makeImpl (test: boolean, maskPattern: number) {
+	makeImpl (test: boolean, maskPattern: QRMaskPattern) {
 		
 		this.moduleCount = this.typeNumber * 4 + 17;
 		this.modules = new Array(this.moduleCount);
@@ -247,7 +247,7 @@ export default class QRCode{
 	getBestMaskPattern () {
 	
 		let minLostPoint = 0;
-		let pattern = 0;
+		let pattern = 0
 	
 		for (let i = 0; i < 8; i++) {
 			
@@ -363,7 +363,7 @@ export default class QRCode{
 		}
 	}
 	
-	setupTypeInfo (test: boolean, maskPattern: number) {
+	setupTypeInfo (test: boolean, maskPattern: QRMaskPattern) {
 	
 		const data = (this.errorCorrectLevel << 3) | maskPattern;
 		const bits = QRUtil.getBCHTypeInfo(data);
@@ -512,17 +512,26 @@ export default class QRCode{
 // QRMaskPattern
 //---------------------------------------------------------------------
 //TODO const enum
+// enum QRMaskPattern{
+// 	PATTERN000 = "PATTERN1",
+// 	PATTERN001 = "PATTERN2",
+// 	PATTERN010 = "PATTERN3",
+// 	PATTERN011 = "PATTERN4",
+// 	PATTERN100 = "PATTERN5",
+// 	PATTERN101 = "PATTERN6",
+// 	PATTERN110 = "PATTERN7",
+// 	PATTERN111 = "PATTERN8"
+// };
 enum QRMaskPattern{
-	PATTERN000 = 0,
-	PATTERN001 = 1,
-	PATTERN010 = 2,
-	PATTERN011 = 3,
-	PATTERN100 = 4,
-	PATTERN101 = 5,
-	PATTERN110 = 6,
-	PATTERN111 = 7
+	PATTERN000 ,
+	PATTERN001 ,
+	PATTERN010 ,
+	PATTERN011 ,
+	PATTERN100 ,
+	PATTERN101 ,
+	PATTERN110 ,
+	PATTERN111 
 };
-
 //---------------------------------------------------------------------
 // QRUtil
 //---------------------------------------------------------------------
@@ -607,7 +616,7 @@ const QRUtil = {
 	    return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
     },
 
-    getMask (maskPattern: number, i: number, j: number) {
+    getMask (maskPattern: QRMaskPattern, i: number, j: number) {
 	    
 	    switch (maskPattern) {
 		    

@@ -70,7 +70,7 @@ export function AccountList({ lng }: { lng: string }) {
         ?.mongoClient('mongodb-atlas')
         .db('qrcodeTraceability')
         .collection(userprofileCollName);
-      //@ts-ignore
+      
       mongoCollection?.deleteOne({ _id: id })
         .then(result => {
           if (confirm(`Delete ${result.deletedCount} account with ${id}`)) {

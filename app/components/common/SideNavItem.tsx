@@ -12,6 +12,7 @@ export default function SideNavItem({
   link,
   items,
   lng,
+  i18ns,
   description,
   close,
 }: {
@@ -20,12 +21,14 @@ export default function SideNavItem({
   description ?: string,
   items?: NavItem[],
   lng: string,
+  i18ns?: string,
   close?: () => Promise<false | void>;
 }) {
   //TODO what does it mean to return false in link
   const segment = useSelectedLayoutSegment();
   const isActive = link === segment;
-  const { t } = useTranslation(lng, "customer.sideBar")
+  const { t } = useTranslation(lng, "admin", {keyPrefix: "sidebar"})
+  //{ keyPrefix: "sideBar"}
   const [isOpen, setIsOpen] = useState(false)
   console.log("The link",link)
   return (
@@ -42,7 +45,7 @@ export default function SideNavItem({
             },
           )}
         >
-          {t(name)}
+          {t(`${name}`)}
           
         </Link> : 
         <a
@@ -63,7 +66,7 @@ export default function SideNavItem({
               <FaChevronCircleUp className='self-center mr-2'/> : 
               <FaChevronCircleDown className='self-center mr-2'/>
           }
-          {name}
+          {t(name)}
         </a>
       }
       {
@@ -74,6 +77,7 @@ export default function SideNavItem({
                 lng={lng}
                 key={index}
                 name={item.name}
+                i18ns={i18ns}
                 link={item.link}
                 description={item.description}
                 

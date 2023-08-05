@@ -6,7 +6,7 @@ import fieldConvert from '#/lib/fieldConvert';
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { BSON } from 'realm-web';
 import { SchemaObject } from '#/types/schema'; 
-import { generalSearchEndpoint, insertDataToCol } from '#/lib/api/mongoService';
+import { insertDataToCol, updateCollection } from '#/lib/api/mongoService';
 
 
 import ModalQRCodeDialog from './ModalQRCodeDialog';
@@ -26,15 +26,17 @@ const OMMIT_FIELD = ["ownerId", "_id"]
  * @param {string} lng}: Language string, etc: ch, en
  * @returns {HTMLFormElement}
  */
-export default function AddDataForm({
+export default function EditDataForm({
   schemaObj,
   children,
   customizeSubmitAction,
+  initialValue,
   lng
 }: {
   schemaObj: SchemaObject;
   customizeSubmitAction?: (theData: any) => any; 
   lng: string;
+  initialValue: any;
   children?: React.ReactNode
 }) {
   const mongodbApp = useApp()
@@ -84,6 +86,7 @@ export default function AddDataForm({
       //@ts-ignore
       ({insertedId: insertResult} = await insertDataToCol(mongodbApp.currentUser!, schemaObj["name"], insertData.current)
       )
+      await updateCollection(mongodbApp.currentUser!, schemaObj["name"], {_id: insertData.current._id}, insertData.current)
       customizeSubmitAction ? customizeSubmitAction(mongodbApp.currentUser!.id) : ""
       
       console.table(insertResult)
@@ -98,15 +101,11 @@ export default function AddDataForm({
       }
       submitEvent.preventDefault()
       throw error
-    } finally {
-      
-      
     }
   }
   
  
-  return (
-   
+  return (  
       <form
         method="post"
         action="#"
@@ -117,8 +116,10 @@ export default function AddDataForm({
           h-full overflow-y-scroll pt-2
         `}
       >
-        {Object.keys(schemaObj.properties).map((e) =>
-          templateHTML(schemaObj.properties[e]),
+        {Object.keys(schemaObj.properties).map((propKey) => {
+          const schemaProperty = schemaObj.properties[propKey]
+          return templateHTML({...schemaProperty, defaultValue: initialValue[schemaProperty["name"]] })
+        }
         )}
         {children}
         {/* <RelatedItemDialog itemType='Product'/> */}

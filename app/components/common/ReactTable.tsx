@@ -23,6 +23,7 @@ import { AppContext } from "../AppProvider";
 import fieldConvert from "#/lib/fieldConvert";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { EditIcon } from "../icons";
+import ConfirmContext from "#/context/ConfirmContext";
 
 type BaseFilterProps = {
   filterValue: FilterValue;
@@ -104,7 +105,7 @@ function CustomRender({ value, type }: { value: unknown; type: string }) {
     // case "object":
     //   return <p></p>
     case "date":
-      return <p>{value}</p>;
+      return <p>{value as string}</p>;
     default:
       return <p>{JSON.stringify(value)}</p>;
   }
@@ -148,7 +149,7 @@ export default function ReactTable({
   const schemaPropertiesRef = useRef(schemaJson[schemaType].properties);
   const currentPath = usePathname();
   const router = useRouter();
-
+  const { state } = useContext(ConfirmContext)
   const columnNameList =
     columnNameListProp || Object.keys(schemaPropertiesRef.current);
 
@@ -246,12 +247,13 @@ export default function ReactTable({
         <tbody {...getTableBodyProps()}>
           {rows.map((row, index) => {
             prepareRow(row);
+            console.group()
             const { key, ...otherRowProps } = row.getRowProps();
             return (
               <tr key={key} {...otherRowProps}>
                 <th scope="row">{index + 1}</th>
                 {row.cells.map((cell) => {
-                  console.log(cell.value);
+                  
                   const { key, ...otherCellProps } = cell.getCellProps();
                   return (
                     <td
@@ -275,12 +277,10 @@ export default function ReactTable({
                 <th scope="row" className="space-x-2 h-8">
                   <Button
                     className="m-auto"
-                    dataId={data[0]._id}
+                    dataId={row.original["_id"]}
                     onClick={(event) => {
-                      // console.log(event.currentTarget)
-
-                      const self = event.currentTarget;
-                      deleteDocuments(realmApp.currentUser, schemaType, {
+                      const self: HTMLButtonElement = event.currentTarget as HTMLButtonElement
+                      deleteDocuments(realmApp.currentUser!, schemaType, {
                         _id: fieldConvert(
                           self.dataset.id,
                           schemaPropertiesRef.current["_id"].type
@@ -301,7 +301,7 @@ export default function ReactTable({
                   <Button 
                     className="m-auto"
                     onClick={() => {}}>
-                    <Link href={`/${lng}/admin/edit/product`}>
+                    <Link href={`/${lng}/admin/edit/${schemaType.toLowerCase()}?id=${row.original["_id"]}`}>
                       {t("Edit", "common")}
                       <EditIcon className='inline-block w-4 h-4'/>
                     </Link>
@@ -309,6 +309,7 @@ export default function ReactTable({
                 </th>
               </tr>
             );
+            
           })}
         </tbody>
       </table>

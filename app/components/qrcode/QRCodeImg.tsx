@@ -19,7 +19,7 @@ export default function QRCodeImg({src, desc, id}:{ src: string, desc?: string, 
  
   useEffect( () => { 
    
-    document ? alert('Document exists') : null
+    //document ? alert('Document exists') : null
     window  ? window.onload = windowReady() : null
     return () => {
       window.onload = null
@@ -30,7 +30,7 @@ export default function QRCodeImg({src, desc, id}:{ src: string, desc?: string, 
     <div id={containerId} ref={qrContainerRef} className="flex items-center">
      <Image 
        ref={qrImgRef}
-       alt={""} width={50} height={50}
+       alt={""} width={30} height={30}
        src={"https://chinatrace.org/barcode/gensvg?type=ean13&msg=697560240206&fmt=png&hrsize=5pt&hrfont=OCR-B&qz=0.2cm&wf=1&mw=0.17mm&height=1cm"}
      />
     </div>

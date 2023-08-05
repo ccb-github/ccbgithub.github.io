@@ -1,4 +1,4 @@
-import { BasePageProps } from '#/types/page';
+import { BasePageProps } from '#/types/pageProp';
 
 const QRCODE_TYPE_SELECT: {type: string, label: string}[] = [
   {type: "URL", label: "Url type"}

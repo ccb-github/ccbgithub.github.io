@@ -4,7 +4,7 @@ import SideNavItem from "#/components/common/SideNavItem";
 import AccountFooter from "#/components/normal/AccountFooter";
 import { useTranslation } from "#/lib/i18n";
 import { adminSideBarItems } from "#/lib/webcontents/sideBar";
-import { CommonLayoutProps } from "#/types/page";
+import { CommonLayoutProps } from "#/types/pageProp";
 import clsx from "clsx";
 import { t } from "i18next";
 import Link from "next/link";
@@ -49,7 +49,7 @@ export default async function AdminRootLayout({
             </div> */}
 
             <h3 className="font-semibold tracking-wide text-gray-400 group-hover:text-gray-50">
-              {t`Admin`}
+              {t("Admin")}
             </h3>
           </Link>
         </div>
@@ -76,7 +76,7 @@ export default async function AdminRootLayout({
                 <SideNavItem
                   lng={lng}
                   name={sideBarItem.name}
-                  i18ns={"sideBar"}
+                  i18ns={"admin"}
                   link={
                     sideBarItem.link ? `/${lng}/${sideBarItem.link}` : undefined
                   }

@@ -5,7 +5,7 @@ export default class QRBitBuffer {
   buffer: Uint8Array;
   length: number;
   constructor() {
-    this.buffer = new Uint8Array();
+    this.buffer = new Uint8Array(200);
     this.length = 0;
   }
   /**
@@ -29,6 +29,7 @@ export default class QRBitBuffer {
   putBit(bit: boolean) {
     var bufIndex = Math.floor(this.length / 8);
     if (this.buffer.length <= bufIndex) {
+      
       //this.buffer.set;
       //Fill placeholder
     }

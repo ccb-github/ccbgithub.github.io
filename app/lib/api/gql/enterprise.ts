@@ -27,3 +27,12 @@ export const GET_ENTERPRISE_BY_ID = gql`
     }
   }
 `;
+
+export const UPDATE_ENTERPRISE = gql`
+  mutation updateEnterprise($query: EnterpriseQueryInput, $set: EnterpriseUpdateInput!){
+    updateOneEnterprise(query: $query, set: $set){
+      _id
+      address
+    }
+  }
+`

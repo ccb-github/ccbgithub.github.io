@@ -465,7 +465,7 @@ export type SchemaResultMapper = {
   };
   Product: {
     _id: BSON.ObjectID;
-    assemlePlace?: string;
+    assemblePlace?: string;
     catgory: string;
     checker?: SchemaResultMapper["Checker"];
     description: string;

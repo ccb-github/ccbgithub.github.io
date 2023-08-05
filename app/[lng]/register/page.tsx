@@ -1,4 +1,4 @@
-import { BasePageProps } from '#/types/page'
+import { BasePageProps } from '#/types/pageProp'
 
 import RegisterForm from '#/components/login/RegisterForm';
 import { useTranslation } from '#/lib/i18n';

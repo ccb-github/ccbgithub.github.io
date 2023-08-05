@@ -1,6 +1,6 @@
 'use client'
 
-import type { BasePageProps } from "#/types/page";
+import type { BasePageProps } from "#/types/pageProp";
 
 import AddDataForm from "#/components/form/AddDataForm";
 import { schemaJson } from "#/lib/schema";

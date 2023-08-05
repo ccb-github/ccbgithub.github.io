@@ -7,8 +7,8 @@ import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { BSON } from 'realm-web';
 
 import type { SchemaObject, SchemaPropties} from '#/types/schema';
-import { schemaJson } from '#/lib/constants';
-import { generalSearchEndpoint, insertDataToCol } from '#/lib/api/mongoService';
+import { schemaJson } from '#/lib/schema';
+import { insertDataToCol } from '#/lib/api/mongoService';
 
 
 import ModalQRCodeDialog from './ModalQRCodeDialog';
@@ -35,6 +35,7 @@ export function StringInputFieldTemplate(props: SchemaPropties) {
         <input
           name={props.name}
           type="text"
+          defaultValue={props.defaultValue}
           placeholder={`please Enter your ${props.name} here`}
           className="form-control input-md w-full"
           required={!props.optional}
@@ -73,7 +74,7 @@ export default function AddDataForm({
     ownerId: string;
     _id: BSON.ObjectID;
     name: string
-  } | {}>({})
+  }>({})
   //The qrcode content 
   const [qrCodeMessage, setQRCodeMessage] = useState<any>(null)
   useEffect(() => {
@@ -85,7 +86,7 @@ export default function AddDataForm({
   })
 	const customField = async () => {
 		 
-    insertData.current._id = new BSON.ObjectId()
+    insertData.current!._id = new BSON.ObjectId()
 		Object.defineProperty(insertData.current, '_id', {
 			writable: true,
 			enumerable: true,
@@ -112,11 +113,11 @@ export default function AddDataForm({
           value: fieldConvert(item[1], schemaObj.properties[item[0]].type),
         })
       }
-      insertData.current._id = new BSON.ObjectId()
+      insertData.current!._id = new BSON.ObjectId()
       
       //If the schema item has ownerId field(Indicate the owner's account id, initize it from current user's id from mongodbApp)
       if( Object.keys(schemaObj.properties).includes('ownerId')){
-        insertData.current.ownerId = mongodbApp.currentUser?.id
+        insertData.current!.ownerId = mongodbApp.currentUser?.id
       }
      
       
@@ -125,13 +126,13 @@ export default function AddDataForm({
       customizeSubmitAction ? customizeSubmitAction(mongodbApp.currentUser!.id) : ""
       
       console.table(insertResult)
-      setQRCodeMessage(generalSearchEndpoint +`?arg1=Product&arg2=name&arg3=${insertData.current.name}`)
+      setQRCodeMessage(process.env.NEXT_PUBLIC_PRODUCT_SEARCHPOINT! +`?arg1=Product&arg2=name&arg3=${insertData.current.name}`)
       
      
     } catch (error: any) {
       
       if(error.message){
-        //@ts-ignore
+        //@ts-iignoregnore
         alert(error.message)
       }
       submitEvent.preventDefault()
@@ -156,7 +157,7 @@ export default function AddDataForm({
       <form
         method="post"
         action="#"
-        id="insertForm"
+       
         onSubmit={submitForm}
         className={`
           grid grid-cols-1 gap-5 lg:grid-cols-2 

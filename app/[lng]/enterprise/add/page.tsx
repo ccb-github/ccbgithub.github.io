@@ -1,11 +1,11 @@
 'use client'
-import { BasePageProps } from "#/types/page";
+import { BasePageProps } from "#/types/pageProp";
 import AddDataForm from "#/components/form/AddDataForm";
-import { schemaJson } from "#/lib/constants";
+import { schemaJson } from "#/lib/schema";
 import { useApp } from "#/hooks/useApp";
 import { useEffect, useRef, useState } from "react";
 import { useCollection } from "#/hooks/useCollection";
-import RelatedObjectSelect from "#/components/form/RelatedObjSelect";
+import RelatedObjectSelect from "#/components/form/related/RelatedObjSelect";
 
 import { BSON} from "realm-web"
 import { SchemaResultMapper } from "#/types/schema";
@@ -19,10 +19,10 @@ export default function Page({ params: {lng}}: BasePageProps) {
     .collection("Product")
   )
 
-  const allowedCatgories = useRef<Array<SchemaResultMapper["Catgory"]>>()
-  const [ catgoriesLoading, setCatgoriesloading ] = useState(true)
-  const catgoryCollection = useCollection("Catgory")
-  const CatgorySelect = (props: {name: string}) => {
+  const allowedCategories = useRef<Array<SchemaResultMapper["Category"]>>()
+  const [categoriesLoading, setCatgoriesloading ] = useState(true)
+  const categoryCollection = useCollection("Category")
+  const CategorySelect = (props: {name: string}) => {
     return (
       <div key={props.name} className="form-group">
         <div>
@@ -32,7 +32,7 @@ export default function Page({ params: {lng}}: BasePageProps) {
           <button>selection</button>     
         </div>
         <div className="w-full">
-          <RelatedObjectSelect objectType="Catgory" name="Catgory"/>
+          <RelatedObjectSelect objectType="Category" name="Category"/>
         </div>
       </div>
     );
@@ -40,11 +40,13 @@ export default function Page({ params: {lng}}: BasePageProps) {
   useEffect( () => {
     (async () => {
       //allowedCatgories.current = await 
-      catgoryCollection?.find().then(
-        catgorys => allowedCatgories.current = catgorys
+      categoryCollection?.find().then(
+        catgorys => {
+          allowedCategories.current 
+        }
       )
     })()
-  }, [catgoryCollection])
+  }, [categoryCollection])
   const relateEnterprise =async ( itemId: BSON.ObjectID ) => {
     try {
     
@@ -73,7 +75,7 @@ export default function Page({ params: {lng}}: BasePageProps) {
             relateEnterprise
           }
         >
-          <CatgorySelect name={"catgory"}/>
+          <CategorySelect name={"catgory"}/>
           
         </AddDataForm>
       </div>

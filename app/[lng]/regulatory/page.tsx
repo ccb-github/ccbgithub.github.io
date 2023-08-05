@@ -1,11 +1,11 @@
-import { BasePageProps } from '#/types/page';
+import { BasePageProps } from '#/types/pageProp';
 import QRCodeImg from '#/components/qrcode/QRCodeImg';
 
 import { NavItem } from '#/types/webContent';
 
 import Link from 'next/link';
 import { useTranslation } from '#/lib/i18n';
-import { getByName, getByNameAndFilter } from '#/lib/api/apolloEndpoint';
+import { getByName, getByNameAndFilter } from '#/lib/api/gqlOperation';
 import { cookies } from 'next/headers';
 import ReactTable from '#/components/common/ReactTable';
 

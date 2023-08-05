@@ -7,24 +7,31 @@ import Link from 'next/link';
 import { useTranslation } from '#/lib/i18n/client';
 import { roleUrlMap } from '#/lib/webcontents/user';
 import { UserProfile } from '#/types/data';
+import Button from '../common/Button';
+import { FaEye } from 'react-icons/fa';
 
 export default function LoginForm({lng, className}: {lng: string, className?: string}) {
   const email = useRef('')
   const password = useRef('')
   const realmApp = useApp()
   const router = useRouter()
-  
+  const pwInput = useRef<HTMLInputElement>(null)
   const {t} = useTranslation(lng)
-  const viewRef = useRef(null) 
+  const pwInputState = useState("password")
   const [name, setName] = useState("")
   const currentPath = usePathname()
   useEffect(() => {
+    if(document) {
+      document.addEventListener("DOMContentLoaded", () => {
+        //pwButton.current?.type = pwInputState 
+      })
+    }
     //const checkerWIndowInterval = setInterval( () => {
       // if(typeof window !== undefined) 
       //   alert(" windowObject detected")     
     //},2000)
-    console.log(`View ref ${viewRef}`)
-  },[viewRef])
+    
+  },[])
   const loginRealmAppAsync = async (event: FormEvent) => {
     event.preventDefault()
     console.log({ email: email.current, password: password.current })
@@ -41,7 +48,7 @@ export default function LoginForm({lng, className}: {lng: string, className?: st
       if(!userCustomData.emailVerified) {
         alert(t("Your account is unverified, contact the admin", "message"))
       }
-      router.push(`./${lng}/${roleUrlMap[userCustomData.role]}?id=${loginUser.id}`)
+      router.push(`./${lng}/${roleUrlMap[userCustomData.role]}`)
      
     } catch (error) {
       //@ts-ignore
@@ -63,7 +70,7 @@ export default function LoginForm({lng, className}: {lng: string, className?: st
   }
   // <CheckInCircleIcon/>
   return (
-    <div id="login-form-container" className={`pt-4 ${className || ""}`} ref={viewRef}>
+    <div id="login-form-container" className={`pt-4 ${className || ""}`}>
       {/* <progress value={0.5}/>
     
       <ThumbnailImage/> */}
@@ -75,7 +82,6 @@ export default function LoginForm({lng, className}: {lng: string, className?: st
         onSubmit={() => false}
       > 
         <h2 className="text-info text-center text-xl">{
-           /*@ts-ignore*/
            t("Login")
         }</h2>
         <div className="form-group">
@@ -95,17 +101,25 @@ export default function LoginForm({lng, className}: {lng: string, className?: st
         <div className="form-group">
           <label htmlFor="password" className="text-info p-3">
             {t("Password")}
-          </label>
+            </label>
+          <span>
           <input
             type="password"
             name="password"
             id="password"
+            ref={pwInput}
             className="form-control"
             minLength={6}
             onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
               (password.current = event.target.value)
             }
           />
+            <Button onClick={() => {
+
+              const currentType = pwInput.current!.type
+              pwInput.current!.type = currentType === "text" ? "password" : "text" 
+            }}><FaEye className='w-4'/></Button>
+            </span> 
         </div>
         <div className="form-group p-2">
           <span className='space-x-2'>
@@ -128,6 +142,9 @@ export default function LoginForm({lng, className}: {lng: string, className?: st
           >
             {t("Login")}
           </button>
+        </div>
+        <div className="form-group p-2">
+          <p>© Copyright {t("Enterprise")}</p>
         </div>
       </form>
     </div>

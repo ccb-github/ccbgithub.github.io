@@ -1,6 +1,6 @@
 import ReactTable from "#/components/common/ReactTable";
-import { getCatgories } from "#/lib/api/apolloEndpoint";
-import { BasePageProps } from "#/types/page";
+import { getCatgories } from "#/lib/api/gqlOperation";
+import { BasePageProps } from "#/types/pageProp";
 import { cookies } from "next/headers";
 
 

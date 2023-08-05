@@ -23,6 +23,7 @@ export default async function AdminHomePage({params}: {params: PageParams}) {
           {/* <div className="text-xl font-semibold uppercase tracking-wider">
             {t(`mainPanel.${section.name}`)}
           </div> */}
+          
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
             <div className="flex flex-row items-start rounded-lg">
               <UserCircleIcon className="w-24" />
@@ -42,7 +43,7 @@ export default async function AdminHomePage({params}: {params: PageParams}) {
                 className="group block space-y-1.5 rounded-lg bg-gray-900 px-5 py-3 hover:bg-gray-800"
               >
                 <div className="font-medium text-gray-200 group-hover:text-gray-50">
-                  {t(`mainPanel.${item.name}`)}
+                  {t(`mainpanel.${item.name}`)}
                 </div>
                 {item.description ? (
                   <div className="line-clamp-3 text-sm text-gray-400 group-hover:text-gray-300">
@@ -54,9 +55,10 @@ export default async function AdminHomePage({params}: {params: PageParams}) {
           </div>
         </div>
       ))}
-      <section>
+      {/* <section>
+        
         <QRCodeImg src="https://cn.bing.com"/>
-      </section>
+      </section> */}
     </>
   );
 }

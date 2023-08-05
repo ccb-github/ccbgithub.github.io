@@ -24,6 +24,6 @@
       "#/*": ["./app/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/lib/qrcode/QRcode.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/lib/qrcode/QRcode.ts", "app/types/page.Propts"],
   "exclude": ["node_modules"]
 }

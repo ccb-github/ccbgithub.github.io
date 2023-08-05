@@ -1,7 +1,7 @@
 import AddDataForm, { AddProductForm } from "#/components/form/AddDataForm";
 import { schemaJson } from "#/lib/schema";
 import { toSchemaTypestring } from "#/lib/stringFactory";
-import { BasePageProps } from "#/types/page";
+import { BasePageProps } from "#/types/pageProp";
 
 
 interface PagePropsWithTypeParams extends BasePageProps {

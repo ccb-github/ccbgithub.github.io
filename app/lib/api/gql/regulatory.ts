@@ -14,10 +14,9 @@ export const FIND_REGULATORY = gql`
 
 export const UPDATE_REGULATORIES = gql`
   mutation updateRegulatories($query: RegulatoryUpdateInput!, $set: RegulatoryUpdateInput!){
-    regulatories(query: $query, set: $set){
+    updateManyRegulatories(query: $query, set: $set){
       _id
       address
-      creditCode
       description
       name
     }

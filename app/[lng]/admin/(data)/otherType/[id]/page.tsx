@@ -1,7 +1,7 @@
 import React from "react"
-import { BasePageProps } from "#/types/page"
+import { BasePageProps } from "#/types/pageProp"
 import ProductItem from "#/components/common/item/ProductItem"
-import { getAllEnterprise } from "#/lib/api/apolloEndpoint";
+import { getAllEnterprises } from "#/lib/api/gqlOperation";
 
 
 interface PageProps extends BasePageProps{
@@ -14,7 +14,7 @@ interface PageProps extends BasePageProps{
 export default async function Page({ params }: PageProps) {
 	const {type,  lng} = params
   console.log('Type', type)
-  const enterprise = await getAllEnterprise()
+  const enterprise = await getAllEnterprises()
   console.log(enterprise)
 	return (
     <div>

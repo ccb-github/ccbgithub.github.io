@@ -21,13 +21,27 @@ export default function SearchBar({ className, placeHolder,
   [])
     return (
       <div
-        className={`flex flex-row items-center justify-center h-auto ${className || ""}`}
+        className={`flex flex-row items-center justify-center h-auto ${
+          className || ""
+        }`}
       >
-       <input type="text" className="rounded-md h-8 p-2" placeholder={placeHolder || "Searchbar placeholder not set"}/>
-       <button type="button" className="" onClick={() => {
-         onSearchSubmit(submitValue)
-       }}><SearchIcon/></button>
-       {children}
+        <span>
+          <input
+            type="text"
+            className="rounded-md h-8 p-2"
+            placeholder={placeHolder || "Searchbar placeholder not set"}
+          />
+          <button
+            type="button"
+            className=""
+            onClick={() => {
+              onSearchSubmit(submitValue);
+            }}
+          >
+            <SearchIcon />
+          </button>
+        </span>
+        {children}
       </div>
     );
   }

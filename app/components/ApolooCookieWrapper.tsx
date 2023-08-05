@@ -14,9 +14,8 @@ export default function ApolloCookieWrapper({children}: {children: React.ReactNo
      
       setCookie(null, "accessToken", user.accessToken!);
       // Refresh token before session expires
-      const TWENTY_MIN_MS = 1200000;
+      const TWENTY_MIN_MS = 20000;
       const resetAccessToken = setInterval(async () => {
-        
         user
           .refreshAccessToken()
           .then(() => {

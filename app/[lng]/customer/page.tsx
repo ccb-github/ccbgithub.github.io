@@ -1,5 +1,5 @@
 'use client'
-import { BasePageProps } from '#/types/page';
+import { BasePageProps } from '#/types/pageProp';
 
 import SearchBySchemaName from '#/components/common/SearchBySchemaName';
 import { useRef, useState } from 'react';

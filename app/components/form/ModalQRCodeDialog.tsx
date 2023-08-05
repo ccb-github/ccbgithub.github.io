@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { updateQRCode } from '#/lib/qrcode'
 import { useTranslation } from "#/lib/i18n/client";
 import { close } from "inspector";
+import Button from "../common/Button";
 
 export default function ModalQRCodeDialog(props: {
   src: string;
@@ -60,14 +61,7 @@ function download() {
 }
   return (
     <>
-      <button
-        onClick={() => {
-          //@ts-ignore
-          window.qrCodeDialog?.showModal();
-        }}
-      >
-        Click
-      </button>
+     
       <dialog
         id="qrCodeDialog"
         ref={dialogRef}
@@ -88,11 +82,11 @@ function download() {
               className="flex-1"
               value="default"
             >
-              <a >{t("Confirm")}</a>
+              <a>{t("Confirm")}</a>
             </button>
-            <button value="cancel" className="flex-1">
+            <Button className="flex-1">
               {t("Cancel")}
-            </button>
+            </Button>
           </div>
         </form>
       </dialog>

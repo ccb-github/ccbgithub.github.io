@@ -1,3 +1,4 @@
+"use client"
 import { useApp } from "#/hooks/useApp"
 import { SchemaName } from "#/types/schema"
 import { useEffect, useRef, useState } from "react"

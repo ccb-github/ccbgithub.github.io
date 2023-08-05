@@ -270,7 +270,7 @@ export default class QRRSBlock{
   * @param {any} errorCorrectLevel:0|1|2|3
   * @returns {number[]}
   */
-	static getRSBlocks(typeNumber: number, errorCorrectLevel: 0 | 1 | 2 | 3 ) {
+	static getRSBlocks(typeNumber: number, errorCorrectLevel: typeof QRErrorCorrectLevel[keyof typeof QRErrorCorrectLevel]) {
 		  
 		  var rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
 		  
@@ -296,7 +296,7 @@ export default class QRRSBlock{
 		  return list;
 	}
 	//Rsblocktable according to Give a type number(1-40) 
-	static getRsBlockTable(typeNumber: number, errorCorrectLevel: 0 | 1 | 2 | 3) {
+	static getRsBlockTable(typeNumber: number, errorCorrectLevel: typeof QRErrorCorrectLevel[keyof typeof QRErrorCorrectLevel]) {
 	  
 		  switch(errorCorrectLevel) {
 			case QRErrorCorrectLevel.L :

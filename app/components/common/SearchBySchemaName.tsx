@@ -6,7 +6,7 @@ import { useApp } from "#/hooks/useApp";
 
 
 import { SchemaResultMapper, SchemaName, SearchResultMap } from "#/types/schema";
-import { schemaJson } from "#/lib/constants";
+import { schemaJson } from "#/lib/schema";
 import ReactSelect from "react-select";
 
 

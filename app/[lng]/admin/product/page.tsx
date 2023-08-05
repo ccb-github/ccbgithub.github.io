@@ -1,6 +1,6 @@
 import ReactTable from "#/components/common/ReactTable";
-import { getAllProducts } from "#/lib/api/apolloEndpoint";
-import { BasePageProps } from "#/types/page";
+import { getAllProducts } from "#/lib/api/gqlOperation";
+import { BasePageProps } from "#/types/pageProp";
 
 
 export default async function AdminProductManagePage({params: {lng}}: BasePageProps) {
@@ -10,7 +10,7 @@ export default async function AdminProductManagePage({params: {lng}}: BasePagePr
       <div id="data-table" className="h-full w-full">
         <ReactTable
           data={products}
-         
+          // columnList={["name"]}
            //</Link>
           schemaType={"Product"}
           deleteEnabled={true}

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '#/hooks/useApp';
 import DataItem from './DataItem';
 
-import { schemaJson } from '#/lib/constants';
+import { schemaJson } from '#/lib/schema';
 import { SchemaObject } from '#/types/schema';
 import { toSchemaTypestring } from '#/lib/stringFactory';
 import { usePathname, useSearchParams } from 'next/navigation';

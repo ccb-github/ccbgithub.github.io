@@ -9,7 +9,7 @@ export default function DateInputFieldTemplate(props: SchemaPropties) {
     const [currentTime, refreshTime] = useState(new Date().toISOString().slice(0, -1))
     return (
       <div key={props.name} className="form-group">
-        <div className="w-full p-4 ">
+        <div className="p-4">
           <label className=" control-label" htmlFor="prop.name">
             {props.optional ? null :"*" }{props.name}
           </label>
@@ -21,7 +21,7 @@ export default function DateInputFieldTemplate(props: SchemaPropties) {
             <FiRefreshCw className="w-4 inline-block"/>
           </Button>
         </div>
-        <div className="w-full">
+        <div className="">
           <input
             id={props.name}
             name={props.name}

@@ -14,9 +14,9 @@ export default function PermissionDialog() {
       <div>
         <h2>Allowed catgory</h2>
         {
-            catgorys?.map( catgory => (
-                <input type="radio" value={catgory} multiple={true}/>
-            ))
+          catgorys?.map( catgory => (
+              <input type="radio" value={catgory} multiple={true}/>
+          ))
         }
         
       </div>  

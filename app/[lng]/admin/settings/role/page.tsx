@@ -1,4 +1,5 @@
 import { useTranslation } from "#/lib/i18n";
+import { BasePageProps } from "#/types/pageProp";
 
 
 

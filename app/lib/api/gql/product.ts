@@ -14,11 +14,9 @@ export const FIND_PRODUCTS = gql`
   }
 `;
 
-export const GET_ONEPRODUCT_BY_ID = gql`
-  query getOneProduct($id: ObjectId){
-    product(query: {
-      _id: $id
-    }){
+export const GET_PRODUCT_BY_ID = gql`
+  query getProductById($query: ProductQueryInput){
+    product(query: $query){
       _id
       name
       assemblePlace

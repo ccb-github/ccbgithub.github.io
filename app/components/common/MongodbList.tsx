@@ -6,7 +6,7 @@ import { toSchemaTypestring } from '#/lib/stringFactory';
 
 import ReactTable from './ReactTable';
 import { schemaJson } from '#/lib/schema';
-import { SchemaName } from '#/types/schema';
+import { SchemaName, SchemaResultMapper } from '#/types/schema';
 
 
 interface MongodbListProps {
@@ -41,8 +41,8 @@ export default function MongodbList({ type, id, lng, sortOption: sortOptionProps
   );
   const [sortOption, setSortOption] = useState(sortOptionProps || {})
   
-  //TODO type
-  const [datas, setDatas] = useState<any[]>([]);
+
+  const [datas, setDatas] = useState<SchemaResultMapper["Product"][]>([]);
   const mongodbApp = useApp();
   useEffect(() => {
     if (mongodbApp?.currentUser) {
@@ -116,7 +116,7 @@ export default function MongodbList({ type, id, lng, sortOption: sortOptionProps
   return (
     <div
       id="data-table"
-      className="h-full w-full overflow-x-scroll overflow-y-scroll"
+      className="h-full w-full"
     >
       <ReactTable data={datas} lng={lng} schemaType={schemaType} deleteEnabled={false}/>
     </div>

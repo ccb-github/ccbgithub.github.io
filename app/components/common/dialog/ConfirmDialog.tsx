@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { updateQRCode } from '#/lib/qrcode'
 import { useTranslation } from "#/lib/i18n/client";
-import NormalButton from "../NormalButton";
+import Button from "#/components/common/Button";
 
 export default function ConfirmDialog({lng, confirmAction = async () => {
   console.log("Confirm action")
@@ -72,13 +72,13 @@ export default function ConfirmDialog({lng, confirmAction = async () => {
         </p>
         
         <div className="w-full flex">
-          <NormalButton id="confirmBtn" type="submit"className="flex-1 bg-slate-50">
+          <Button id="confirmBtn" type="submit"className="flex-1 bg-slate-50">
             {t("Confirm")}
-          </NormalButton>
+          </Button>
          
-          <NormalButton id="confirmBtn" value="bg-slate-50">
+          <Button id="confirmBtn" value="bg-slate-50">
             {t("Cancel")}
-          </NormalButton>
+          </Button>
         </div>
       </form>
     </dialog>

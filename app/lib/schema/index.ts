@@ -1,89 +1,13 @@
 import { SchemaJson } from "#/types/schema";
 import Category from "./category";
 import Checker from "./checker";
-
+import Enterprise from "./enterprise";
+import Product from "./product"
 export const schemaJson: SchemaJson = {
   Category,
 	Checker,
-	
-	Enterprise: {
-	  name: "Enterprise",
-	  properties: {
-			_id: {
-				name: "_id",
-				type: "objectId",
-				indexed: true,
-				optional: false,
-				mapTo: "_id",
-			},
-			address: {
-				name: "address",
-				type: "string",
-				indexed: false,
-				optional: true,
-				mapTo: "address",
-			},
-			createdAt: {
-				name: "createdAt",
-				type: "date",
-				indexed: false,
-				optional: false,
-				mapTo: "createdAt",
-			},
-			creditCode: {
-				name: "creditCode",
-				type: "string",
-				indexed: false,
-				optional: false,
-				mapTo: "creditCode",
-			},
-			description: {
-				name: "description",
-				type: "string",
-				indexed: false,
-				optional: false,
-				mapTo: "description",
-			},
-			email: {
-				name: "email",
-				type: "string",
-				indexed: false,
-				optional: true,
-				mapTo: "email",
-			},
-			name: {
-				name: "name",
-				type: "string",
-				indexed: false,
-				optional: true,
-				mapTo: "name",
-			},
-			registerPlace: {
-				name: "registerPlace",
-				type: "string",
-				indexed: false,
-				optional: false,
-				mapTo: "registerPlace",
-			},
-			tradeMark: {
-				name: "tradeMark",
-				type: "string",
-				indexed: false,
-				optional: true,
-				mapTo: "tradeMark",
-			},
-			ownerId: {
-				name: "ownerId",
-				type: "string",
-				indexed: false,
-				optional: false,
-				mapTo: "ownerId",
-			},
-	  },
-	  primaryKey: "_id",
-	  embedded: false,
-	},
-	
+	Enterprise,
+	Product,
 	Order: {
 	  name: "Order",
 	  properties: {
@@ -179,94 +103,7 @@ export const schemaJson: SchemaJson = {
 	  primaryKey: "_id",
 	  embedded: false,
 	},
-	Product: {
-	  name: "Product",
-	  properties: {
-			_id: {
-				name: "_id",
-				type: "objectId",
-				indexed: true,
-				optional: false,
-				mapTo: "_id",
-			},
-			assemblePlace: {
-				name: "assemblePlace",
-				type: "string",
-				indexed: false,
-				optional: true,
-				mapTo: "assemblePlace",
-			},
-		
-			category: {
-				name: "category",
-				type: "select",
-				objectType: "Category",
-				indexed: false,
-				optional: false,
-				mapTo: "category",
-			},
-description: {
-				name: "description",
-				type: "string",
-				indexed: false,
-				optional: false,
-				mapTo: "description",
-			},
-			name: {
-				name: "name",
-				type: "string",
-				indexed: false,
-				optional: false,
-				mapTo: "name",
-			},
-			ownerId: {
-				name: "ownerId",
-				type: "string",
-				indexed: false,
-				optional: false,
-				mapTo: "ownerId",
-			},
-			status: {
-				name: "status",
-				type: "bool",
-				indexed: false,
-				optional: false,
-				mapTo: "status",
-			},
-			produceDay: {
-				name: "produceDay",
-				type: "date",
-				indexed: false,
-				optional: false,
-				mapTo: "produceDay",
-			},
-			shelfLife: {
-				name: "shelfLife",
-				type: "int",
-				indexed: false,
-				optional: false,
-				mapTo: "shelfLife",
-			},
-			standard: {
-				name: "standard",
-				type: "string",
-				indexed: false,
-				optional: false,
-				mapTo: "standard",
-			},
-		// producer: {
-		//   name: "producer",
-		//   type: "object",
-		//   objectType: "Enterprise",
-		//   indexed: false,
-		//   optional: true,
-		//   mapTo: "producer",
-		// },
-		
-	  },
-	  primaryKey: "_id",
-	  embedded: false,
-	},
+
 	Record: {
 	  name: "Record",
 	  properties: {
@@ -349,13 +186,7 @@ description: {
 		  optional: true,
 		  mapTo: "address",
 		},
-		creditCode: {
-		  name: "creditCode",
-		  type: "string",
-		  indexed: false,
-		  optional: false,
-		  mapTo: "creditCode",
-		},
+	
 		description: {
 		  name: "description",
 		  type: "string",

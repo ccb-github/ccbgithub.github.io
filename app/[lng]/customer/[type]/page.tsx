@@ -1,8 +1,8 @@
 import EnterpriseItem from "#/components/common/item/EnterpriseItem";
 import ProductItem from "#/components/common/item/ProductItem";
 import { getCookieByName } from "#/components/util/cookie";
-import { getOneProduct } from "#/lib/api/apolloEndpoint";
-import { BasePageProps } from "#/types/page";
+import { getOneProduct } from "#/lib/api/gqlOperation";
+import { BasePageProps } from "#/types/pageProp";
 import { SchemaName } from "#/types/schema";
 import { ArrowDownIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import Link from "next/link";
@@ -15,7 +15,7 @@ interface PagePropsWithType extends BasePageProps {
 }  
 export default async function Page({ params: { lng, type } }: PagePropsWithType) {
   const accessToken = getCookieByName("accessToken")
-  const { product} = await getOneProduct(accessToken!)
+ 
 
   return (
     <div className="w-full overflow-y-scroll">

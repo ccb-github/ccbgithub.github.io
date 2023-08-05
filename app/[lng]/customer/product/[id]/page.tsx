@@ -1,8 +1,8 @@
 import EnterpriseItem from "#/components/common/item/EnterpriseItem";
 import ProductItem from "#/components/common/item/ProductItem";
 import { getCookieByName } from "#/components/util/cookie";
-import { getOneProduct } from "#/lib/api/apolloEndpoint";
-import { BasePageProps } from "#/types/page";
+import { getOneProduct } from "#/lib/api/gqlOperation";
+import { BasePageProps } from "#/types/pageProp";
 
 
 export default async function ProductResultPage({ params: { lng }, searchParams }: BasePageProps) {

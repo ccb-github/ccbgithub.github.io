@@ -20,7 +20,7 @@ QR8bitByte.prototype = {
 //---------------------------------------------------------------------
 // QRCode
 //---------------------------------------------------------------------
-function QRCode(typeNumber, errorCorrectLevel) {
+export default function QRCode(typeNumber, errorCorrectLevel) {
 	this.typeNumber = typeNumber;
 	this.errorCorrectLevel = errorCorrectLevel;
 	this.modules = null;
@@ -554,18 +554,18 @@ var QRUtil = {
 	    
 	    switch (maskPattern) {
 		    
-	    case QRMaskPattern.PATTERN000 : return (i + j) % 2 == 0;
-	    case QRMaskPattern.PATTERN001 : return i % 2 == 0;
-	    case QRMaskPattern.PATTERN010 : return j % 3 == 0;
-	    case QRMaskPattern.PATTERN011 : return (i + j) % 3 == 0;
-	    case QRMaskPattern.PATTERN100 : return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 == 0;
-	    case QRMaskPattern.PATTERN101 : return (i * j) % 2 + (i * j) % 3 == 0;
-	    case QRMaskPattern.PATTERN110 : return ( (i * j) % 2 + (i * j) % 3) % 2 == 0;
-	    case QRMaskPattern.PATTERN111 : return ( (i * j) % 3 + (i + j) % 2) % 2 == 0;
+				case QRMaskPattern.PATTERN000 : return (i + j) % 2 == 0;
+				case QRMaskPattern.PATTERN001 : return i % 2 == 0;
+				case QRMaskPattern.PATTERN010 : return j % 3 == 0;
+				case QRMaskPattern.PATTERN011 : return (i + j) % 3 == 0;
+				case QRMaskPattern.PATTERN100 : return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 == 0;
+				case QRMaskPattern.PATTERN101 : return (i * j) % 2 + (i * j) % 3 == 0;
+				case QRMaskPattern.PATTERN110 : return ( (i * j) % 2 + (i * j) % 3) % 2 == 0;
+				case QRMaskPattern.PATTERN111 : return ( (i * j) % 3 + (i + j) % 2) % 2 == 0;
 
-	    default :
-		    throw new Error("bad maskPattern:" + maskPattern);
-	    }
+				default :
+					throw new Error("bad maskPattern:" + maskPattern);
+				}
     },
 
     getErrorCorrectPolynomial : function(errorCorrectLength) {

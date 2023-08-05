@@ -1,4 +1,6 @@
-{  
+{ 
+    "Action": "操作",
+    "Admin": "管理员", 
     "Login": "登录",
     "Log out": "登出",
     "Email": "邮件",
@@ -24,5 +26,15 @@
     "creditCode": "信用代码",
     "Checker": "质检",
     "Enter the category you want add": "添加新的产品类型",
-    "Traceability system powered by Nextjs": "Nextjs 追溯系统"
+    "Traceability system powered by Nextjs": "Nextjs 追溯系统",
+    "sidebar": {
+        "Customer": "顾客",
+        "Account Profile": "账号资料",
+        "description": "描述",
+        "role": "角色",
+        "email": "邮箱",
+        "User ID": "用户ID",
+        "Account edit": "帐号信息",
+        "Set the role": "选择角色"
+    }
 }

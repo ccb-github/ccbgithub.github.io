@@ -4,7 +4,7 @@ import SideNavItem from "#/components/common/SideNavItem";
 
 import AccountFooter from "#/components/normal/AccountFooter";
 import { adminSideBarItems } from "#/lib/webcontents/sideBar";
-import { CommonLayoutProps } from "#/types/page";
+import { CommonLayoutProps } from "#/types/pageProp";
 import clsx from "clsx";
 import { t } from "i18next";
 import Link from "next/link";
