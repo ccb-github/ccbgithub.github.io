@@ -22,7 +22,7 @@ export const AllowedCategoryList = ({list}: {list: string[]}) => {
       <th scope="row">Catgory</th>
       {
         allCategorysRef.current.map(
-          category => <td><b>{category.name}</b></td>
+          category => <td key={category._id.toHexString()}><b>{category.name}</b></td>
         )
       }
     </tr>
