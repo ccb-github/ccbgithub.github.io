@@ -11,7 +11,6 @@ import Link from "next/link"
 import SideBarToggleButton from "../../components/common/SideBarToggleButton"
 import TopTabBar from "#/components/common/TopTabBar"
 import Script from "next/script"
-import MyPopover from "#/components/common/MyPopover"
 //import { useState } from "react";
 
 type AdminLayoutProps = CommonLayoutProps & {
@@ -53,8 +52,6 @@ export default async function AdminRootLayout({
         </div>
         <SideBarToggleButton />
 
-    
-
         <div
           id="side-nav-container"
           className={clsx("overflow-y-auto hidden  lg:block")}
@@ -88,7 +85,7 @@ export default async function AdminRootLayout({
         </div>
         <TopTabBar lng={lng} />
         <BreadCrumb className="flex-grow-0" lng={lng} />
-       
+
         <div
           id="app-root-container"
           className="flex-grow rounded-lg p-2 shadow-lg shadow-black/20 overflow-y-scroll"
@@ -96,14 +93,11 @@ export default async function AdminRootLayout({
           {modal}
           {children}
         </div>
-       
       </div>
       <Script id={"toggle-button"} strategy={"lazyOnload"}>
-        {
-          `document.querySelector('#sidebar-toggle').onclick =  (event) => {
+        {`document.querySelector('#sidebar-toggle').onclick =  (event) => {
            document.querySelector('#side-nav-container').classList.toggle("sidebar-open")}
-          `
-        }
+          `}
       </Script>
     </>
   )

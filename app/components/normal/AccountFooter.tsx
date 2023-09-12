@@ -4,7 +4,7 @@ import { UserProfile } from "#/types/data"
 import { useEffect, useState } from "react"
 import Button from "../common/Button"
 import { useRouter } from "next/navigation"
-import { FaAdjust, FaUser } from "react-icons/fa"
+import { FaUser } from "react-icons/fa"
 import { useTranslation } from "#/lib/i18n/client"
 
 export default function AccountFooter({ lng }: { lng: string }) {
@@ -19,7 +19,6 @@ export default function AccountFooter({ lng }: { lng: string }) {
       return
       //throw new Error("You should login to use this AccountFooter")
     }
-   
     setUserData(() => {
       setIsLoading(false)
       return realmApp?.currentUser!.customData as UserProfile

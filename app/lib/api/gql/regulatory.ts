@@ -17,7 +17,7 @@ export const UPDATE_REGULATORIES = gql`
     $query: RegulatoryQueryInput!
     $set: RegulatoryUpdateInput!
   ) {
-    updateManyRegulatories(query: $query, set: $set){
+    updateManyRegulatories(query: $query, set: $set) {
       matchedCount
       modifiedCount
     }
@@ -25,13 +25,13 @@ export const UPDATE_REGULATORIES = gql`
 `
 
 export const FIND_REGULATORIES = gql`
-  query findRegulatories($query: RegulatoryQueryInput){
-    regulatories(query: $query){
+  query findRegulatories($query: RegulatoryQueryInput) {
+    regulatories(query: $query) {
       _id
-      name,
-      creditCode,
-      address,
-      description    
+      name
+      creditCode
+      address
+      description
     }
   }
 `

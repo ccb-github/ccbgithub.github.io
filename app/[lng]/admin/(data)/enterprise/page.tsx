@@ -18,7 +18,7 @@ export default async function AdminEnterpriseManagePage({
         lng={lng}
         data={enterprises}
         schemaType={"Enterprise"}
-        columnList={[
+        columnAccessors={[
           "name",
           "address",
           "createdAt",

@@ -1,19 +1,20 @@
-import { adminMainPanels } from "#/lib/webcontents/mainPanel";
-import Link from "next/link";
-import { useTranslation } from "#/lib/i18n";
-import { NavItem } from "#/types/webContent";
-import { UserCircleIcon } from "@heroicons/react/outline";
-import QRCodeImg from "#/components/qrcode/QRCodeImg";
-
+import { adminMainPanels } from "#/lib/webcontents/mainPanel"
+import Link from "next/link"
+import { useTranslation } from "#/lib/i18n"
+import { NavItem } from "#/types/webContent"
 
 type PageParams = {
-	lng: string
+  lng: string
 }
 
-export default async function AdminHomePage({params}: {params: PageParams}) {
-  const { lng } = params   
-  const { t } = await useTranslation(lng, 'admin')
- 
+export default async function AdminHomePage({
+  params,
+}: {
+  params: PageParams
+}) {
+  const { lng } = params
+  const { t } = await useTranslation(lng, "admin")
+
   return (
     <>
       {adminMainPanels.map((section) => (
@@ -43,5 +44,5 @@ export default async function AdminHomePage({params}: {params: PageParams}) {
         <QRCodeImg src="https://cn.bing.com"/>
       </section> */}
     </>
-  );
+  )
 }

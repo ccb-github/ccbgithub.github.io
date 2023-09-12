@@ -1,27 +1,32 @@
-'use client';
+"use client"
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from "react"
 
+import { useApp } from "#/hooks/useApp"
+import BlurImage from "../common/BlurImage"
+import { useTranslation } from "#/lib/i18n/client"
+import { FaUser } from "react-icons/fa"
+import Button from "../common/Button"
+import { UserProfile } from "#/types/data"
 
-
-import { useApp } from '#/hooks/useApp';
-import BlurImage from '../common/BlurImage';
-import { useTranslation } from '#/lib/i18n/client';
-import { FaUser } from 'react-icons/fa';
-import Button from '../common/Button';
-import { UserProfile } from '#/types/data';
-
-
-
-export default function CenterUserInfo({lng}: {lng: string}) {
-  const currentUser = useRef(useApp().currentUser)
+export default function CenterUserInfo({ lng }: { lng: string }) {
+  // const currentUser = useRef(useApp().currentUser)
   const realmApp = useApp()
-  const {email} = currentUser.current!.profile
-  const { role, isAdmin, name } = currentUser.current!.customData as UserProfile
-  const [authCatgories] = useState<string[]>(realmApp.currentUser?.customData.authCatgories as string[] || [])
+  //const { email } = realmApp.currentUser?.profile
+  // const { role, isAdmin, name } = currentUser.current!.customData as UserProfile
+  const [authCategories] = useState<string[]>(
+    (realmApp.currentUser?.customData.authCatgories as string[]) || [],
+  )
+  const userProfile = useMemo(() => {
+    if (realmApp.currentUser !== null)
+      return {
+        ...realmApp.currentUser.customData,
+        email: realmApp.currentUser.profile.email,
+      }
+    else return null
+  }, [realmApp.currentUser])
+  const { email, role, name, belong } = userProfile as UserProfile
   const { t } = useTranslation(lng)
- 
-
 
   //A grid box with 3column if device is above middle size
   return (
@@ -38,8 +43,7 @@ export default function CenterUserInfo({lng}: {lng: string}) {
         width={64}
         height={64}
         src={currentUser.current?.profile.pictureUrl || 
-            "https://i.ibb.co/7xmcfgQ/Screenshot-from-2023-05-02-18-06-17.png"}/> */
-        }
+            "https://i.ibb.co/7xmcfgQ/Screenshot-from-2023-05-02-18-06-17.png"}/> */}
         <FaUser className="w-32 h-32 float-right" />
       </div>
       <div>
@@ -57,6 +61,12 @@ export default function CenterUserInfo({lng}: {lng: string}) {
             <span className="font-bold mr-2">{t("Role") + ":"}</span>
             {role}
           </div>
+          {belong && (
+            <div className="flex h-14 items-center py-4 px-4 lg:h-auto">
+              <span className="font-bold mr-2">{t("Belong") + ":"}</span>
+              {belong}
+            </div>
+          )}
           <hr />
           {/* <div className="flex h-14 items-center py-4 px-4 lg:h-auto">
             <label>Allowed catgory</label>
@@ -64,26 +74,22 @@ export default function CenterUserInfo({lng}: {lng: string}) {
           </div> */}
         </div>
       </div>
-      
-      {["globalAdmin, enterprise"].includes(role) ?
+      {["globalAdmin, enterprise"].includes(role) ? (
         <section>
           {t("Authorized categories")}{" "}
-          {["A", "B", "C"].map((catgory) => (
+          {["A", "B", "C"].map((category) => (
             <>
               <label className="mr-4">
                 A
                 <input
                   type="checkbox"
-                  value={authCatgories.includes(catgory) ? "true" : "false"}
+                  value={authCategories.includes(category) ? "true" : "false"}
                 />
               </label>
             </>
           ))}
-        </section> : 
-        null
-      }
+        </section>
+      ) : null}
     </div>
-  );
+  )
 }
-
-

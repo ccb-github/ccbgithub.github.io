@@ -1,7 +1,7 @@
 "use client"
 import { schemaJson } from "#/lib/schema"
 import type { SchemaResultMapper, NormalSchemaName, SchemaJson, SchemaName } from "#/types/schema"
-import React, { useContext, useEffect, useRef } from "react"
+import React, { useContext, useEffect, useMemo, useRef } from "react"
 import { FaReacteurope, FaSort, FaSortDown, FaSortUp } from "react-icons/fa"
 import { FilterValue, Row, useSortBy, useTable } from "react-table"
 import { BSON } from "realm-web"
@@ -9,9 +9,8 @@ import Button from "./Button"
 import SearchBar from "./SearchBar"
 import { useTranslation } from "#/lib/i18n/client"
 import Link from "next/link"
-import { useApp } from "#/hooks/useApp"
 import { usePathname } from "next/navigation"
-import { ConfirmContext } from "#/context/ConfirmContext"
+
 
 type BaseFilterProps = {
   filterValue: FilterValue
@@ -65,14 +64,14 @@ function CustomRender({ value, type }: { value: unknown; type: string }) {
   }
 }
 
-type ReactTableProps<PrimaryKeyType = string> = {
-  data: readonly object[]
+type ReactTableProps<DataItem, PrimaryKeyType = string> = {
+  data: readonly DataItem[]
   className?: string
   trClass?: string
   schemaType: NormalSchemaName
-  columnList?: unknown
+  columnAccessors?: keyof DataItem
   deleteEnabled: boolean
-  actionButtons?: ((id: PrimaryKeyType) => React.ReactNode)[]
+  customColumns?: ((id: PrimaryKeyType) => React.ReactNode)[]
   lng: string
   deleteOperation?: (
     deleteItem: SchemaResultMapper[NormalSchemaName],
@@ -88,26 +87,29 @@ type ReactTableProps<PrimaryKeyType = string> = {
  * @param {ReactTableProps} props -- The react props
  * @returns {React.ReactNode}
  */
-export default function ReactTable({
-  columnList: columnNameListProp,
+export default function ReactTable<
+  DataItem extends SchemaResultMapper[NormalSchemaName],
+>({
+  columnAccessors: columnAccessorsProp,
   data,
   schemaType,
-  actionButtons,
+  customColumns: actionButtons,
   lng,
-}: ReactTableProps) {
+}: ReactTableProps<DataItem>) {
   //TODO the language props
   const { t } = useTranslation(lng, schemaType.toLowerCase())
   // const [columnResizeMode] = useState<ColumnResizeMode>(
   //   ColumnResizeMode["onChange"],
   // )
-  const realmApp = useApp()
   const schemaPropertiesRef = useRef(schemaJson[schemaType].properties)
   const currentPath = usePathname()
-  const counterValue = useContext(ConfirmContext)
-  const columnNameList =
-    columnNameListProp || Object.keys(schemaPropertiesRef.current)
 
-  //TODO customize Table head
+  //If we do not give the display column list, default to be all the properties list in schemaObject
+  const columnAccessors =
+    columnAccessorsProp || Object.keys(schemaPropertiesRef.current)
+
+  // TODO customize Table head,
+  // TODO red sort the columnList first 
   const tableHeadRef = useRef(
     columnNameList.sort().map((property) => ({
       Header: schemaPropertiesRef.current[property].name,
@@ -115,20 +117,26 @@ export default function ReactTable({
     })),
   )
 
-  /*  const defaultColumn = React.useMemo(
+  const columns = useMemo(() => {
+    return columnAccessors.sort().map((property) => ({
+      Header: schemaPropertiesRef.current[property].name,
+      accessor: schemaPropertiesRef.current[property].name,
+    }))
+  }, [columnAccessors])
+
+  const defaultColumn = React.useMemo(
     () => ({
       // Our default Filter UI
       Filter: DefaultColumnFilter,
     }),
     [],
-  ) */
+  )
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable(
       {
-        columns: tableHeadRef.current,
+        columns,
         data,
-        // defaultColumn,
         // useFilters,
         // useGlobalFilter,
       },
@@ -170,6 +178,7 @@ export default function ReactTable({
                         fontWeight: "bold",
                       }}
                     >
+                      {/* sort widget */}
                       <span
                         className="cursor-pointer"
                         {...column.getHeaderProps(
@@ -201,7 +210,7 @@ export default function ReactTable({
             prepareRow(row)
 
             const { key, ...otherRowProps } = row.getRowProps()
-            const { _id } = row.original as { _id: string }
+            const { _id } = row.original
             return (
               <tr key={key} {...otherRowProps}>
                 <th scope="row">{index + 1}</th>

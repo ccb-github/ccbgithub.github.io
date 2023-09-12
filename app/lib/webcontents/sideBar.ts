@@ -65,16 +65,27 @@ export const regulatorySideBarItems: NavItem[] = [
     description: "Root item of regulatory sidebar",
     items: [
       {
-        name: "Account Manage",
-        link: "/regulatory/account",
-        description: "Manage user account for the app",
+        name: "Account",
+        description: "Manage user account(regulatory)",
+        items: [
+          {
+            name: "Account info",
+            link: "/regulatory/account",
+            description: "Account info",
+          },
+          {
+            name: "Organization info",
+            link: "#",
+            description: "Organization info",
+          },
+        ],
       },
       {
         name: "Data manage",
         description: "Default description",
         items: [
           {
-            name: "Quality Check",
+            name: "质检",
             link: "/regulatory/check-record",
             description: "Manage product",
           }
