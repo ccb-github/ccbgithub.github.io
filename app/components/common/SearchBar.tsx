@@ -1,13 +1,13 @@
-'use client'
-import { SearchIcon } from "../icons";
-import { useEffect, useRef } from "react";
-import { useApp } from "#/hooks/useApp";
-import { NormalSchemaName, SchemaName } from "#/types/schema";
+"use client"
+import { SearchIcon } from "../icons"
+import { NormalSchemaName } from "#/types/schema"
 
-export default function SearchBar({ className, placeHolder,
+export default function SearchBar({
+  className,
+  placeHolder,
   onSearchSubmit,
-  children
-}: { 
+  children,
+}: {
   className?: string
   searchSchemaName: NormalSchemaName
   placeHolder?: string
@@ -16,31 +16,30 @@ export default function SearchBar({ className, placeHolder,
 }) {
   const submitValue = "submit data"
   /**h-auto is not confirmed nor test*/
- 
-    return (
-      <div
-        className={`flex flex-row items-center justify-center h-auto ${
-          className || ""
-        }`}
-      >
-        <span>
-          <input
-            type="text"
-            className="rounded-md h-8 p-2"
-            placeholder={placeHolder || "Searchbar placeholder not set"}
-          />
-          <button
-            type="button"
-            className=""
-            onClick={() => {
-              onSearchSubmit(submitValue);
-            }}
-          >
-            <SearchIcon/>
-          </button>
-        </span>
-        {children}
-      </div>
-    );
-  }
-  
+
+  return (
+    <div
+      className={`flex flex-row items-center justify-center h-auto ${
+        className || ""
+      }`}
+    >
+      <span className="self-center content-center flex flex-row items-center">
+        <input
+          type="text"
+          className="rounded-md h-8 p-2"
+          placeholder={placeHolder || "Searchbar placeholder not set"}
+        />
+        <button
+          type="button"
+          className=""
+          onClick={() => {
+            onSearchSubmit(submitValue)
+          }}
+        >
+          <SearchIcon />
+        </button>
+      </span>
+      {children}
+    </div>
+  )
+}

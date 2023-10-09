@@ -8,7 +8,7 @@ export default async function AdminEnterpriseManagePage({
 }: BasePageProps) {
   //The url is lowercase, but the schema name to search the database are like 'Name', we need to convert first
 
-  const { enterprises } = await getAllEnterprises()
+  const enterprises = await getAllEnterprises()
   return (
     <div
       id="data-table"

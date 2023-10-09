@@ -13,7 +13,7 @@ export const adminSideBarItems: NavItem[] = [
       },
       {
         name: "Traceability info",
-        description: 'No spec description',
+        description: "No spec description",
         items: [
           {
             name: "Product",
@@ -29,8 +29,8 @@ export const adminSideBarItems: NavItem[] = [
         ],
       },
       {
-        name: "Enterprise manage",
-        description: 'No spec description provide',
+        name: "Organization manage",
+        description: "No spec description provide",
         items: [
           {
             name: "Stock",
@@ -44,17 +44,17 @@ export const adminSideBarItems: NavItem[] = [
           },
         ],
       },
-      {
-        name: "Other",
-        description: "No spec description provide",
-        items: [
-          {
-            name: "Process manage",
-            link: "/admin/process",
-            description: "All the process",
-          },
-        ],
-      },
+      // {
+      //   name: "Other",
+      //   description: "No spec description provide",
+      //   items: [
+      //     {
+      //       name: "Process manage",
+      //       link: "/admin/process",
+      //       description: "All the process",
+      //     },
+      //   ],
+      // },
     ],
   },
 ]
@@ -88,11 +88,9 @@ export const regulatorySideBarItems: NavItem[] = [
             name: "质检",
             link: "/regulatory/check-record",
             description: "Manage product",
-          }
+          },
         ],
-        
       },
-    
     ],
   },
 ]

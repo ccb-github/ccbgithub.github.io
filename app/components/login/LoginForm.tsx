@@ -1,77 +1,80 @@
-'use client'
-import { usePathname, useRouter } from 'next/navigation';
-import React, { FormEvent, useEffect, useRef, useState } from 'react'
-import * as Realm from 'realm-web'
-import { useApp } from '#/hooks/useApp';
-import Link from 'next/link';
-import { useTranslation } from '#/lib/i18n/client';
-import { roleUrlMap } from '#/lib/webcontents/user';
-import { UserProfile } from '#/types/data';
-import Button from '../common/Button';
-import { FaChevronCircleDown, FaChevronCircleUp, FaEye } from 'react-icons/fa';
-import i18next from 'i18next';
+"use client"
+import { useRouter } from "next/navigation"
+import React, { FormEvent, useEffect, useRef } from "react"
+import * as Realm from "realm-web"
+import { useApp } from "#/hooks/useApp"
+import Link from "next/link"
+import { useTranslation } from "#/lib/i18n/client"
+import { roleUrlMap } from "#/lib/webcontents/user"
+import { UserProfile } from "#/types/data"
+import Button from "../common/Button"
+import { FaEye } from "react-icons/fa"
 
-export default function LoginForm({lng, className}: {lng: string, className?: string}) {
-  const email = useRef('')
-  const password = useRef('')
+export default function LoginForm({
+  lng,
+  className,
+}: {
+  lng: string
+  className?: string
+}) {
+  const email = useRef("")
+  const password = useRef("")
   const realmApp = useApp()
   const router = useRouter()
   const pwInput = useRef<HTMLInputElement>(null)
-  const {t} = useTranslation(lng)
-  const pwInputState = useState("password")
-  const [name, setName] = useState("")
-  const currentPath = usePathname()
+  const { t } = useTranslation(lng)
+
   useEffect(() => {
-    if(document) {
+    if (document) {
       document.addEventListener("DOMContentLoaded", () => {
-        //pwButton.current?.type = pwInputState 
+        //pwButton.current?.type = pwInputState
       })
     }
     //const checkerWIndowInterval = setInterval( () => {
-      // if(typeof window !== undefined) 
-      //   alert(" windowObject detected")     
+    // if(typeof window !== undefined)
+    //   alert(" windowObject detected")
     //},2000)
-    
-  },[])
+  }, [])
   const loginRealmAppAsync = async (event: FormEvent) => {
     event.preventDefault()
     console.log({ email: email.current, password: password.current })
     //Create an email credential
     const credentials = Realm.Credentials.emailPassword(
       email.current,
-      password.current
+      password.current,
     )
     // Authenticate the user
     try {
-      const loginUser = await realmApp.logIn(credentials) 
-      console.log('User id', loginUser.id)
+      const loginUser = await realmApp.logIn(credentials)
+      console.log("User id", loginUser.id)
       const userCustomData = loginUser.customData as UserProfile
-      if(!userCustomData.role) {
-        alert(t("Your account is unverified, contact the admin", {ns: "message"}))
+      if (!userCustomData.role) {
+        alert(
+          t("Your account is unverified, contact the admin", { ns: "dialog" }),
+        )
         return
       }
-      if(!userCustomData.emailVerified) {
-        alert(t("Your account is unverified, contact the admin", {ns: "message"}))
+      if (!userCustomData.emailVerified) {
+        alert(
+          t("Your account is unverified, contact the admin", { ns: "dialog" }),
+        )
       }
-     
+
       router.push(`./${lng}/${roleUrlMap[userCustomData.role]}`)
-     
     } catch (error) {
-      //@ts-ignore
-      switch(error.errorCode){
-        case 'AuthError':
-          //@ts-ignore
-          alert(error.message)  
+      switch ((error as { errorCode?: string }).errorCode) {
+        case "AuthError":
+          alert(`AuthError ${(error as { errorCode: string }).errorCode}`)
           break
-        case 'InvalidPassword':
+        case "InvalidPassword":
           alert(`Invalid password, message:${error}`)
           break
         default:
           break
-      }    
+      }
+      alert((error as { message?: string }).message ?? "No message provide")
       console.error(error)
-      throw error;
-      
+      throw error
     }
   }
   // <CheckInCircleIcon/>
@@ -137,17 +140,17 @@ export default function LoginForm({lng, className}: {lng: string, className?: st
               </span>
             </Link>
             <label htmlFor="remember-me" className="text-info">
-              <span>{t("Remember me")}</span> 
+              <span>{t("Remember me")}</span>
             </label>
             <span>
               <input id="remember-me" name="remember-me" type="checkbox" />
             </span>
-            <span className="border-black border-1 margin-y-2 rounded-full">
+            {/* <span className="border-black border-1 margin-y-2 rounded-full">
               <b>
                 {i18next.language}
                 <FaChevronCircleDown className="self-center inline-block" />
               </b>
-            </span>
+            </span> */}
           </span>
           <Button
             type="submit"

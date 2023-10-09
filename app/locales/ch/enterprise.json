@@ -8,6 +8,7 @@
   "mainPanel": {
     "Product": "产品",
     "Account": "帐号管理",
+    "Order": "订单",
     "Stock manage": "仓库管理",
     "Manage Stock": "仓库管理",
     "Description for product": "进入产品页面",

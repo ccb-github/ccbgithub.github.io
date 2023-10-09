@@ -1,8 +1,8 @@
 "use client"
 import { useApp } from "#/hooks/useApp"
-import { NormalSchemaName, SchemaJson, SchemaName, SchemaObject, SchemaResultMapper } from "#/types/schema"
+import { NormalSchemaName, SchemaResultMapper } from "#/types/schema"
 import { useEffect, useRef, useState } from "react"
-//The id must can be stringify
+// TODO The id must can be stringify
 export default function RelatedObjectSelect({
   objectType,
   name,
@@ -17,7 +17,7 @@ export default function RelatedObjectSelect({
   name?: string
   label?: string
   linked?: boolean
-  onChangeValue?: (newValue: string) => any
+  onChangeValue?: (newValue: string) => void
 }) {
   //TODO provide the type
   const [dataList, setDataList] = useState<
@@ -25,12 +25,13 @@ export default function RelatedObjectSelect({
   >([])
   const mongoApp = useApp()
   const mongoCol = useRef(
-    mongoApp.currentUser
+    mongoApp!.currentUser
       ?.mongoClient("mongodb-atlas")
       .db("qrcodeTraceability")
       .collection(objectType),
   )
   useEffect(() => {
+    //Loading data
     mongoCol.current?.find({}).then((res) => {
       setDataList(res)
     })
@@ -41,7 +42,7 @@ export default function RelatedObjectSelect({
       className={className}
       name={name}
       {...props}
-      defaultValue={label || `Select the related ${objectType} item id`}
+      defaultValue={label || `Select the related ${objectType}`}
     >
       {dataList.map((item, key) => {
         return (

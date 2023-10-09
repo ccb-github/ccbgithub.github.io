@@ -24,12 +24,11 @@ export default function ApolloCookieWrapper({
           .then(() => {
             setCookie(null, "accessToken", user.accessToken!)
             // window.accessToken = user.accessToken
-            console.log(
-              `The token at ${new Date().toLocaleDateString()} ${
-                user.accessToken
-              }`,
-            )
-            
+            // console.log(
+            //   `The token at ${new Date().toLocaleDateString()} ${
+            //     user.accessToken
+            //   }`,
+            // )
           })
           .catch((error) => {
             throw error

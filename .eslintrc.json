@@ -6,7 +6,8 @@
   },
   "rules": {
      "prettier/prettier": "warn",
-     "quotes": ["warn", "double"]
+     "quotes": ["warn", "double"],
+     "@typescript-eslint/ban-ts-comment": "off"
   },
   "extends": [
       "eslint:recommended", 

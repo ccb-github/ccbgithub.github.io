@@ -1,33 +1,33 @@
-import { SchemaObject } from "#/types/schema";
+import { SchemaObject } from "#/types/schema"
 
 const Category: SchemaObject = {
   name: "Category",
-  // type: "selectList",
+  // dataType: "selectList",
   properties: {
     _id: {
       name: "_id",
-      type: "objectId",
+      dataType: "objectId",
       indexed: true,
       optional: false,
       mapTo: "_id",
     },
     description: {
       name: "description",
-      type: "string",
+      dataType: "string",
       indexed: false,
       optional: false,
       mapTo: "description",
     },
     name: {
       name: "name",
-      type: "string",
+      dataType: "string",
       indexed: false,
       optional: true,
       mapTo: "name",
     },
     createdAt: {
       name: "createdAt",
-      type: "date",
+      dataType: "date",
       indexed: false,
       optional: false,
       mapTo: "createdAt",
@@ -35,6 +35,6 @@ const Category: SchemaObject = {
   },
   primaryKey: "_id",
   embedded: false,
-};
+}
 
 export default Category

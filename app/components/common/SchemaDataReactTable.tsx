@@ -1,20 +1,32 @@
 "use client"
 import { schemaJson } from "#/lib/schema"
-import type { SchemaResultMapper, NormalSchemaName, SchemaJson, SchemaName } from "#/types/schema"
-import React, { useContext, useEffect, useMemo, useRef } from "react"
+import type { SchemaResultMapper, NormalSchemaName } from "#/types/schema"
+import React, { useMemo, useRef } from "react"
 import { FaReacteurope, FaSort, FaSortDown, FaSortUp } from "react-icons/fa"
-import { FilterValue, Row, useSortBy, useTable } from "react-table"
-import { BSON } from "realm-web"
+import {
+  FilterValue,
+  Row,
+  useFilters,
+  useSortBy,
+  useTable,
+  useGlobalFilter,
+} from "react-table"
 import Button from "./Button"
 import SearchBar from "./SearchBar"
 import { useTranslation } from "#/lib/i18n/client"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-
+import { usePathname, useRouter } from "next/navigation"
+import { toSchemaTypestring } from "#/lib/stringFactory"
+import { deleteDocuments } from "#/lib/api/mongoService"
+import { useApp } from "#/hooks/useApp"
+import fieldConvert from "#/lib/fieldConvert"
+import { EditIcon } from "#/components/icons"
+import { roleUrlMap } from "#/lib/webcontents/user"
+import { CustomRender } from "#/lib/reactTable/render"
 
 type BaseFilterProps = {
   filterValue: FilterValue
-  setFilter: any
+  setFilter: (newFitler: unknown) => unknown
   preFilteredRows: Row[]
   id: string
 }
@@ -42,37 +54,23 @@ function DefaultColumnFilter({
   )
 }
 
-function CustomRender({ value, type }: { value: unknown; type: string }) {
-  switch (type) {
-    case "int":
-      return <p>{value as number}</p>
-    case "double":
-      return <p>{value as number}</p>
-    case "string":
-      return <p>{value as string}</p>
-    case "objectId":
-      return (
-        <Link href={(value as BSON.ObjectID).toString()}>
-          {(value as BSON.ObjectID).toString()}
-        </Link>
-      )
-
-    case "date":
-      return <p>{value as string}</p>
-    default:
-      return <p>{JSON.stringify(value)}</p>
-  }
+type TableOperation = {
+  type: "delete" | "update" | "insert"
 }
 
-type ReactTableProps<DataItem, PrimaryKeyType = string> = {
+type ReactTableProps<
+  DataItem extends { _id: string },
+  PrimaryKeyType = string,
+> = {
   data: readonly DataItem[]
   className?: string
   trClass?: string
   schemaType: NormalSchemaName
-  columnAccessors?: keyof DataItem
+  columnAccessors?: Array<keyof DataItem>
   deleteEnabled: boolean
-  customColumns?: ((id: PrimaryKeyType) => React.ReactNode)[]
+  customColumn?: (id: PrimaryKeyType) => React.ReactNode
   lng: string
+  operationSign?: TableOperation[]
   deleteOperation?: (
     deleteItem: SchemaResultMapper[NormalSchemaName],
   ) => Promise<boolean>
@@ -87,13 +85,12 @@ type ReactTableProps<DataItem, PrimaryKeyType = string> = {
  * @param {ReactTableProps} props -- The react props
  * @returns {React.ReactNode}
  */
-export default function ReactTable<
-  DataItem extends SchemaResultMapper[NormalSchemaName],
->({
+export default function SchemaDataReactTable<DataItem extends { _id: string }>({
   columnAccessors: columnAccessorsProp,
   data,
   schemaType,
-  customColumns: actionButtons,
+  customColumn,
+  deleteEnabled,
   lng,
 }: ReactTableProps<DataItem>) {
   //TODO the language props
@@ -103,19 +100,20 @@ export default function ReactTable<
   // )
   const schemaPropertiesRef = useRef(schemaJson[schemaType].properties)
   const currentPath = usePathname()
-
+  const router = useRouter()
+  const realmApp = useApp()
   //If we do not give the display column list, default to be all the properties list in schemaObject
   const columnAccessors =
     columnAccessorsProp || Object.keys(schemaPropertiesRef.current)
 
   // TODO customize Table head,
-  // TODO red sort the columnList first 
-  const tableHeadRef = useRef(
-    columnNameList.sort().map((property) => ({
-      Header: schemaPropertiesRef.current[property].name,
-      accessor: schemaPropertiesRef.current[property].name,
-    })),
-  )
+  // TODO red sort the columnList first
+  // const tableHeadRef = useRef(
+  //   columnNameList.sort().map((property) => ({
+  //     Header: schemaPropertiesRef.current[property].name,
+  //     accessor: schemaPropertiesRef.current[property].name,
+  //   })),
+  // )
 
   const columns = useMemo(() => {
     return columnAccessors.sort().map((property) => ({
@@ -124,7 +122,7 @@ export default function ReactTable<
     }))
   }, [columnAccessors])
 
-  const defaultColumn = React.useMemo(
+  const defaultColumn = useMemo(
     () => ({
       // Our default Filter UI
       Filter: DefaultColumnFilter,
@@ -137,8 +135,8 @@ export default function ReactTable<
       {
         columns,
         data,
-        // useFilters,
-        // useGlobalFilter,
+        useFilters,
+        useGlobalFilter,
       },
       useSortBy,
     )
@@ -146,8 +144,9 @@ export default function ReactTable<
     <>
       <SearchBar
         placeHolder={t("Start searching")}
-        searchSchemaName={"Product"}
+        searchSchemaName={toSchemaTypestring(schemaType)}
         onSearchSubmit={function () {}}
+        className="flex flex-row items-center justify-start"
       >
         <Button onClick={() => {}}>
           <Link href={`./${currentPath.split("/").at(-1)}/insert`}>
@@ -166,6 +165,8 @@ export default function ReactTable<
                 <th scope="column">index</th>
                 {headerGroup.headers.map((column) => {
                   const { key, ...otherHeaderProps } = column.getHeaderProps()
+                  const { key: sortByWidgetkey, ...otherSortByToggleProps } =
+                    column.getHeaderProps(column.getSortByToggleProps())
                   return (
                     <th
                       key={key}
@@ -181,9 +182,8 @@ export default function ReactTable<
                       {/* sort widget */}
                       <span
                         className="cursor-pointer"
-                        {...column.getHeaderProps(
-                          column.getSortByToggleProps(),
-                        )}
+                        key={sortByWidgetkey}
+                        {...otherSortByToggleProps}
                       >
                         {t(column.render("Header") as string)}
                         {column.isSorted ? (
@@ -208,9 +208,7 @@ export default function ReactTable<
         <tbody {...getTableBodyProps()}>
           {rows.map((row, index) => {
             prepareRow(row)
-
             const { key, ...otherRowProps } = row.getRowProps()
-            const { _id } = row.original
             return (
               <tr key={key} {...otherRowProps}>
                 <th scope="row">{index + 1}</th>
@@ -230,16 +228,52 @@ export default function ReactTable<
                     >
                       <CustomRender
                         value={cell.value}
-                        type={schemaPropertiesRef.current[cell.column.id].type}
+                        dataType={
+                          schemaPropertiesRef.current[cell.column.id].dataType
+                        }
                       />
                     </td>
                   )
                 })}
                 <th scope="row" className="space-x-2 h-8">
-                  {actionButtons?.map((actionButton) =>
-                    // eslint-disable-next-line react/jsx-key
-                    actionButton(_id),
-                  )}
+                  <Button
+                    className="m-auto"
+                    dataId={(row.original as { _id: string })._id}
+                    onClick={(event) => {
+                      const self: HTMLButtonElement =
+                        event.currentTarget as HTMLButtonElement
+                      deleteDocuments(realmApp.currentUser!, schemaType, {
+                        _id: fieldConvert(
+                          self.dataset.id!,
+                          schemaPropertiesRef.current["_id"].dataType,
+                        ),
+                      })
+                        .then(() => {
+                          router.refresh()
+                        })
+                        .catch((error) => {
+                          throw error
+                        })
+                    }}
+                    disabled={!deleteEnabled}
+                  >
+                    {t("Delete")}
+                    <FaReacteurope className="inline-block w-4 h-4" />
+                  </Button>
+                  <Button className="m-auto">
+                    <Link
+                      href={`/${lng}/${
+                        roleUrlMap[realmApp.currentUser?.customData.role]
+                      }/edit/${schemaType.toLowerCase()}?id=${
+                        row.original["_id"]
+                      }`}
+                    >
+                      {t("Edit", "common")}
+                      <EditIcon className="inline-block w-4 h-4" />
+                    </Link>
+                  </Button>
+                  {typeof customColumn === "function" &&
+                    customColumn(row.original["_id"])}
                 </th>
               </tr>
             )

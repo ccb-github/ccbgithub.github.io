@@ -4,5 +4,6 @@
     "The same category name already exists" : "同名类型已存在",
     "confirm": "确认",
     "cancel": "取消",
+    "Please select the type first!" : "请先选择类型",
     "Your account is unverified, contact the admin": "你的账号没有通过验证，请联系管理员"
 }

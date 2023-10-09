@@ -11,7 +11,7 @@
       "Description for product": "进入产品页面",
       "Add new category": "增加新类型",
       "Category": "类型",
-      "Product Enter": "添加产品",
+    "Product enter": "添加产品",
       "Enterprise": "企业" ,
       "All enterprises": "所有企业",
       "Account management": "管理应用账户"
@@ -22,6 +22,7 @@
       "Category register": "$t(sidebar.Category) 注册",
       
       "Admin function": "管理员功能",
+      "Enterprise manage": "企业管理",
       "Product": "产品",
       "Traceability info":"追溯信息",
       

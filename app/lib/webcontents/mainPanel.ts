@@ -34,15 +34,14 @@ export const enterpriseMainPanels: { name: string; items: PanelItem[] }[] = [
     name: "Quick Entrance",
     items: [
       {
-        name: "Order manage",
+        name: "Order",
         link: "./order",
-        description: "Organize routes without affecting URL paths",
+        description: "Order manage",
       },
       {
-        name: "Product manage",
+        name: "Product",
         link: "./product",
-        description:
-          "Streaming data fetching from the server with React Suspense",
+        description: "Product manage",
       },
     ],
   },

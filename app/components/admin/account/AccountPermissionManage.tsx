@@ -1,60 +1,58 @@
-'use client'
-import { useTranslation } from "#/lib/i18n/client";
-import { useApp } from "#/hooks/useApp";
-import { getUser } from "#/lib/api/mongoService";
-import { UserProfile } from "#/types/data";
-import { BSON } from 'realm-web'
-import { useEffect, useRef, useState } from "react";
-import ReactSelect from "react-select";
-import useDataList from "#/hooks/useDataList";
-import { FaStickyNote } from "react-icons/fa";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import Button from "#/components/common/Button";
+"use client"
+import { useTranslation } from "#/lib/i18n/client"
+import { useApp } from "#/hooks/useApp"
+import { getUser } from "#/lib/api/mongoService"
+import { UserProfile } from "#/types/data"
+import { BSON } from "realm-web"
+import { useEffect, useRef, useState } from "react"
 
-
-
+import useDataList from "#/hooks/useDataList"
+import { FaStickyNote } from "react-icons/fa"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import Button from "#/components/common/Button"
 
 type Account = {
   _id: BSON.ObjectID
   _userId: string
-  role: 'globalAdmin' | 'customer' | 'enterprise' | 'regulatory'
-  email: string,
+  role: "globalAdmin" | "customer" | "enterprise" | "regulatory"
+  email: string
   emailVerified: boolean
 }
 type RoleNameLabel = {
-  [key in (Account["role"])]: string;
-};
-//map the role value in database to the value on the web page
-const roleNameLabelMap : RoleNameLabel = {
-	"globalAdmin" : "Admin(global)",
-	"enterprise" : "Enterprise",
-  "customer" : "Customer",
-  "regulatory": "Regulatory"
+  [key in Account["role"]]: string
 }
-type RoleList = keyof RoleNameLabel
+//map the role value in database to the value on the web page
+const roleNameLabelMap: RoleNameLabel = {
+  globalAdmin: "Admin(global)",
+  enterprise: "Enterprise",
+  customer: "Customer",
+  regulatory: "Regulatory",
+}
 
 
-const roleList = ["globalAdmin", "enterprise", "customer"]
 
+export default function AccountPermissionManage({
+  lng,
+  id,
+}: {
+  lng: string
+  id: string
+  userProfile?: UserProfile
+}) {
+  const { t } = useTranslation(lng, "common")
 
-
-export default function AccountPermissionManage({lng, id, userProfile}: {lng: string, id: string, userProfile?: UserProfile}){
-  
-  const {t} = useTranslation(lng, "common")
-  
   const [loading, setLoading] = useState(true)
   const pathName = usePathname()
   //TODO consider the permission issue
   const catgorys = useDataList("Catgory")
   const currentProfileInfo = useRef<UserProfile>()
-  const loginUser = useApp().currentUser
- 
-	useEffect(() => {
+  const loginUser = useApp()?.currentUser
 
-    if(loginUser){
+  useEffect(() => {
+    if (loginUser) {
       const { role } = loginUser.customData
-      if(!(role as string).toLowerCase().endsWith("admin")) {
+      if (!(role as string).toLowerCase().endsWith("admin")) {
         alert("This component are not allowed for non-admin user")
         throw new Error("No admin permission")
       }
@@ -66,13 +64,12 @@ export default function AccountPermissionManage({lng, id, userProfile}: {lng: st
       getUser(loginUser, { _id: new BSON.ObjectId(id) })
         .then((account) => (currentProfileInfo.current = account))
         .catch((error) => {
-          throw new Error(error);
+          throw new Error(error)
         })
-        .finally(() => setLoading(false));
+        .finally(() => setLoading(false))
     }
-  },[loginUser])
+  }, [catgorys, id, loginUser])
 
-  
   return (
     <div
       id="account-profile-manage"
@@ -157,6 +154,5 @@ export default function AccountPermissionManage({lng, id, userProfile}: {lng: st
         </Button>
       </div>
     </div>
-  );
+  )
 }
-

@@ -1,7 +1,6 @@
 import DateInputFieldTemplate from "#/components/common/input/DateInputFieldTemplate"
 import { StringInputFieldTemplate } from "#/components/form/AddDataForm"
-import RelatedObjectSelect from "#/components/form/related/RelatedObjSelect"
-import { addCategory } from "#/lib/api/apolloService"
+import { insertCheckRecord } from "#/lib/api/gql/checkRecord"
 import { useTranslation } from "#/lib/i18n"
 import { schemaJson } from "#/lib/schema"
 import { BasePageProps } from "#/types/pageProp"
@@ -17,11 +16,12 @@ export default async function Page({ params: { lng } }: BasePageProps) {
     //   console.log(t("The catgory already exists"))
     //   return
     // }
-    const result = await addCategory({
+    const result = await insertCheckRecord({
       _id: new BSON.ObjectId(),
-      name: data.get("name"),
-      description: data.get("description"),
-      createdAt: data.get("createdAt")!,
+      name: data.get("name") as string,
+      result: data.get("result") as string,
+      device: new BSON.ObjectId(data.get("device") as string),
+      method: data.get("method") as string,
     })
     console.log("Add result", result)
     return result
@@ -41,16 +41,23 @@ export default async function Page({ params: { lng } }: BasePageProps) {
 
       <StringInputFieldTemplate
         {...schemaJson["CheckRecord"].properties["name"]}
-        name={t("name", { ns: "CheckRecord" })}
+        name={t("name", { ns: "checkRecord" })}
       />
       <StringInputFieldTemplate
         {...schemaJson["CheckRecord"].properties["description"]}
         name={t("description")}
       />
-      <RelatedObjectSelect objectType={"Product"} displayKey="name" />
+      <StringInputFieldTemplate
+        {...schemaJson["CheckRecord"].properties["result"]}
+        name={t("result")}
+      />
+      <StringInputFieldTemplate
+        {...schemaJson["CheckRecord"].properties["device"]}
+        name={t("device")}
+      />
       <DateInputFieldTemplate
         optional={false}
-        type={"date"}
+        dataType={"date"}
         indexed={false}
         mapTo={""}
         name={t("createAt")}

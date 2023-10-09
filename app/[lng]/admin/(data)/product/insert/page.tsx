@@ -1,5 +1,4 @@
 "use client"
-import AsyncSelect from "#/components/common/AsyncSelect"
 import AddDataForm from "#/components/form/AddDataForm"
 import { schemaJson } from "#/lib/schema"
 import { BasePageProps } from "#/types/pageProp"
@@ -15,7 +14,7 @@ export default function Page({ params }: BasePageProps) {
       schemaName={"Product"}
       schemaObj={schemaJson["Product"]}
     >
-      <AsyncSelect />
+      {/* <AsyncSelect asyncLoadOptions={}/> */}
     </AddDataForm>
   )
 }

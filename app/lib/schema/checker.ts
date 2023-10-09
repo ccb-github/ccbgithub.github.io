@@ -4,15 +4,15 @@ const Checker: SchemaObject = {
   name: "Checker",
   properties: {
     _id: {
-      name: "_id", 
-      type: "objectId", 
-      indexed: true, 
-      optional: false, 
+      name: "_id",
+      dataType: "objectId",
+      indexed: true,
+      optional: false,
       mapTo: "_id",
     },
     address: {
       name: "address",
-      type: "string",
+      dataType: "string",
       defaultValue: "Default address",
       indexed: false,
       optional: true,
@@ -20,7 +20,7 @@ const Checker: SchemaObject = {
     },
     belong: {
       name: "belong",
-      type: "object",
+      dataType: "object",
       objectType: "Regulatory",
       indexed: false,
       optional: true,
@@ -28,19 +28,18 @@ const Checker: SchemaObject = {
     },
     email: {
       name: "email",
-      type: "string",
+      dataType: "string",
       indexed: false,
       optional: false,
       mapTo: "email",
     },
     name: {
       name: "name",
-      type: "string",
+      dataType: "string",
       indexed: false,
       optional: true,
       mapTo: "name",
     },
-
   },
   primaryKey: "_id",
   embedded: false,

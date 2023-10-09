@@ -1,12 +1,8 @@
 import Button from "#/components/common/Button"
-import { StringInputFieldTemplate } from "#/components/form/AddDataForm"
 
 import { templateHTML } from "#/components/form/templateHTML"
-import {
-  getEnterpriseById,
-  getOneProduct,
-  updateEnterprise,
-} from "#/lib/api/apolloService"
+import { updateEnterprise } from "#/lib/api/apolloService"
+import { getEnterpriseById } from "#/lib/api/gql/enterprise"
 import { schemaJson } from "#/lib/schema"
 import { BasePageProps } from "#/types/pageProp"
 
@@ -15,14 +11,12 @@ import { BSON } from "realm-web"
 
 //TODO optimize layout grid cell max size
 export default async function EnterpriseEditPage({
-  params: { lng },
   searchParams,
 }: BasePageProps) {
   const schemaObj = schemaJson["Enterprise"]
 
   const { id } = searchParams
   const { enterprise } = await getEnterpriseById(id as string)
-  console.log(`Enterprise`)
   const enterpriseSubmit = async (editedEnterpriseData: FormData) => {
     "use server"
     let setData = Object.create({})
@@ -75,9 +69,9 @@ export default async function EnterpriseEditPage({
             <Button type="reset" className="m-2">
               Reset
             </Button>
-            <Button type="reset" className="m-2">
+            {/* <Button type="reset" className="m-2">
               Save
-            </Button>
+            </Button> */}
             <Button type="submit" className="m-2">
               Submit
             </Button>

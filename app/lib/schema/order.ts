@@ -5,28 +5,28 @@ const Order: SchemaObject = {
   properties: {
   _id: {
     name: "_id",
-    type: "objectId",
+    dataType: "objectId",
     indexed: true,
     optional: false,
     mapTo: "_id",
   },
   customerId: {
     name: "customerId",
-    type: "string",
+    dataType: "string",
     indexed: false,
     optional: false,
     mapTo: "customerId",
   },
   orderTime: {
     name: "orderTime",
-    type: "date",
+    dataType: "date",
     indexed: false,
     optional: false,
     mapTo: "orderTime",
   },
   products: {
     name: "products",
-    type: "list",
+    dataType: "list",
     objectType: "Product",
     indexed: false,
     optional: false,

@@ -4,14 +4,14 @@ const EmbeddedSchema = {
 	  properties: {
 		latitude: {
 		  name: "latitude",
-		  type: "float",
+		  dataType: "float",
 		  indexed: false,
 		  optional: false,
 		  mapTo: "latitude",
 		},
 		longitude: {
 		  name: "longitude",
-		  type: "float",
+		  dataType: "float",
 		  indexed: false,
 		  optional: false,
 		  mapTo: "longitude",

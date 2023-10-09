@@ -73,7 +73,7 @@ export default async function Page({ params: { lng } }: BasePageProps) {
       />
       <DateInputFieldTemplate
         optional={false}
-        type={"date"}
+        dataType={"date"}
         indexed={false}
         mapTo={""}
         name={t("createAt")}

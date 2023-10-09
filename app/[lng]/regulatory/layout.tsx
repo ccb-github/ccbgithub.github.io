@@ -1,23 +1,18 @@
-import { CommonLayoutProps } from "#/types/pageProp";
-import AccountFooter from "#/components/normal/AccountFooter";
-import BreadCrumb from "#/components/common/BreadCrumb";
-import { regulatorySideBarItems } from "#/lib/webcontents/sideBar";
-import SideNavItem from "#/components/common/SideNavItem";
-import { XIcon, MenuAlt2Icon } from "@heroicons/react/outline";
-import clsx from "clsx";
-import { useTranslation } from "#/lib/i18n";
-import Link from "next/link";
+import { CommonLayoutProps } from "#/types/pageProp"
+import AccountFooter from "#/components/normal/AccountFooter"
+import BreadCrumb from "#/components/common/BreadCrumb"
+import { regulatorySideBarItems } from "#/lib/webcontents/sideBar"
+import SideNavItem from "#/components/common/SideNavItem"
+import { XIcon, MenuAlt2Icon } from "@heroicons/react/outline"
+import clsx from "clsx"
+import { useTranslation } from "#/lib/i18n"
+import Link from "next/link"
 
-
-
-
-
-
-export default async function CustomerRootLayout({
+export default async function RegulatoryRootLayout({
   children,
   params: { lng },
 }: CommonLayoutProps) {
-  const { t } = await useTranslation(lng)
+  const { t } = await useTranslation(lng, "regulatory")
   const isOpen = true
   return (
     <>
@@ -30,15 +25,13 @@ export default async function CustomerRootLayout({
             href={`/${lng}`}
             id="backToHomeLink"
             className="group flex w-full items-center space-x-2.5"
-          
           >
             {/* <div className="h-7 w-7 rounded-full border border-white/30 group-hover:border-white/50">
             <NextLogo />
           </div> */}
 
             <h3 className="font-semibold tracking-wide text-gray-400 group-hover:text-gray-50">
-              {t("Enterprise")}
-              <span className="Work in progress">{`The email`}</span>
+              {t("Regulatory")}
             </h3>
           </Link>
         </div>
@@ -50,7 +43,7 @@ export default async function CustomerRootLayout({
           <div className="font-medium text-gray-100 group-hover:text-gray-400">
             Menu
           </div>
-          {false ? (
+          {true ? (
             <XIcon className="block w-6" />
           ) : (
             <MenuAlt2Icon className="block w-6" />
@@ -64,13 +57,12 @@ export default async function CustomerRootLayout({
           })}
         >
           <nav className="space-y-6 px-2 py-5" id="side-nav-container">
-          
-
             <div className="space-y-1">
               {regulatorySideBarItems.map((sideBarItem) => (
                 <SideNavItem
                   lng={lng}
                   key={sideBarItem.name}
+                  text={t(sideBarItem.name, { ns: "regulatory" })}
                   {...sideBarItem}
                 />
               ))}
@@ -80,7 +72,8 @@ export default async function CustomerRootLayout({
       </div>
 
       <div className="flex h-full flex-col lg:pl-72">
-        <BreadCrumb className="flex-grow-0" lng={lng}/>
+        <AccountFooter lng={lng} />
+        <BreadCrumb className="flex-grow-0" lng={lng} />
 
         <div
           id="app-root-container"
@@ -88,10 +81,6 @@ export default async function CustomerRootLayout({
 			           shadow-lg shadow-black/20"
         >
           {children}
-        </div>
-
-        <div className="flex-grow-0 rounded-lg" id="sign">
-          <AccountFooter lng={lng}/>
         </div>
       </div>
     </>

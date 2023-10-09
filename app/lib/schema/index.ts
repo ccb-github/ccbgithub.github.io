@@ -7,6 +7,7 @@ import Regulatory from "./regulatory"
 import CheckRecord from "./checkRecord"
 import Stock from "./stock"
 import Order from "./order"
+import Logistic from "./logistic"
 
 export const schemaJson: SchemaJson = {
   Category,
@@ -17,4 +18,5 @@ export const schemaJson: SchemaJson = {
   Regulatory,
   Order,
   Stock,
+  Logistic,
 }
