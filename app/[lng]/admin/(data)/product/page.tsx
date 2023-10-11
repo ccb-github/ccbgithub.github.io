@@ -1,7 +1,6 @@
-import ReactTable from "#/components/common/ReactTable"
-import { queryProducts } from "#/lib/api/apolloService"
+import ProductTable from "#/components/common/table/ProductTable"
+import { queryProducts } from "#/lib/api/gql/product"
 import { type BasePageProps } from "#/types/pageProp"
-import { type SchemaResultMapper } from "#/types/schema"
 import React from "react"
 
 export default async function AdminProductManagePage({
@@ -12,7 +11,7 @@ export default async function AdminProductManagePage({
 
   return (
     <div id="data-table" className="h-full w-full">
-      <ReactTable
+      {/*    <SchemaDataReactTable
         data={products}
         columnAccessors={
           ["name", "assemblePlace", "produceDay", "shelfLife"] as Array<
@@ -22,7 +21,8 @@ export default async function AdminProductManagePage({
         schemaType={"Product"}
         deleteEnabled={true}
         lng={lng}
-      />
+      /> */}
+      <ProductTable data={products} lng={lng} />
     </div>
   )
 }

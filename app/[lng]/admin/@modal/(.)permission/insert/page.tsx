@@ -1,16 +1,21 @@
-'use client'
-import Button from "#/components/common/Button";
-import { useTranslation } from "#/lib/i18n/client";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+"use client"
+import Button from "#/components/common/Button"
+import { useTranslation } from "#/lib/i18n/client"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
-export default function PermissionDialog({ params: {lng}}: {params: {lng: string}}) {
+export default function PermissionDialog({
+  params: { lng },
+}: {
+  params: { lng: string }
+}) {
   console.log("This dialog is rendered")
   const { t } = useTranslation(lng)
   const router = useRouter()
-  useEffect( () => {
-    //@ts-ignore
-    (window.permissionDialog).showModal()
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    window.permissionDialog.showModal()
   })
   return (
     <dialog id="permissionDialog">
@@ -21,7 +26,7 @@ export default function PermissionDialog({ params: {lng}}: {params: {lng: string
             type="submit"
             className="flex-1 bg-slate-50"
             onClick={async () => {
-              router.back();
+              router.back()
             }}
           >
             {t("Confirm")}
@@ -33,5 +38,5 @@ export default function PermissionDialog({ params: {lng}}: {params: {lng: string
         </div>
       </form>
     </dialog>
-  );
+  )
 }

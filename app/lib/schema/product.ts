@@ -1,4 +1,4 @@
-import { SchemaObject } from "#/types/schema";
+import { SchemaObject } from "#/types/schema"
 
 export type ProductStatus = "Selling" | "Sold" | "Ordering"
 

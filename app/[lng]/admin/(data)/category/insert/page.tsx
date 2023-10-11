@@ -1,10 +1,11 @@
 import DateInputFieldTemplate from "#/components/common/input/DateInputFieldTemplate"
-import { StringInputFieldTemplate } from "#/components/form/AddDataForm"
-import { addCategory } from "#/lib/api/apolloService"
+import { StringInputFieldTemplate } from "#/components/form/input/StringInputFieldTemplate"
+
 import { schemaJson } from "#/lib/schema"
 import { useTranslation } from "#/lib/i18n"
 import { BasePageProps } from "#/types/pageProp"
 import { BSON } from "realm-web"
+import { insertCategory } from "#/lib/api/gql/category"
 
 export default async function Page({ params: { lng } }: BasePageProps) {
   const { t } = await useTranslation(lng, "common")
@@ -16,7 +17,7 @@ export default async function Page({ params: { lng } }: BasePageProps) {
     //   return
     // }
     console.log(data.get("selectHelper"))
-    const result = await addCategory({
+    const result = await insertCategory({
       _id: new BSON.ObjectId(),
       name: data.get("name") as string,
       description: data.get("description") as string,

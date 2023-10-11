@@ -53,12 +53,12 @@ export default function Button({
       }}
       className={clsx(
         `
-        space-x-2 rounded-lg 
+        rounded-lg 
         px-3 py-1 text-sm font-medium text-black
         ${className}`,
         {
           "hover:bg-blue-500 hover:text-white": !disabled,
-        }
+        },
       )}
       {...otherProps}
     >

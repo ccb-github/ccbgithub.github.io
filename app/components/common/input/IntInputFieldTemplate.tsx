@@ -1,8 +1,8 @@
-import { SchemaProperties } from "#/types/schema";
-import Button from "../Button";
+import { SchemaProperty } from "#/types/schema";
+
 import TypeSpan from "./TypeSpan";
 
-export default function IntInputFieldTemplate(props: SchemaProperties) {
+export default function IntInputFieldTemplate(props: SchemaProperty) {
     const DATE_FORMAT = 'YYYY-MM-DD HH:MM:SS';
     
     

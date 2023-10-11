@@ -1,4 +1,24 @@
 import { SchemaObject } from "#/types/schema"
+import { BSON } from "realm-web"
+
+export type CategorySchema = {
+  _id: BSON.ObjectID
+  description: string
+  name: string
+  createdAt: Date
+}
+
+export type CategoryGqlQuery = Partial<
+  Record<keyof CategorySchema, unknown>
+> & {
+  _id: string
+}
+
+export type CategoryGqlResult = Partial<
+  Record<keyof CategorySchema, unknown>
+> & {
+  _id: string
+}
 
 const Category: SchemaObject = {
   name: "Category",

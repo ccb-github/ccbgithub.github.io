@@ -1,0 +1,20 @@
+@startuml react_table 
+class TableProps {
+ 
+  
+  
+  className?: string
+  trClass?: string
+  -----------------------------
+  schemaType: NormalSchemaName
+  columnAccessors?: Array<keyof DataItem>
+  data: DataItem[]
+  deleteEnabled: boolean
+  customColumn?: (id: PrimaryKeyType) => React.ReactNode
+  ------
+  lng: string
+}
+
+interface alias as "longName" <<stereotype>> {
+   
+}

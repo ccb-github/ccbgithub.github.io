@@ -1,9 +1,9 @@
-import { SchemaProperties } from "#/types/schema"
+import { SchemaProperty } from "#/types/schema"
 
 
 import TypeSpan from "./TypeSpan"
 
-export default function BooleanInputFieldTemplate(props: SchemaProperties) {
+export default function BooleanInputFieldTemplate(props: SchemaProperty) {
     
     return (
       <div key={props.name} className="form-group">

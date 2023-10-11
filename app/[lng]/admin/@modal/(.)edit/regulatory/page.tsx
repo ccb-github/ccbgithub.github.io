@@ -1,45 +1,38 @@
+StringInputFieldTemplate
+import Button from "#/components/common/Button"
+import { StringInputFieldTemplate } from "#/components/form/input/StringInputFieldTemplate"
+import { queryRegulatories, updateRegulatories } from "#/lib/api/gql/regulatory"
+import { schemaJson } from "#/lib/schema"
+import { BasePageProps } from "#/types/pageProp"
+import Script from "next/script"
 
-import Button from "#/components/common/Button";
-import { StringInputFieldTemplate } from "#/components/form/AddDataForm";
+import { BSON } from "realm-web"
 
-import {
-  getRegulatories,
-} from "#/lib/api/apolloService"
-import { schemaJson } from "#/lib/schema";
-import { BasePageProps } from "#/types/pageProp";
-
-import Script from "next/script";
-import { BSON } from "realm-web";
-
-
-export default async function AdminRegulatoryEditPage({ params: {lng}, searchParams}: BasePageProps) {
+export default async function AdminRegulatoryEditPage({
+  searchParams,
+}: BasePageProps) {
   console.log("This Product editpage (.) is rendered")
   const schemaObj = schemaJson["Regulatory"]
-  const { id } = searchParams  
-  const { regulatories } = await getRegulatories({query: {_id: new BSON.ObjectId(id as string)}})
+  const { id } = searchParams
+  const { regulatories } = await queryRegulatories({
+    query: { _id: new BSON.ObjectId(id as string) },
+  })
   console.log(regulatories[0])
   const formSubmit = async (editedData: FormData) => {
-    "use server";
-    // try {
-    //   const result =  await updateRegulatories({
-    //     query: {
-    //       _id: new BSON.ObjectId(id as string),
-       
-    //     },
-    //     set: {    
-    //       name: editedData.get("name") as string,
-    //       description: editedData.get("description") as string,
-    //       address: editedData.get("address") as string
-    //     }
-    //   })
-      
-    //   console.log("Add result",result)
-    //   return result
-      
-    // } catch (error) {
-    //   throw error
-    // }
-    console.log("Form submitted")
+    "use server"
+    const result = await updateRegulatories({
+      query: {
+        _id: new BSON.ObjectId(id as string),
+      },
+      set: {
+        name: editedData.get("name") as string,
+        description: editedData.get("description") as string,
+        address: editedData.get("address") as string,
+      },
+    })
+
+    console.log("edit result", result)
+    return result
   }
   return (
     <>
@@ -53,16 +46,18 @@ export default async function AdminRegulatoryEditPage({ params: {lng}, searchPar
             h-full overflow-y-scroll pt-2
           `}
         >
-         
-          <StringInputFieldTemplate {...schemaObj.properties["name"]}
-            defaultValue={regulatories[0].name} 
+          <StringInputFieldTemplate
+            {...schemaObj.properties["name"]}
+            defaultValue={regulatories[0].name}
           />
-          <StringInputFieldTemplate {...schemaObj.properties["description"]}
-            defaultValue={regulatories[0].description} 
+          <StringInputFieldTemplate
+            {...schemaObj.properties["description"]}
+            defaultValue={regulatories[0].description}
           />
-          <StringInputFieldTemplate {...schemaObj.properties["address"]}
-            defaultValue={regulatories[0].address} 
-          /> 
+          <StringInputFieldTemplate
+            {...schemaObj.properties["address"]}
+            defaultValue={regulatories[0].address}
+          />
           {/* <RelatedItemDialog itemType='Product'/> */}
           <div className="form-group lg:col-span-2">
             <Button type="reset" className="m-2">
@@ -84,5 +79,5 @@ export default async function AdminRegulatoryEditPage({ params: {lng}, searchPar
         `}
       </Script>
     </>
-  );
+  )
 }

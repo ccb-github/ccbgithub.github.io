@@ -1,5 +1,5 @@
-import ReactTable from "#/components/common/ReactTable"
-import { getCategories } from "#/lib/api/apolloService"
+import CategoryTable from "#/components/common/table/CategoryTable"
+import { queryCategories } from "#/lib/api/gql/category"
 import { BasePageProps } from "#/types/pageProp"
 
 export default async function AdminEnterpriseManagePage({
@@ -7,15 +7,10 @@ export default async function AdminEnterpriseManagePage({
 }: BasePageProps) {
   //The url is lowercase, but the schema name to search the database are like 'Name', we need to convert first
 
-  const { categories } = await getCategories()
+  const { categories } = await queryCategories()
   return (
     <div id="data-table" className="h-full w-full">
-      <ReactTable
-        data={categories}
-        schemaType={"Category"}
-        deleteEnabled={true}
-        lng={lng}
-      />
+      <CategoryTable lng={lng} data={categories} />
     </div>
   )
 }

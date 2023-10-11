@@ -1,12 +1,10 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useMemo, useState } from "react"
 
 import { useApp } from "#/hooks/useApp"
-import BlurImage from "../common/BlurImage"
 import { useTranslation } from "#/lib/i18n/client"
 import { FaUser } from "react-icons/fa"
-import Button from "../common/Button"
 import { UserProfile } from "#/types/data"
 
 export default function CenterUserInfo({ lng }: { lng: string }) {

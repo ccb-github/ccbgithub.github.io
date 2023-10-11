@@ -1,17 +1,21 @@
 import { type BSON } from "realm-web"
 // TODO with different shape
-export interface SchemaProperties<DefaultValue = string> {
+export interface SchemaProperty<DefaultValue = string> {
   defaultValue?: DefaultValue
   min?: number
   name: string
   optional: boolean
-  type: PropType
+  dataType: SchemaDataPropType
+  roleType?: RoleType
+  relationSchemaName?: NormalSchemaName
   indexed: boolean
   mapTo: string
   objectType?: SchemaName
 }
+
+export type RoleType = "select" | "normal"
 // TODO keep two field exclusive
-type PropType =
+export type SchemaDataPropType =
   | "double"
   | "int"
   | "objectType"
@@ -22,7 +26,6 @@ type PropType =
   | "list"
   | "uuid"
   | "bool"
-  | "select"
 
 // Mongodb has two types of schema(one embedded for sub data purly exists for main data, other one normal)
 export type EmbeddedSchemaName = "Location" | "Qrcode"
@@ -36,16 +39,19 @@ export type NormalSchemaName =
   | "Category"
   | "CheckRecord"
   | "Stock"
+  | "Logistic"
 
 export type SchemaName = EmbeddedSchemaName | NormalSchemaName
 
-export interface SchemaObject {
+export interface SchemaObject<SchemaPropKey extends string = "_id"> {
   name: SchemaName
   primaryKey: string
   embedded: boolean
   properties: {
-    _id: SchemaProperties
-    [key: string]: SchemaProperties
+    [PropKey in SchemaPropKey]: SchemaProperty
+  } & {
+    //_id is mantory for a schema
+    _id: SchemaProperty
   }
 }
 
@@ -53,10 +59,10 @@ export type SchemaJson = {
   [key in NormalSchemaName]: SchemaObject
 }
 
-type ProductSchema = {
+export type ProductSchema = {
   _id: BSON.ObjectID
   assemblePlace?: string
-  catgory: string
+  category: string
   description: string
   name: string
   ownerId: string
@@ -78,9 +84,25 @@ type CheckerSchema = {
 
 type CheckRecordSchema = {
   _id: BSON.ObjectID
+  method: string
+  name: string
+  result: string
+  device?: BSON.ObjectID
 }
 
-type EnterpriseSchema = {
+type LogisticSchema = {
+  _id: BSON.ObjectID
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type DeviceSchema = {
+  _id: BSON.ObjectID
+  model: string
+  name: string
+  manufacturer: EnterpriseSchema
+}
+
+export type EnterpriseSchema = {
   _id: BSON.ObjectID
   address?: string
   createdAt: Date
@@ -92,7 +114,8 @@ type EnterpriseSchema = {
   registerPlace: string
   tradeMark?: string
 }
-type OrderSchema = {
+
+export type OrderSchema = {
   _id: BSON.ObjectID
   customerId: string
   orderTime: Date
@@ -105,23 +128,25 @@ type StockSchema = {
   _id: BSON.ObjectID
 }
 
-type RegulatorySchema = {
-  _id: BSON.ObjectID
-  name?: string
-}
-type QrcodeSchemaEmbed = {
-  value: string
-}
 type CategorySchema = {
   _id: BSON.ObjectID
-  description: string
-  name: string
-  createdAt: Date
 }
 
+export type RegulatorySchema = {
+  _id: BSON.ObjectID
+  name: string
+  address: string
+  description: string
+}
+type QrcodeSchemaEmbbed = {
+  value: string
+}
+
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type ScanRecordSchema = {
   _id: BSON.ObjectID
-  code?: QrcodeSchemaEmbed
+  code?: QrcodeSchemaEmbbed
   time: number
   createdAt: Date
   description: string
@@ -140,7 +165,7 @@ export interface SchemaResultMapper {
   Category: CategorySchema
   Regulatory: RegulatorySchema
   Product: ProductSchema
-
+  Logistic: LogisticSchema
 }
 
 export type SearchResultMap = Map<

@@ -1,6 +1,4 @@
 import ApolloCookieWrapper from "#/components/ApolloCookieWrapper"
-import ConfirmDialog from "#/components/common/dialog/ConfirmDialog"
-import ConfirmContextProvider from "#/context/ConfirmContext"
 import "#/styles/global.css"
 import { Inter } from "next/font/google"
 
@@ -23,23 +21,23 @@ export default function RootLayout({
   return (
     <html lang={lng}>
       <body className={inter.className}>
-        <ConfirmContextProvider>
-          <ApolloCookieWrapper>
-            <ConfirmDialog
+        {/* <ConfirmContextProvider> */}
+        <ApolloCookieWrapper>
+          {/* <ConfirmDialog
               lng={lng}
               closeAction={async () => {
                 "use server";
                 console.log("Confirm dialog closed");
               }}
               confirmAction={async () => {
-                "use server";
+                "use server"
                 console.log("Confirm dialog confirmed");
               }}
-            />
-            {children}
-          </ApolloCookieWrapper>
-        </ConfirmContextProvider>
+            /> */}
+          {children}
+        </ApolloCookieWrapper>
+        {/* </ConfirmContextProvider> */}
       </body>
     </html>
-  );
+  )
 }

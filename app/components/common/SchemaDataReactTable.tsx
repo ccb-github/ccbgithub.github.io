@@ -10,18 +10,14 @@ import {
   useSortBy,
   useTable,
   useGlobalFilter,
+  Column,
 } from "react-table"
 import Button from "./Button"
 import SearchBar from "./SearchBar"
 import { useTranslation } from "#/lib/i18n/client"
 import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { toSchemaTypestring } from "#/lib/stringFactory"
-import { deleteDocuments } from "#/lib/api/mongoService"
-import { useApp } from "#/hooks/useApp"
-import fieldConvert from "#/lib/fieldConvert"
-import { EditIcon } from "#/components/icons"
-import { roleUrlMap } from "#/lib/webcontents/user"
 import { CustomRender } from "#/lib/reactTable/render"
 
 type BaseFilterProps = {
@@ -90,7 +86,6 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
   data,
   schemaType,
   customColumn,
-  deleteEnabled,
   lng,
 }: ReactTableProps<DataItem>) {
   //TODO the language props
@@ -98,29 +93,30 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
   // const [columnResizeMode] = useState<ColumnResizeMode>(
   //   ColumnResizeMode["onChange"],
   // )
-  const schemaPropertiesRef = useRef(schemaJson[schemaType].properties)
+  const schemaProperties = useMemo(
+    () => schemaJson[schemaType].properties,
+    [schemaType],
+  )
   const currentPath = usePathname()
-  const router = useRouter()
-  const realmApp = useApp()
+
   //If we do not give the display column list, default to be all the properties list in schemaObject
-  const columnAccessors =
-    columnAccessorsProp || Object.keys(schemaPropertiesRef.current)
+  const columnAccessors = columnAccessorsProp || Object.keys(schemaProperties)
 
   // TODO customize Table head,
   // TODO red sort the columnList first
   // const tableHeadRef = useRef(
   //   columnNameList.sort().map((property) => ({
-  //     Header: schemaPropertiesRef.current[property].name,
-  //     accessor: schemaPropertiesRef.current[property].name,
+  //     Header: schemaProperties[property].name,
+  //     accessor: schemaProperties[property].name,
   //   })),
   // )
 
   const columns = useMemo(() => {
     return columnAccessors.sort().map((property) => ({
-      Header: schemaPropertiesRef.current[property].name,
-      accessor: schemaPropertiesRef.current[property].name,
+      Header: schemaProperties[property].name,
+      accessor: schemaProperties[property].name,
     }))
-  }, [columnAccessors])
+  }, [columnAccessors, schemaProperties])
 
   const defaultColumn = useMemo(
     () => ({
@@ -135,10 +131,11 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
       {
         columns,
         data,
-        useFilters,
-        useGlobalFilter,
+        defaultColumn,
       },
       useSortBy,
+      useFilters,
+      useGlobalFilter,
     )
   return (
     <>
@@ -186,7 +183,8 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
                         {...otherSortByToggleProps}
                       >
                         {t(column.render("Header") as string)}
-                        {column.isSorted ? (
+
+                        {column.canSort && column.isSorted ? (
                           column.isSortedDesc ? (
                             <FaSortDown className="inline-block" />
                           ) : (
@@ -229,14 +227,14 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
                       <CustomRender
                         value={cell.value}
                         dataType={
-                          schemaPropertiesRef.current[cell.column.id].dataType
+                          schemaProperties[cell.column.id].dataType
                         }
                       />
                     </td>
                   )
                 })}
                 <th scope="row" className="space-x-2 h-8">
-                  <Button
+                  {/*   <Button
                     className="m-auto"
                     dataId={(row.original as { _id: string })._id}
                     onClick={(event) => {
@@ -245,7 +243,7 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
                       deleteDocuments(realmApp.currentUser!, schemaType, {
                         _id: fieldConvert(
                           self.dataset.id!,
-                          schemaPropertiesRef.current["_id"].dataType,
+                          schemaProperties["_id"].dataType,
                         ),
                       })
                         .then(() => {
@@ -271,7 +269,7 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
                       {t("Edit", "common")}
                       <EditIcon className="inline-block w-4 h-4" />
                     </Link>
-                  </Button>
+                  </Button> */}
                   {typeof customColumn === "function" &&
                     customColumn(row.original["_id"])}
                 </th>

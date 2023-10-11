@@ -1,27 +1,48 @@
 import React from "react"
-import type { NormalSchemaName, SchemaProperties } from "#/types/schema"
+import type { NormalSchemaName, SchemaProperty } from "#/types/schema"
 import RelatedObjSelect from "#/components/form/related/RelatedObjSelect"
 import Button from "#/components/common/Button"
 import DateInputFieldTemplate from "#/components/common/input/DateInputFieldTemplate"
 import TypeSpan from "#/components/common/input/TypeSpan"
 import IntInputFieldTemplate from "#/components/common/input/IntInputFieldTemplate"
 import BooleanInputFieldTemplate from "#/components/common/input/BooleanInputFieldTemplate"
-import { StringInputFieldTemplate } from "#/components/form/AddDataForm"
+import { StringInputFieldTemplate } from "./input/StringInputFieldTemplate"
+import AsyncSelect from "../common/AsyncSelect"
 
-export function templateHTML(prop: SchemaProperties) {
+export function templateHTML(prop: SchemaProperty) {
   // const DATE_FORMAT = "YYYY-MM-DD HH:MM:SS"
   const DOUBLE_PRECISION = 0.0001
-
-  if (prop.name === "ownerId") {
+  const RESERVE_NAME = ["ownerId", "_id"]
+  //prop.name is reserved, omit
+  if (RESERVE_NAME.includes(prop.name)) {
     return null
-  } else if (prop.type === "int") {
+  } else if (prop.relationSchemaName && prop.roleType === "select") {
+    return (
+      <div key={prop.name} className="form-group">
+        <div className="w-full p-4">
+          <label className="control-label" htmlFor={prop.name}>
+            {prop.name}
+            {prop.optional ? "" : "*"}
+          </label>
+        </div>
+        <div className="w-full">
+          <RelatedObjSelect
+            objectType={prop.relationSchemaName}
+            displayKey={"name"}
+            name={prop.name}
+          />
+        </div>
+      </div>
+    )
+  } else if (prop.dataType === "int") {
     return <IntInputFieldTemplate {...prop} key={prop.name} />
-  } else if (prop.type === "double") {
+  } else if (prop.dataType === "double") {
     return (
       <div key={prop.name} className="form-group">
         <div className="w-full p-4">
           <label className=" control-label" htmlFor={prop.name}>
             {prop.name}
+            {prop.optional ? "" : "*"}
           </label>
           <TypeSpan text="date" className="float-right" />
           <Button text="refresh" className="float-right" onClick={() => {}} />
@@ -39,57 +60,41 @@ export function templateHTML(prop: SchemaProperties) {
         </div>
       </div>
     )
-  } else if (prop.type === "date") {
+  } else if (prop.dataType === "date") {
     return <DateInputFieldTemplate key={prop.name} {...prop} />
-  } else if (prop.type === "string") {
+  } else if (prop.dataType === "string") {
     return <StringInputFieldTemplate key={prop.name} {...prop} />
-  } else if (prop.type === "bool") {
+  } else if (prop.dataType === "bool") {
     return <BooleanInputFieldTemplate key={prop.name} {...prop} />
-  } else if (prop.type === "list") {
+  } else if (prop.dataType === "list") {
     return (
       <div key={prop.name} className="form-group">
         <div className="w-full p-4">
           <label className="control-label" htmlFor={prop.name}>
             {prop.name}
+            {prop.optional ? "" : "*"}
           </label>
         </div>
         <div className="w-full">
-          <input
+          <AsyncSelect selectName={prop.name} />
+          {/* <input
             id={prop.name}
             name={prop.name}
             type="text"
             placeholder={`please Enter your ${prop.name} here`}
             className="form-control input-md w-full"
             required={!prop.optional}
-          />
+          /> */}
         </div>
       </div>
     )
-  } else if (prop.type === "select") {
-    return (
-      <div key={prop.name} className="form-group">
-        <div className="w-full p-4">
-          <label className="control-label" htmlFor={prop.name}>
-            {prop.name}
-          </label>
-        </div>
-        <div className="w-full">
-          <RelatedObjSelect
-            objectType={prop.objectType as NormalSchemaName}
-            displayKey={"name"}
-            name={prop.name}
-          />
-        </div>
-      </div>
-    )
-  } else if (prop.type === "objectId") {
-    return null
-  } else if (prop.type === "object" && prop.objectType === "Location") {
+  } else if (prop.dataType === "object" && prop.objectType === "Location") {
     return (
       <div key={prop.name} className="form-group">
         <div>
           <label className=" control-label" htmlFor={prop.name}>
             {prop.name}
+            {prop.optional ? "" : "*"}
           </label>
           <TypeSpan>location</TypeSpan>
         </div>
@@ -119,11 +124,12 @@ export function templateHTML(prop: SchemaProperties) {
   }
 
   // onclick="this.focus();this.select();"
-  else if (prop.type === "object" && prop.objectType === "Qrcode") {
+  else if (prop.dataType === "object" && prop.objectType === "Qrcode") {
     return (
       <div key={prop.name} className="form-group">
         <label className=" control-label" htmlFor={`${prop.name}`}>
           {prop.name}
+          {prop.optional ? "" : "*"}
         </label>
         <div className=" w-full">
           <input
