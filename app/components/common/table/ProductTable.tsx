@@ -1,6 +1,5 @@
 "use client"
-import { schemaJson } from "#/lib/schema"
-import type { SchemaResultMapper, ProductSchema } from "#/types/schema"
+import { normalSchemaJson } from "#/lib/schema"
 import React, { useRef } from "react"
 import { FaReacteurope } from "react-icons/fa"
 
@@ -14,6 +13,7 @@ import SchemaDataReactTable from "../SchemaDataReactTable"
 import { useApp } from "#/hooks/useApp"
 import { useRouter } from "next/navigation"
 import { type GeneralDataTableWrapperProps } from "#/types/table"
+import productSchemaJson, { ProductSchema } from "#/lib/schema/def/product"
 
 type ProductReactTableProps = GeneralDataTableWrapperProps<
   Partial<Record<keyof ProductSchema, string>> & {
@@ -27,11 +27,11 @@ type ProductReactTableProps = GeneralDataTableWrapperProps<
  */
 export default function ProductTable({ data, lng }: ProductReactTableProps) {
   //TODO the language props
-  const { t } = useTranslation(lng, "product")
   // const [columnResizeMode] = useState<ColumnResizeMode>(
   //   ColumnResizeMode["onChange"],
   // )
-  const schemaPropertiesRef = useRef(schemaJson["Product"].properties)
+  const { t } = useTranslation(lng, "product")
+  const schemaPropertiesRef = useRef(productSchemaJson.properties)
   const realmApp = useApp()
   const router = useRouter()
   const editLink = `/${lng}/${
@@ -40,13 +40,20 @@ export default function ProductTable({ data, lng }: ProductReactTableProps) {
 
   return (
     <SchemaDataReactTable<
-      Partial<Record<keyof SchemaResultMapper["Product"], string>> & {
+      Partial<Record<keyof ProductSchema, string>> & {
         _id: string
       }
     >
       lng={lng}
       data={data}
       schemaType={"Product"}
+      columnOptions={Object.values(normalSchemaJson["Product"].properties).map(
+        (prop) => ({
+          accessor: prop.mapTo as keyof ProductSchema,
+          header: t(prop.mapTo),
+          type: prop.dataType,
+        }),
+      )}
       deleteEnabled={true}
       customColumn={() => {
         return (
@@ -73,12 +80,12 @@ export default function ProductTable({ data, lng }: ProductReactTableProps) {
               {t("Delete", "common")}
               <FaReacteurope className="inline-block w-4 h-4" />
             </Button>
-            <span className="m-auto">
+            <Button className="m-auto">
               <Link href={editLink}>
                 {t("Edit")}
                 <EditIcon className="inline-block w-4 h-4" />
               </Link>
-            </span>
+            </Button>
           </>
         )
       }}

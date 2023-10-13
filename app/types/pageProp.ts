@@ -10,5 +10,5 @@ export type BasePageParams = {
 
 export type BasePageProps = {
   params: BasePageParams
-  searchParams: {[key: string]: string | string[]}
+  searchParams: { [key: string]: string | string[] }
 }

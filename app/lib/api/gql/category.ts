@@ -1,11 +1,12 @@
 import { getCookieByName } from "#/components/util/cookie"
-import { type SchemaResultMapper } from "#/types/schema"
+
 import { ApolloError, gql } from "@apollo/client"
 import { createClient } from "../apolloClient"
-import { CategoryGqlQuery } from "#/lib/schema/category"
+import { CategoryGqlInsert, CategoryGqlQuery, CategorySchema } from "#/lib/schema/def/category"
+// import { CategoryGqlInsert, CategoryGqlQuery } from "#/lib/schema/category"
 
-export const QUERY_CATGORIES = gql`
-  query queryCatgories($query: CategoryQueryInput) {
+export const QUERY_CATEGORIES = gql`
+  query queryCategories($query: CategoryQueryInput) {
     categories(query: $query) {
       _id
       createdAt
@@ -17,13 +18,13 @@ export const QUERY_CATGORIES = gql`
 
 export async function queryCategories(
   variables?: CategoryGqlQuery,
-): Promise<SchemaResultMapper["Category"][]> {
+): Promise<CategoryGqlQuery[]> {
   try {
     const client = createClient(getCookieByName("accessToken")!)
     const {
       data: { categories },
     } = await client.query({
-      query: QUERY_CATGORIES,
+      query: QUERY_CATEGORIES,
       variables,
     })
     return categories
@@ -39,8 +40,8 @@ export async function queryCategories(
   }
 }
 
-export const INSERT_CATGORIES = gql`
-  mutation insertCatgory($newCategory: CategoryInsertInput!) {
+export const INSERT_CATEGORY = gql`
+  mutation insertCategory($newCategory: CategoryInsertInput!) {
     insertOneCategory(data: $newCategory) {
       _id
       name
@@ -48,13 +49,13 @@ export const INSERT_CATGORIES = gql`
   }
 `
 
-export async function insertCategory(variables: CategoryGqlQuery): Promise<{
-  categories: SchemaResultMapper["Category"][]
+export async function insertCategory(variables: CategoryGqlInsert): Promise<{
+  categories: Partial<Record<keyof CategorySchema, unknown>>[]
 }> {
   try {
     const client = createClient(getCookieByName("accessToken")!)
     const { data } = await client.mutate({
-      mutation: QUERY_CATGORIES,
+      mutation: QUERY_CATEGORIES,
       variables,
     })
     return data

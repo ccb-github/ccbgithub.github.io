@@ -1,5 +1,5 @@
 import AddDataForm from "#/components/form/AddDataForm"
-import { schemaJson } from "#/lib/schema"
+import { normalSchemaJson } from "#/lib/schema"
 import { BasePageProps } from "#/types/pageProp"
 
 interface PagePropsWithTypeParams extends BasePageProps {
@@ -12,13 +12,12 @@ export default function AdminInsertEnterprisePage({
   params,
 }: PagePropsWithTypeParams) {
   const { lng } = params
-
   // <AddDataForm schemaObj={schemaJson[toSchemaTypestring(type)]}/>
   console.log("Page Enterprise")
   return (
     <AddDataForm
       lng={lng}
-      schemaObj={schemaJson["Enterprise"]}
+      schemaObj={normalSchemaJson["Enterprise"]}
       schemaName={"Enterprise"}
     />
   )

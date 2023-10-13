@@ -1,5 +1,11 @@
-import { SchemaObject } from "#/types/schema"
-
+import { SchemaObject } from "#/lib/schema/format"
+import { BSON } from "realm-web"
+export type RegulatorySchema = {
+  _id: BSON.ObjectID
+  name: string
+  address: string
+  description: string
+}
 const Regulatory: SchemaObject = {
   name: "Regulatory",
   properties: {

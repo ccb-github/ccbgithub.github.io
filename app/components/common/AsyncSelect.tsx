@@ -1,6 +1,6 @@
 "use client"
 import { SchemaResultMapper } from "#/types/schema"
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 import { MultiValue } from "react-select"
 
 export interface ColourOption<ValueType = string> {
@@ -11,7 +11,6 @@ export interface ColourOption<ValueType = string> {
   readonly isDisabled?: boolean
 }
 import AsyncSelectOri from "react-select/async"
-
 
 const AsyncSelect = ({
   selectName = "defaultNameAsyncSelect",
@@ -27,7 +26,6 @@ const AsyncSelect = ({
   >
 }) => {
   const helperRef = useRef<HTMLInputElement>(null)
-  const [options, setOptions] = useState<readonly ColourOption<string>[]>([])
   const handleChange = (newValue: MultiValue<ColourOption<string>>) => {
     helperRef.current!.value = JSON.stringify(
       newValue.map((value) => value.value),
@@ -47,6 +45,5 @@ const AsyncSelect = ({
     </>
   )
 }
-
 
 export default AsyncSelect

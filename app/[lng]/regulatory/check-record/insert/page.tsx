@@ -1,8 +1,8 @@
 import DateInputFieldTemplate from "#/components/common/input/DateInputFieldTemplate"
-import { StringInputFieldTemplate } from "#/components/form/AddDataForm"
+import { StringInputFieldTemplate } from "#/components/form/input/StringInputFieldTemplate"
 import { insertCheckRecord } from "#/lib/api/gql/checkRecord"
 import { useTranslation } from "#/lib/i18n"
-import { schemaJson } from "#/lib/schema"
+import { normalSchemaJson } from "#/lib/schema"
 import { BasePageProps } from "#/types/pageProp"
 import { BSON } from "realm-web"
 
@@ -40,19 +40,19 @@ export default async function Page({ params: { lng } }: BasePageProps) {
       <h2 className="col-span-1 lg:col-span-2">{t("New check record")}</h2>
 
       <StringInputFieldTemplate
-        {...schemaJson["CheckRecord"].properties["name"]}
+        {...normalSchemaJson["CheckRecord"].properties["name"]}
         name={t("name", { ns: "checkRecord" })}
       />
       <StringInputFieldTemplate
-        {...schemaJson["CheckRecord"].properties["description"]}
+        {...normalSchemaJson["CheckRecord"].properties["description"]}
         name={t("description")}
       />
       <StringInputFieldTemplate
-        {...schemaJson["CheckRecord"].properties["result"]}
+        {...normalSchemaJson["CheckRecord"].properties["result"]}
         name={t("result")}
       />
       <StringInputFieldTemplate
-        {...schemaJson["CheckRecord"].properties["device"]}
+        {...normalSchemaJson["CheckRecord"].properties["device"]}
         name={t("device")}
       />
       <DateInputFieldTemplate

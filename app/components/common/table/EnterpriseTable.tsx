@@ -1,5 +1,5 @@
 "use client"
-import { schemaJson } from "#/lib/schema"
+import { normalSchemaJson } from "#/lib/schema"
 import type { SchemaResultMapper, EnterpriseSchema } from "#/types/schema"
 import React, { useRef } from "react"
 import { FaReacteurope } from "react-icons/fa"
@@ -31,7 +31,7 @@ export default function EnterpriseTable({
 }: EnterpriseReactTableProps) {
   const { t } = useTranslation(lng, "enterprise")
 
-  const schemaPropertiesRef = useRef(schemaJson["Enterprise"].properties)
+  const schemaPropertiesRef = useRef(normalSchemaJson["Enterprise"].properties)
   const realmApp = useApp()
   const router = useRouter()
   const editLink = `/${lng}/${

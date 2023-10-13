@@ -1,30 +1,26 @@
 import Button from "#/components/common/Button"
 
 import { templateHTML } from "#/components/form/templateHTML"
-import { updateEnterprise } from "#/lib/api/apolloService"
-import { getEnterpriseById } from "#/lib/api/gql/enterprise"
-import { schemaJson } from "#/lib/schema"
-import { BasePageProps } from "#/types/pageProp"
 
+import { getEnterpriseById, updateEnterprise } from "#/lib/api/gql/enterprise"
+import { normalSchemaJson } from "#/lib/schema"
+import { BasePageProps } from "#/types/pageProp"
 import Script from "next/script"
 import { BSON } from "realm-web"
-
+ 
 //TODO optimize layout grid cell max size
 export default async function EnterpriseEditPage({
   searchParams,
 }: BasePageProps) {
-  const schemaObj = schemaJson["Enterprise"]
+  const schemaObj = normalSchemaJson["Enterprise"]
 
   const { id } = searchParams
   const { enterprise } = await getEnterpriseById(id as string)
-  const enterpriseSubmit = async (editedEnterpriseData: FormData) => {
-    "use server"
-    let setData = Object.create({})
+  async function editEnterpriseSubmit(editedEnterpriseData: FormData) {
     console.log(
-      `The setdata in enterprise form ${editedEnterpriseData.entries()}`,
+      `The setdata in enterprise form ${editedEnterpriseData.entries()}`
     )
-
-    setData = {
+    const setData = {
       address: editedEnterpriseData.get("address"),
       creditCode: editedEnterpriseData.get("creditCode"),
       createdAt: editedEnterpriseData.get("createdAt")
@@ -45,12 +41,13 @@ export default async function EnterpriseEditPage({
       console.error(error)
     }
   }
+ 
   return (
     <>
       <dialog id={"editEnterpriseDialog"}>
         <form
           method="dialog"
-          action={enterpriseSubmit}
+          action={editEnterpriseSubmit}
           id="insertForm"
           className={`
             grid grid-cols-1 gap-5 lg:grid-cols-2 

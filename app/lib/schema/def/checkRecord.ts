@@ -1,6 +1,13 @@
-import { SchemaObject } from "#/types/schema"
-
-const CheckRecord: SchemaObject = {
+import { SchemaObject } from "#/lib/schema/format"
+import { BSON } from "realm-web"
+type CheckRecordSchema = {
+  _id: BSON.ObjectID
+  method: string
+  name: string
+  result: string
+  device?: BSON.ObjectID
+}
+const CheckRecord: SchemaObject<keyof CheckRecordSchema> = {
   embedded: false,
   name: "CheckRecord",
   primaryKey: "_id",
@@ -19,14 +26,14 @@ const CheckRecord: SchemaObject = {
       optional: false,
       dataType: "string",
     },
-    target: {
-      name: "target",
-      dataType: "select",
-      objectType: "Product",
-      indexed: false,
-      optional: false,
-      mapTo: "target",
-    },
+    // target: {
+    //   name: "target",
+    //   dataType: "select",
+    //   objectType: "Product",
+    //   indexed: false,
+    //   optional: false,
+    //   mapTo: "target",
+    // },
     method: {
       indexed: false,
       mapTo: "method",
@@ -41,14 +48,14 @@ const CheckRecord: SchemaObject = {
       optional: false,
       dataType: "string",
     },
-    operator: {
-      indexed: false,
-      mapTo: "operator",
-      name: "operator",
-      objectType: "Checker",
-      optional: true,
-      dataType: "object",
-    },
+    // operator: {
+    //   indexed: false,
+    //   mapTo: "operator",
+    //   name: "operator",
+    //   objectType: "Checker",
+    //   optional: true,
+    //   dataType: "object",
+    // },
     result: {
       indexed: false,
       mapTo: "result",

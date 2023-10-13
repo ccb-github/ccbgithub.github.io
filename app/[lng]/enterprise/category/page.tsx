@@ -1,26 +1,16 @@
-import ReactTable from "#/components/common/ReactTable"
-import { queryProducts } from "#/lib/api/apolloService"
+import CategoryTable from "#/components/common/table/CategoryTable"
+import { queryCategories } from "#/lib/api/gql/category"
 import { type BasePageProps } from "#/types/pageProp"
-import { type SchemaResultMapper } from "#/types/schema"
 import React from "react"
 
-export default async function AdminProductManagePage({
+export default async function EnterpriseCategoryManagePage({
   params: { lng },
 }: BasePageProps) {
-  // The url is lowercase, but the schema name to search the database are like 'Name', we need to convert first
-  const products  = await queryProducts()
+  const categories = await queryCategories()
 
   return (
     <div id="data-table" className="h-full w-full">
-      <ReactTable
-        data={products}
-        columnList={
-          ["name"]
-        }
-        schemaType={"Category"}
-        deleteEnabled={true}
-        lng={lng}
-      />
+      <CategoryTable lng={lng} data={categories} />
     </div>
   )
 }

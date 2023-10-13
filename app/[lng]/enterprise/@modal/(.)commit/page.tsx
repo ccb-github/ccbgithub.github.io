@@ -3,7 +3,7 @@ import Button from "#/components/common/Button"
 import { templateHTML } from "#/components/form/templateHTML"
 import { getOneProduct, updateOneProduct } from "#/lib/api/apolloService"
 import { useTranslation } from "#/lib/i18n"
-import { schemaJson } from "#/lib/schema"
+import { normalSchemaJson } from "#/lib/schema"
 import { BasePageProps } from "#/types/pageProp"
 import { SchemaResultMapper } from "#/types/schema"
 
@@ -15,7 +15,7 @@ export default async function ProductEditPage({
   searchParams,
 }: BasePageProps) {
   console.log("This Product editpage ([@modal/.edit/) is rendered")
-  const schemaObj = schemaJson["Product"]
+  const schemaObj = normalSchemaJson["Product"]
   const { id } = searchParams
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { t } = await useTranslation(lng)

@@ -1,4 +1,4 @@
-import { SchemaObject } from "#/types/schema"
+import { SchemaObject } from "#/lib/schema/format"
 
 const Logistic: SchemaObject = {
   name: "Logistic",

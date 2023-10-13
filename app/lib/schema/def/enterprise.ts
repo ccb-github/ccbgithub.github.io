@@ -1,6 +1,19 @@
-import { SchemaObject } from "#/types/schema"
+import { SchemaObject } from "#/lib/schema/format"
+import { BSON } from "realm-web"
 
-const Enterprise: SchemaObject = {
+export type EnterpriseSchema = {
+  _id: BSON.ObjectID
+  address?: string
+  createdAt: Date
+  creditCode: string
+  description: string
+  email?: string
+  name?: string
+  ownerId: string
+  registerPlace: string
+  tradeMark?: string
+}
+const Enterprise: SchemaObject<keyof EnterpriseSchema> = {
   name: "Enterprise",
   properties: {
     _id: {

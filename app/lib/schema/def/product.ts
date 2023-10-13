@@ -1,8 +1,22 @@
-import { SchemaObject } from "#/types/schema"
+import { BSON } from "realm-web"
+import { SchemaObject } from "#/lib/schema/format"
+import { EnterpriseSchema } from "#/lib/schema/def/enterprise"
 
 export type ProductStatus = "Selling" | "Sold" | "Ordering"
-
-const Product: SchemaObject = {
+export type ProductSchema = {
+  _id: BSON.ObjectID
+  assemblePlace?: string
+  category: string
+  description: string
+  name: string
+  ownerId: string
+  produceDay: Date
+  producer?: EnterpriseSchema
+  shelfLife: number
+  standard: string
+  status: string
+}
+export const productSchemaJson: SchemaObject<keyof ProductSchema> = {
   name: "Product",
   properties: {
     _id: {
@@ -93,4 +107,4 @@ const Product: SchemaObject = {
   embedded: false,
 }
 
-export default Product
+export default productSchemaJson

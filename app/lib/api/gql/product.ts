@@ -1,7 +1,9 @@
 import { getCookieByName } from "#/components/util/cookie"
-import { SchemaResultMapper } from "#/types/schema"
+
 import { ApolloError, gql } from "@apollo/client"
 import { createClient } from "../apolloClient"
+import { BSON } from "realm-web"
+import { ProductSchema } from "#/lib/schema/def/product"
 
 const QUERY_PRODUCTS = gql`
   query queryProducts($query: ProductQueryInput) {
@@ -62,8 +64,8 @@ export async function updateProducts({
   query,
   set,
 }: {
-  query: Partial<SchemaResultMapper["Product"]>
-  set: Partial<SchemaResultMapper["Product"]>
+  query: Partial<Record<keyof ProductSchema, unknown>>
+  set: Partial<Record<keyof ProductSchema, unknown>>
 }) {
   try {
     const client = createClient(getCookieByName("accessToken")!)
@@ -82,9 +84,11 @@ export async function updateProducts({
   }
 }
 
-const GET_PRODUCT_BY_ID = gql`
-  query getProductById($query: ProductQueryInput) {
-    product(query: $query) {
+const QUERY_PRODUCT_BY_ID = gql`
+  query queryProductById($id: ObjectId!) {
+    product(query: {
+      _id: $id
+    }) {
       _id
       name
       assemblePlace
@@ -95,17 +99,17 @@ const GET_PRODUCT_BY_ID = gql`
     }
   }
 `
-export async function getProductById({
-  query,
+export async function queryProductById({
+  _id,
 }: {
-  query?: Partial<SchemaResultMapper["Product"]>
-}): Promise<{ product: Partial<SchemaResultMapper["Product"]> }> {
+  _id: string
+}): Promise<{ product: Partial<ProductSchema> }> {
   try {
     const client = createClient(getCookieByName("accessToken")!)
     const { data } = await client.query({
-      query: GET_PRODUCT_BY_ID,
+      query: QUERY_PRODUCT_BY_ID,
       variables: {
-        query,
+        id: new BSON.ObjectId(_id),
       },
     })
     return data

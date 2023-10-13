@@ -1,24 +1,28 @@
-import { schemaJson } from "#/lib/schema"
-
+import { normalSchemaJson } from "#/lib/schema"
 import Button from "#/components/common/Button"
 import AsyncSelect from "#/components/common/AsyncSelect"
-import { queryProducts, queryOrders, insertOneOrder } from "#/lib/api/apolloService"
-import { StringInputFieldTemplate } from "#/components/form/AddDataForm"
+import { StringInputFieldTemplate } from "#/components/form/input/StringInputFieldTemplate"
 import DateInputFieldTemplate from "#/components/common/input/DateInputFieldTemplate"
 import TypeSpan from "#/components/common/input/TypeSpan"
 import { BSON } from "realm-web"
+import { queryOrders } from "#/lib/api/apolloService"
+import { insertOrder } from "#/lib/api/gql/order"
 
 // const MyComponent = () => (
 //   <Select options={options} />
 // )
 
 export default async function Page() {
-  const schemaObj = schemaJson.Order
+  const schemaObj = normalSchemaJson.Order
 
   const loadOrderOptions = async () => {
     "use server"
     console.log("This is invoked")
     return await queryOrders()
+  }
+  const testLoad = async () => {
+    "use server"
+    return [{ color: "blue", value: "50", label: "50" }]
   }
   async function submitNewOrder(data: FormData) {
     "use server"
@@ -26,7 +30,7 @@ export default async function Page() {
     //   console.log(t("The same category name already exists"))
     //   return
     // }
-    const result = await insertOneOrder({
+    const result = await insertOrder({
       _id: new BSON.ObjectId(),
       paymentMethod: "phone",
       transitionId: new BSON.ObjectId(),
@@ -43,7 +47,6 @@ export default async function Page() {
   }
   return (
     <form
-      method="post"
       action={submitNewOrder}
       id="insertForm"
       className={`
@@ -64,7 +67,7 @@ export default async function Page() {
         <div className=" w-full">
           <AsyncSelect
             inputId="products"
-            loadFunction={queryProducts}
+            asyncLoadOptions={testLoad}
             selectName={"products"}
           />
         </div>

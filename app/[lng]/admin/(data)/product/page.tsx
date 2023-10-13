@@ -11,17 +11,6 @@ export default async function AdminProductManagePage({
 
   return (
     <div id="data-table" className="h-full w-full">
-      {/*    <SchemaDataReactTable
-        data={products}
-        columnAccessors={
-          ["name", "assemblePlace", "produceDay", "shelfLife"] as Array<
-            keyof SchemaResultMapper["Product"]
-          >
-        }
-        schemaType={"Product"}
-        deleteEnabled={true}
-        lng={lng}
-      /> */}
       <ProductTable data={products} lng={lng} />
     </div>
   )

@@ -1,5 +1,5 @@
 "use client"
-import { schemaJson } from "#/lib/schema"
+import { normalSchemaJson } from "#/lib/schema"
 import type { SchemaResultMapper, OrderSchema } from "#/types/schema"
 import React, { useRef } from "react"
 import { FaReacteurope } from "react-icons/fa"
@@ -34,7 +34,7 @@ export default function OrderTable({ data, lng }: OrderTableProps) {
   // const [columnResizeMode] = useState<ColumnResizeMode>(
   //   ColumnResizeMode["onChange"],
   // )
-  const schemaPropertiesRef = useRef(schemaJson["Order"].properties)
+  const schemaPropertiesRef = useRef(normalSchemaJson["Order"].properties)
   const realmApp = useApp()
   const router = useRouter()
   // const defaultColumn = useMemo(
@@ -55,6 +55,13 @@ export default function OrderTable({ data, lng }: OrderTableProps) {
       data={data}
       schemaType={"Order"}
       deleteEnabled={true}
+      columnOptions={Object.values(normalSchemaJson["Order"].properties).map(
+        (prop) => ({
+          accessor: prop.mapTo as keyof OrderSchema,
+          header: t(prop.mapTo),
+          type: prop.dataType,
+        }),
+      )}
       customColumn={() => {
         return (
           <>

@@ -1,5 +1,5 @@
 import { SchemaName, SchemaObject } from "#/types/schema";
-import { schemaJson } from "#/lib/schema";
+import { normalSchemaJson } from "#/lib/schema";
 if(process.env.NEXT_PUBLIC_MONGODB_ATLA_DATABASE === undefined) {
   console.log(process.env)
   throw Error("Missing env varaiable MONGODB_ATLA_DATABASE")
@@ -64,7 +64,7 @@ export async function insertDataToCol(
   name: SchemaName,
   insertDoc: Realm.Services.MongoDB.NewDocument< SchemaObject["properties"] >,
 ){
-  typeof schemaJson[name].properties 
+  typeof normalSchemaJson[name].properties 
   const insertCollection = user
     ?.mongoClient('mongodb-atlas')
     .db(DB_NAME!)

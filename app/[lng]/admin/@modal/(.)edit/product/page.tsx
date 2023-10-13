@@ -1,11 +1,11 @@
 import Button from "#/components/common/Button"
 import { templateHTML } from "#/components/form/templateHTML"
-import { getOneProduct, updateOneProduct } from "#/lib/api/apolloService"
-import { useTranslation } from "#/lib/i18n"
-import { schemaJson } from "#/lib/schema"
-import { BasePageProps } from "#/types/pageProp"
-import { SchemaResultMapper } from "#/types/schema"
+import { queryProductById, updateProducts } from "#/lib/api/gql/product"
 
+import { useTranslation } from "#/lib/i18n"
+import { SchemaTypeMapper, normalSchemaJson } from "#/lib/schema"
+import { ProductSchema } from "#/lib/schema/def/product"
+import { BasePageProps } from "#/types/pageProp"
 import Script from "next/script"
 import { BSON } from "realm-web"
 
@@ -14,13 +14,11 @@ export default async function ProductEditPage({
   searchParams,
 }: BasePageProps) {
   console.log("This Product editpage ([admin/@modal/.edit/product) is rendered")
-  const schemaObj = schemaJson["Product"]
+  const schemaObj = normalSchemaJson["Product"]
   const { id } = searchParams
   const { t } = await useTranslation(lng)
-  const { product } = await getOneProduct({
-    query: {
-      _id: new BSON.ObjectId(id as string),
-    },
+  const { product } = await queryProductById({
+    _id: id as string,
   })
   console.log(product)
   const editProductSubmit = async (editedProductData: FormData) => {
@@ -36,7 +34,7 @@ export default async function ProductEditPage({
         : undefined,
     }
     try {
-      const result = await updateOneProduct({
+      const result = await updateProducts({
         query: { _id: new BSON.ObjectId(id as string) },
         set: setData,
       })
@@ -61,10 +59,13 @@ export default async function ProductEditPage({
             h-full overflow-y-scroll pt-2
           `}
         >
-          {Object.keys(schemaObj.properties).map((e) =>
+          {(
+            Object.keys(schemaObj.properties) as Array<keyof ProductSchema>
+          ).map((e) =>
             templateHTML({
+              //@ts-ignore
               ...schemaObj.properties[e],
-              defaultValue: product[e as keyof SchemaResultMapper["Product"]],
+              defaultValue: product[e as keyof SchemaTypeMapper["Product"]],
             }),
           )}
 
