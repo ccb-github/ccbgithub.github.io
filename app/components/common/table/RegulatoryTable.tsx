@@ -1,9 +1,7 @@
 "use client"
 import { normalSchemaJson } from "#/lib/schema"
-import type { SchemaResultMapper, RegulatorySchema } from "#/types/schema"
 import React, { useRef } from "react"
 import { FaReacteurope } from "react-icons/fa"
-
 import { useTranslation } from "#/lib/i18n/client"
 import Link from "next/link"
 import { EditIcon } from "#/components/icons"
@@ -14,6 +12,7 @@ import SchemaDataReactTable from "../SchemaDataReactTable"
 import { useApp } from "#/hooks/useApp"
 import { useRouter } from "next/navigation"
 import { type GeneralDataTableWrapperProps } from "#/types/table"
+import regulatorySchemaJson, { RegulatorySchema } from "#/lib/schema/def/regulatory"
 
 type RegulatoryReactTableProps = GeneralDataTableWrapperProps<
   Partial<Record<keyof RegulatorySchema, string>> & {
@@ -39,7 +38,7 @@ export default function RegulatoryTable({
 
   return (
     <SchemaDataReactTable<
-      Partial<Record<keyof SchemaResultMapper["Regulatory"], string>> & {
+      Partial<Record<keyof RegulatorySchema, string>> & {
         _id: string
       }
     >
@@ -53,12 +52,11 @@ export default function RegulatoryTable({
             <Button
               className="m-auto"
               onClick={(event) => {
-                const self: HTMLButtonElement =
-                  event.currentTarget as HTMLButtonElement
+                const self: HTMLButtonElement = event.currentTarget as HTMLButtonElement
                 deleteDocuments(realmApp.currentUser!, "Regulatory", {
                   _id: fieldConvert(
                     self.dataset.id!,
-                    schemaPropertiesRef.current["_id"].dataType,
+                    schemaPropertiesRef.current["_id"].dataType
                   ),
                 })
                   .then(() => {
@@ -67,7 +65,7 @@ export default function RegulatoryTable({
                   .catch((error) => {
                     throw error
                   })
-              }}
+              } }
             >
               {t("Delete", "common")}
               <FaReacteurope className="inline-block w-4 h-4" />
@@ -80,7 +78,14 @@ export default function RegulatoryTable({
             </span>
           </>
         )
-      }}
-    />
+      } } 
+      columnOptions={
+        Object.values(regulatorySchemaJson.properties).map(
+        (prop) => ({
+          accessor: prop.mapTo as keyof RegulatorySchema,
+          header: t(prop.mapTo),
+          type: prop.dataType,
+        }))
+      }    />
   )
 }

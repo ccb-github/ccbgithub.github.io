@@ -1,13 +1,13 @@
-import { SchemaObject } from "#/lib/schema/format"
+import { NormalSchemaObject } from "#/lib/schema/format"
 import { BSON } from "realm-web"
-type CheckRecordSchema = {
+export type CheckRecordSchema = {
   _id: BSON.ObjectID
   method: string
   name: string
   result: string
   device?: BSON.ObjectID
 }
-const CheckRecord: SchemaObject<keyof CheckRecordSchema> = {
+export const checkRecordSchema: NormalSchemaObject<keyof CheckRecordSchema> = {
   embedded: false,
   name: "CheckRecord",
   primaryKey: "_id",
@@ -66,4 +66,4 @@ const CheckRecord: SchemaObject<keyof CheckRecordSchema> = {
   },
 }
 
-export default CheckRecord
+export default checkRecordSchema

@@ -6,7 +6,7 @@ import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
 import { useState } from "react"
 import { FaChevronCircleDown, FaChevronCircleUp } from "react-icons/fa"
-//TODO type link, remove unnessary props
+//TODO type link, remove unnecessary props
 export default function SideNavItem({
   text,
   link,
@@ -40,7 +40,7 @@ export default function SideNavItem({
               "text-blue-400 hover:bg-blue-800": !isActive,
               "text-white": isActive,
               opened: isOpen,
-            },
+            }
           )}
         >
           {text}
@@ -56,7 +56,7 @@ export default function SideNavItem({
               "text-blue-400 hover:bg-blue-800": !isActive,
               "text-white": isActive,
               opened: isOpen,
-            },
+            }
           )}
         >
           {" "}
@@ -66,6 +66,25 @@ export default function SideNavItem({
             <FaChevronCircleDown className="self-center mr-2" />
           )}
           {text}
+          <svg
+            className="with-icon_icon__MHUeb"
+            data-testid="geist-icon"
+            fill="none"
+            height="24"
+            shape-rendering="geometricPrecision"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            viewBox="0 0 24 24"
+            width="24"
+            style={
+              {color:"whitesmoke",
+                width:16,height:16
+              }}
+          >
+            <path d="M9 18l6-6-6-6"></path>
+          </svg>
         </a>
       )}
       {/* If the item contain subitems and the tree menu node is open, render the child menu */}

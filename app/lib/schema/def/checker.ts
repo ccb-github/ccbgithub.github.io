@@ -1,6 +1,6 @@
-import { SchemaObject } from "#/lib/schema/format"
+import { NormalSchemaObject } from "#/lib/schema/format"
 
-const Checker: SchemaObject<"_id" | "address"> = {
+const Checker: NormalSchemaObject<"_id" | "address"> = {
   name: "Checker",
   properties: {
     _id: {

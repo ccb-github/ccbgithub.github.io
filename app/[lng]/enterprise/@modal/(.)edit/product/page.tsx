@@ -24,7 +24,7 @@ export default async function ProductEditPage({
   const editProductSubmit = async (editedProductData: FormData) => {
     "use server"
     let setData = Object.create({})
-    console.log(`The setdata in enterprise form ${editedProductData.entries()}`)
+    console.log(`The setData in enterprise form ${editedProductData.entries()}`)
     setData = {
       name: editedProductData.get("name"),
     }

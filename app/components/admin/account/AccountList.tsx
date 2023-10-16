@@ -5,7 +5,7 @@ import { useTranslation } from "#/lib/i18n/client"
 import { useApp } from "#/hooks/useApp"
 import { getUsers } from "#/lib/api/mongoService"
 import type { ObjectID } from "bson"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Button from "#/components/common/Button"
 import { useRouter } from "next/navigation"
 
@@ -36,15 +36,18 @@ export function AccountList({ lng }: { lng: string }) {
   const { t } = useTranslation(lng, "account-list")
   const [accounts, setAccounts] = useState<AccountProfile[]>()
   // The collection name of user profile(store as custom data)
-  const profileColName = "User"
+
   const router = useRouter()
   // TODO env vara
-  const accountsCollection = useRef(
-    mongoApp?.currentUser
-      ?.mongoClient("mongodb-atlas")
-      .db("qrcodeTraceability")
-      .collection("User"),
+  const accountsCollection = useMemo(
+    () =>
+      mongoApp?.currentUser
+        ?.mongoClient("mongodb-atlas")
+        .db("qrcodeTraceability")
+        .collection("User"),
+    [mongoApp?.currentUser],
   )
+
   useEffect(() => {
     if (mongoApp?.currentUser !== null && mongoApp?.currentUser !== undefined) {
       getUsers(mongoApp.currentUser!, { email: { $exists: true } })
@@ -58,19 +61,19 @@ export function AccountList({ lng }: { lng: string }) {
   }, [mongoApp, mongoApp?.currentUser])
 
   // TODO consider the type of user collection
-  const deleteItem = async (id: ObjectID) => {
+  const deleteAccount = async (userId: string) => {
     if (confirm("Are you sure you want to delete it")) {
-      const mongoCollection = mongoApp?.currentUser
-        ?.mongoClient("mongodb-atlas")
-        .db("qrcodeTraceability")
-        .collection(profileColName)
+      if (mongoApp.currentUser?.id === userId) {
+        alert("You can not delete the account of yourself")
+      }
 
-      mongoCollection
-        ?.deleteOne({ _id: id })
+      // Delete the profile
+      accountsCollection
+        ?.deleteOne({ _userId: userId })
         .then((result) => {
-          if (confirm(`Delete ${result.deletedCount} account with ${id}`)) {
-            router.refresh()
-          }
+          mongoApp.deleteUser(mongoApp.allUsers[userId])
+          alert(`Delete ${result.deletedCount} account with profile${userId}`)
+          router.refresh()
         })
         .catch((error) => {
           console.error(error)
@@ -78,7 +81,7 @@ export function AccountList({ lng }: { lng: string }) {
     }
   }
   const accountActivate = async (itemId: ObjectID) => {
-    const result = await accountsCollection.current?.findOneAndUpdate(
+    const result = await accountsCollection?.findOneAndUpdate(
       { _id: itemId },
       {
         $set: {
@@ -156,7 +159,7 @@ export function AccountList({ lng }: { lng: string }) {
             <td>
               <Button
                 onClick={async () => {
-                  deleteItem(account._id)
+                  deleteAccount(account._userId)
                 }}
               >
                 {t("Delete", "common")}

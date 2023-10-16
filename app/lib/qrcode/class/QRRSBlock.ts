@@ -317,11 +317,11 @@ export default class QRRSBlock{
 // QRErrorCorrectLevel
 //---------------------------------------------------------------------
  
-export const QRErrorCorrectLevel = {
-	L : 1,
-	M : 0,
-	Q : 3,
-	H : 2
+export enum QRErrorCorrectLevel{
+	L = 0,
+	M ,
+	Q ,
+	H 
 };
 
 

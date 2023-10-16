@@ -22,7 +22,8 @@
       "@typescript-eslint",
       "react",
       "prettier",
-      "only-warn"
+      "only-warn",
+      "eslint-plugin-tsdoc"
   ],
   "root": true
 }

@@ -10,7 +10,6 @@ import SearchBar from "./SearchBar"
 import { useTranslation } from "#/lib/i18n/client"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { toSchemaTypestring } from "#/lib/stringFactory"
 import { CustomRender } from "#/lib/reactTable/render"
 import {
   Column,
@@ -20,10 +19,10 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { NormalSchemaName, SchemaDataPropType } from "#/lib/schema/format"
+import { NormalSchemaName, SchemaDataPropType, URL_TO_SCHEMANAME } from "#/lib/schema/format"
 
 /* type BaseFilterProps<DataItem> = {
-  setFilter: (newFitler: unknown) => unknown
+  setFilter: (newFilter: unknown) => unknown
   preFilteredRows: Row<DataItem>[]
   id: string
 }
@@ -55,9 +54,8 @@ type RequiredTableColumnOption<DataItem> = {
   type: SchemaDataPropType
 }
 /**
- * @typedef {Object} ReactTableProps
- * @proptery {columnAccessors}
- *
+ * @property {columnAccessors}
+ * @member {string} trClass the css class for tr
  */
 type ReactTableProps<
   DataItem extends { _id: string },
@@ -148,7 +146,7 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
     <>
       <SearchBar
         placeHolder={t("Start searching")}
-        searchSchemaName={toSchemaTypestring(schemaType)}
+        searchSchemaName={schemaType}
         onSearchSubmit={function () {}}
         className="flex flex-row items-center justify-start"
       >

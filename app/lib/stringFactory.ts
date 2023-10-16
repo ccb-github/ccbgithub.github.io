@@ -1,5 +1,5 @@
-import { NormalSchemaName } from "#/types/schema"
+import { NormalSchemaName } from "#/lib/schema/format";
 
-export function toSchemaTypestring(str: string): NormalSchemaName {
+export function toSchemaTypeString(str: string): NormalSchemaName {
   return `${str[0].toUpperCase()}${str.slice(1)}` as NormalSchemaName
 }

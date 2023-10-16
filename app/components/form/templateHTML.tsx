@@ -1,5 +1,5 @@
 import React from "react"
-import type { NormalSchemaName, SchemaProperty } from "#/types/schema"
+
 import RelatedObjSelect from "#/components/form/related/RelatedObjSelect"
 import Button from "#/components/common/Button"
 import DateInputFieldTemplate from "#/components/common/input/DateInputFieldTemplate"
@@ -8,6 +8,7 @@ import IntInputFieldTemplate from "#/components/common/input/IntInputFieldTempla
 import BooleanInputFieldTemplate from "#/components/common/input/BooleanInputFieldTemplate"
 import { StringInputFieldTemplate } from "./input/StringInputFieldTemplate"
 import AsyncSelect from "../common/AsyncSelect"
+import { SchemaProperty, NormalSchemaName } from "#/lib/schema/format"
 
 export function templateHTML(prop: SchemaProperty) {
   // const DATE_FORMAT = "YYYY-MM-DD HH:MM:SS"
@@ -54,7 +55,7 @@ export function templateHTML(prop: SchemaProperty) {
             type="number"
             step={DOUBLE_PRECISION}
             required={prop.optional}
-            placeholder={`please Enter your ${prop.name} here, presion up to ${DOUBLE_PRECISION}`}
+            placeholder={`please Enter your ${prop.name} here, precision up to ${DOUBLE_PRECISION}`}
             className="form-control input-md w-full"
           />
         </div>
@@ -105,7 +106,7 @@ export function templateHTML(prop: SchemaProperty) {
               id={`${prop.name}-longitude`}
               name={prop.name}
               type="text"
-              placeholder={`please Enter your ${prop.name}.longtitude here, Location content, required=${prop.optional}`}
+              placeholder={`please Enter your ${prop.name}.longitude here, Location content, required=${prop.optional}`}
             />
           </label>
           <br />

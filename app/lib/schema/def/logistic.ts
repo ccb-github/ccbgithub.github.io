@@ -1,6 +1,6 @@
-import { SchemaObject } from "#/lib/schema/format"
+import { NormalSchemaObject } from "#/lib/schema/format"
 
-const Logistic: SchemaObject = {
+const Logistic: NormalSchemaObject = {
   name: "Logistic",
   properties: {
     _id: {

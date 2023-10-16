@@ -3,29 +3,28 @@ import Button from "#/components/common/Button";
 import { StringInputFieldTemplate } from "#/components/form/input/StringInputFieldTemplate";
 
 import { templateHTML } from "#/components/form/templateHTML";
-import { getOneProduct, updateOneProduct } from "#/lib/api/apolloService";
+import { queryProductById, updateProducts } from "#/lib/api/gql/product";
+
 import { useTranslation } from "#/lib/i18n";
 import { normalSchemaJson } from "#/lib/schema";
 import { BasePageProps } from "#/types/pageProp";
-import { SchemaResultMapper } from "#/types/schema";
-
 import Script from "next/script";
 import { BSON } from "realm-web";
 
 
 export default async function ProductEditPage({ params: {lng}, searchParams}: BasePageProps) {
-  console.log("This Product editpage ([@modal/.edit/) is rendered")
+  console.log("This Product edit page ([@modal/.edit/) is rendered")
   const schemaObj = normalSchemaJson["Product"]
   const { id } = searchParams  
   const { t } = await useTranslation(lng)
-  const { product } = await getOneProduct({query: {
-    _id: new BSON.ObjectId(id as string)
-  }})
+  const { product } = await queryProductById({
+    _id: id as string
+  })
   console.log(product)
   const editProductSubmit = async (editedProductData: FormData) => {
     "use server"
     let setData = Object.create({})
-    console.log(`The setdata in enterprise form ${editedProductData.entries()}`)
+    console.log(`The set data in enterprise form ${editedProductData.entries()}`)
   
     setData = {
       address: editedProductData.get("address"),
@@ -35,7 +34,7 @@ export default async function ProductEditPage({ params: {lng}, searchParams}: Ba
         : undefined,
     };
     try {
-      const result = await updateOneProduct({
+      const result = await updateProducts({
         query: { _id: new BSON.ObjectId(id as string) },
         set: setData
       })

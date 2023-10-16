@@ -1,29 +1,52 @@
-import { NornmalSchemaJson } from ".."
+import { EmbeddedSchemaJson, NormalSchemaJson } from "#/lib/schema"
+import { EmbedSchemaObject, NormalSchemaObject } from "../format"
 
-export type QrcodeSchemaEmbbed = {
+export type QrcodeSchemaEmbed = {
   value: string
 }
-const locationSchemaJson: NornmalSchemaJson = {
-  Location: {
-    name: "Location",
-    properties: {
-      latitude: {
-        name: "latitude",
-        dataType: "float",
-        indexed: false,
-        optional: false,
-        mapTo: "latitude",
-      },
-      longitude: {
-        name: "longitude",
-        dataType: "float",
-        indexed: false,
-        optional: false,
-        mapTo: "longitude",
-      },
+export type LocationSchemaEmbed = {
+  latitude: number
+  longitude: number
+}
+const qrcodeSchemaEmbed: EmbedSchemaObject<keyof QrcodeSchemaEmbed> = {
+  
+  name: "Qrcode",
+  embedded: true,
+  properties: {
+    value: {
+      name: "value",
+      dataType: "string",
+      indexed: false,
+      optional: false,
+      mapTo: "value",
     },
-    embedded: true,
+  }
+}
+const locationSchemaEmbed: EmbedSchemaObject<keyof LocationSchemaEmbed> = {
+  
+  name: "Location",
+  properties: {
+    latitude: {
+      name: "latitude",
+      dataType: "double",
+      indexed: false,
+      optional: false,
+      mapTo: "latitude",
+    },
+    longitude: {
+      name: "longitude",
+      dataType: "double",
+      indexed: false,
+      optional: false,
+      mapTo: "longitude",
+    },
   },
+  embedded: true,
+  
+}
+const embedSchema: EmbeddedSchemaJson = {
+  Location: locationSchemaEmbed,
+  Qrcode: qrcodeSchemaEmbed
 }
 
-export default EmbeddedSchema
+export default embedSchema

@@ -1,5 +1,5 @@
 import { BSON } from "realm-web"
-import { SchemaObject } from "#/lib/schema/format"
+import { NormalSchemaObject } from "#/lib/schema/format"
 import { EnterpriseSchema } from "#/lib/schema/def/enterprise"
 
 export type ProductStatus = "Selling" | "Sold" | "Ordering"
@@ -16,7 +16,7 @@ export type ProductSchema = {
   standard: string
   status: string
 }
-export const productSchemaJson: SchemaObject<keyof ProductSchema> = {
+export const productSchemaJson: NormalSchemaObject<keyof ProductSchema> = {
   name: "Product",
   properties: {
     _id: {

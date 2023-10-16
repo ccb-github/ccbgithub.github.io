@@ -7,17 +7,21 @@ import QRRSBlock, { QRErrorCorrectLevel } from "./QRRSBlock"
 //---------------------------------------------------------------------
 // QRCode 保存QR码数据矩阵
 //---------------------------------------------------------------------
-
 export default class QRCode {
   static PAD0 = 0xec
   static PAD1 = 0x11
   typeNumber: number
-  errorCorrectLevel: any
+  errorCorrectLevel: QRErrorCorrectLevel
   modules: (boolean | null)[][] = []
   moduleCount: number
   dataCache: any[] | null
   dataList: QR8bitByte[]
-
+  /**
+   * construct the QRCode instance by typeNumber and errorCorrectLevel
+   * @constructor
+   * @param {number} typeNumber typeNumber:[1, 40]
+   * @param {QRErrorCorrectLevel} errorCorrectLevel
+   */
   constructor(typeNumber: number, errorCorrectLevel: number) {
     //静态信息
     this.typeNumber = typeNumber
@@ -166,7 +170,7 @@ export default class QRCode {
    * Return the module value
    */
   isDark(row: number, col: number) {
-    //Check the argment is valid
+    //Check the argument is valid
     if (
       row < 0 ||
       this.moduleCount <= row ||
@@ -437,7 +441,7 @@ export default class QRCode {
   }
 
   getQRcodeImage(document: Document, option: {}) {
-    const dotsize = 5 // size of box drawn on canvas
+    const dotSize = 5 // size of box drawn on canvas
     const padding = 10 // (white area around your QRCode)
     const black = "rgb(0,0,0)"
     const white = "rgb(255,255,255)"
@@ -446,16 +450,16 @@ export default class QRCode {
     const qrCanvasContext = canvas.getContext("2d")
 
     //Adjust the canvas size according to qrcode version setting
-    const qrsize = this.getModuleCount()
+    const qrSize = this.getModuleCount()
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
-    canvas.setAttribute("height", qrsize * dotsize + padding)
+    canvas.setAttribute("height", qrSize * dotSize + padding)
     //@ts-ignore
-    canvas.setAttribute("width", qrsize * dotsize + padding)
+    canvas.setAttribute("width", qrSize * dotSize + padding)
     const shiftForPadding = padding / 2
 
-    for (let r = 0; r < qrsize; r++) {
-      for (let c = 0; c < qrsize; c++) {
+    for (let r = 0; r < qrSize; r++) {
+      for (let c = 0; c < qrSize; c++) {
         if (this.isDark(r, c)) {
           qrCanvasContext!.fillStyle = black
         } else {
@@ -463,10 +467,10 @@ export default class QRCode {
         }
 
         qrCanvasContext!.fillRect(
-          c * dotsize + shiftForPadding,
-          r * dotsize + shiftForPadding,
-          dotsize,
-          dotsize,
+          c * dotSize + shiftForPadding,
+          r * dotSize + shiftForPadding,
+          dotSize,
+          dotSize,
         ) // x, y, w, h
       }
     }
@@ -623,7 +627,7 @@ const QRUtil = {
     let a = new QRPolynomial([1], 0)
 
     for (let i = 0; i < errorCorrectLength; i++) {
-      a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0))
+      a = a.multiply(new QRPolynomial([1, QRMath.gExp(i)], 0))
     }
 
     return a
@@ -792,15 +796,15 @@ const QRUtil = {
 
 const QRMath = {
   //Return log value at n index
-  glog(n: number) {
+  gLog(n: number) {
     if (n < 1) {
-      throw new Error("glog(" + n + ")")
+      throw new Error("gLog(" + n + ")")
     }
 
     return QRMath.LOG_TABLE[n]
   },
 
-  gexp(n: number) {
+  gExp(n: number) {
     while (n < 0) {
       n += 255
     }
@@ -861,7 +865,6 @@ class QRPolynomial {
 
   /**
    * Get the length of the string
-   * @returns {number}
    */
   getLength() {
     return this.nums.length
@@ -872,8 +875,8 @@ class QRPolynomial {
 
     for (let i = 0; i < this.getLength(); i++) {
       for (let j = 0; j < e.getLength(); j++) {
-        num[i + j] ^= QRMath.gexp(
-          QRMath.glog(this.get(i)) + QRMath.glog(e.get(j)),
+        num[i + j] ^= QRMath.gExp(
+          QRMath.gLog(this.get(i)) + QRMath.gLog(e.get(j)),
         )
       }
     }
@@ -886,7 +889,7 @@ class QRPolynomial {
       return this
     }
 
-    const ratio = QRMath.glog(this.get(0)) - QRMath.glog(e.get(0))
+    const ratio = QRMath.gLog(this.get(0)) - QRMath.gLog(e.get(0))
 
     const num = new Array(this.getLength())
 
@@ -895,7 +898,7 @@ class QRPolynomial {
     }
 
     for (let i = 0; i < e.getLength(); i++) {
-      num[i] ^= QRMath.gexp(QRMath.glog(e.get(i)) + ratio)
+      num[i] ^= QRMath.gExp(QRMath.gLog(e.get(i)) + ratio)
     }
 
     // recursive call

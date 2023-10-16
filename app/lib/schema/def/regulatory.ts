@@ -1,12 +1,13 @@
-import { SchemaObject } from "#/lib/schema/format"
+import { NormalSchemaObject } from "#/lib/schema/format"
 import { BSON } from "realm-web"
 export type RegulatorySchema = {
   _id: BSON.ObjectID
   name: string
   address: string
   description: string
+  ownerId: string
 }
-const Regulatory: SchemaObject = {
+export const regulatorySchemaJson: NormalSchemaObject<keyof RegulatorySchema> = {
   name: "Regulatory",
   properties: {
     _id: {
@@ -49,4 +50,4 @@ const Regulatory: SchemaObject = {
   embedded: false,
 }
 
-export default Regulatory
+export default regulatorySchemaJson

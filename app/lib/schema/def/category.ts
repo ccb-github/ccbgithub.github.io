@@ -1,6 +1,11 @@
 import { BSON } from "realm-web"
-import { SchemaObject } from "#/lib/schema/format"
+import { NormalSchemaObject } from "#/lib/schema/format"
+import MongodbList from "#/components/common/MongodbList"
 
+/**
+ * @description The data model of category collection 
+ * category stands for the category of the product
+ */
 export type CategorySchema = {
   _id: BSON.ObjectID
   description: string
@@ -20,8 +25,10 @@ export type CategoryGqlResult = Partial<
 > & {
   _id: string
 }
-
-const Category: SchemaObject<keyof CategorySchema> = {
+/**
+ * @param {CategorySchema} Derive from categorySchema 
+ */
+const categorySchema: NormalSchemaObject<keyof CategorySchema> = {
   name: "Category",
   // dataType: "selectList",
   properties: {
@@ -58,4 +65,4 @@ const Category: SchemaObject<keyof CategorySchema> = {
   embedded: false,
 }
 
-export default Category
+export default categorySchema

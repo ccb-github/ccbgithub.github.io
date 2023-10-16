@@ -1,6 +1,6 @@
 "use client"
 import { normalSchemaJson } from "#/lib/schema"
-import type { SchemaResultMapper, EnterpriseSchema } from "#/types/schema"
+
 import React, { useRef } from "react"
 import { FaReacteurope } from "react-icons/fa"
 
@@ -14,9 +14,10 @@ import SchemaDataReactTable from "../SchemaDataReactTable"
 import { useApp } from "#/hooks/useApp"
 import { useRouter } from "next/navigation"
 import { type GeneralDataTableWrapperProps } from "#/types/table"
+import enterpriseSchemaJson, { EnterpriseSchema } from "#/lib/schema/def/enterprise"
 
 type EnterpriseReactTableProps = GeneralDataTableWrapperProps<
-  readonly Partial<Record<keyof EnterpriseSchema, string>>[] & {
+  Partial<Record<keyof EnterpriseSchema, string>> & {
     _id: string
   }
 >
@@ -40,7 +41,7 @@ export default function EnterpriseTable({
 
   return (
     <SchemaDataReactTable<
-      Partial<Record<keyof SchemaResultMapper["Enterprise"], string>> & {
+      Partial<Record<keyof EnterpriseSchema, string>> & {
         _id: string
       }
     >
@@ -48,6 +49,14 @@ export default function EnterpriseTable({
       data={data}
       schemaType={"Enterprise"}
       deleteEnabled={true}
+      columnOptions={
+        Object.values(enterpriseSchemaJson.properties).map(
+        (prop) => ({
+          accessor: prop.mapTo as keyof EnterpriseSchema,
+          header: t(prop.mapTo),
+          type: prop.dataType,
+        }))
+      }
       customColumn={() => {
         return (
           <>
@@ -59,7 +68,7 @@ export default function EnterpriseTable({
                 deleteDocuments(realmApp.currentUser!, "Enterprise", {
                   _id: fieldConvert(
                     self.dataset.id!,
-                    schemaPropertiesRef.current["_id"].dataType,
+                    schemaPropertiesRef.current["_id"].dataType
                   ),
                 })
                   .then(() => {
