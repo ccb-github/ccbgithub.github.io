@@ -65,7 +65,7 @@ export default async function Page({ params: { lng } }: BasePageProps) {
         </div>
       </div> */}
       <StringInputFieldTemplate
-        {...normalSchemaJson["Category"].properties.}
+        {...normalSchemaJson["Category"].properties["name"]}
         name={t("name", { ns: "category" })}
       />
       <StringInputFieldTemplate

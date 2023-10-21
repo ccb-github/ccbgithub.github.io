@@ -72,7 +72,7 @@ export default function CustomerHomePage({ params: { lng } }: BasePageProps) {
         <SearchResultWrapper
           lng={lng}
           data={searchResult.get("resultData")}
-          type={searchResult.get("type")}
+          type={searchResult.get("type") as SchemaName}
         />
       ) : null}
     </div>

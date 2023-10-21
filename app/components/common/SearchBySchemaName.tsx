@@ -36,7 +36,8 @@ export default function SearchBySchemaName({
     Realm.Services.MongoDB.MongoDBCollection<any> | undefined
   >()
   const mongoCollection = useMemo(() => {
-    return mongoApp.currentUser.
+    return mongoApp.currentUser!.mongoClient("mongodb-atlas")
+    .db(process.env.NEXT_PUBLIC_MONGODB_ATLAS_DATABASE!).collection(searchSchema)
   },[searchSchema]) 
   const onSubmit = async () => {
     if (searchSchemaRef.current === undefined) {
