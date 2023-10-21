@@ -12,15 +12,15 @@ import React, {
 } from "react"
 import { BSON } from "realm-web"
 
-import type { SchemaName, SchemaObject } from "#/types/schema"
 import { insertDataToCol } from "#/lib/api/mongoService"
 
 import ModalQRCodeDialog from "./ModalQRCodeDialog"
 import { templateHTML } from "./templateHTML"
+import { NormalSchemaName, SchemaName, SchemaObject} from "#/lib/schema/format"
 
 //TODO default value with name
 /** filter: filterProps,
- * Describ
+ * Describe
  * Search by filter, given param id will filter._id
  * @date 2023-03-29
  * @param {SchemaObject} schemaObj : schema object used as the template for rendering the table
@@ -28,15 +28,15 @@ import { templateHTML } from "./templateHTML"
  * @param {string} lng}: Language string, etc: ch, en
  * @returns {HTMLFormElement}
  */
-export default function AddDataForm({
+export default function AddDataForm<SchemaN extends SchemaName>({
   schemaObj,
   schemaName,
   children,
   customizeSubmitAction,
   lng,
 }: {
-  schemaObj: SchemaObject
-  schemaName: SchemaName
+  schemaObj: SchemaObject<SchemaN>
+  schemaName: SchemaN
   customizeSubmitAction?: (theData: unknown) => unknown
   // TODO the type
   customizeField?: unknown

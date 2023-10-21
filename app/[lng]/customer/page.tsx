@@ -1,10 +1,10 @@
 "use client"
 import { BasePageProps } from "#/types/pageProp"
 
-import SearchBySchemaName from "#/components/common/SearchBySchemaName"
+import SearchBySchemaName, { SearchResultMap } from "#/components/common/SearchBySchemaName"
 import { useRef, useState } from "react"
 import ProductItem from "#/components/common/item/ProductItem"
-import { SchemaName, SearchResultMap } from "#/types/schema"
+
 import CheckerItem from "#/components/common/item/CheckerItem"
 import EnterpriseItem from "#/components/common/item/EnterpriseItem"
 import DefaultItem from "#/components/common/item/DefaultItem"
@@ -12,6 +12,7 @@ import { useApp } from "#/hooks/useApp"
 import OrderItem from "#/components/common/item/OrderItem"
 import Link from "next/link"
 import { useTranslation } from "#/lib/i18n/client"
+import { SchemaName } from "#/lib/schema/format"
 
 const SearchResultWrapper = ({
   type,
@@ -25,10 +26,10 @@ const SearchResultWrapper = ({
   const { t } = useTranslation(lng)
   if (data === null || data === undefined) {
     return (
-      <p>
+      <b>
         {t("No result found")}
         <Link href={"#"}>Other</Link>
-      </p>
+      </b>
     )
   }
 
@@ -49,7 +50,7 @@ const SearchResultWrapper = ({
 export default function CustomerHomePage({ params: { lng } }: BasePageProps) {
   const { t } = useTranslation(lng)
   const realmApp = useApp()
-  const [searchResult, setSearchResult] = useState<SearchResultMap>()
+  const [searchResult, setSearchResult] = useState<SearchResultMap<{}>>()
   const accountDataRef = useRef(realmApp.currentUser?.customData)
   if (!accountDataRef.current?.emailVerified) {
     return (

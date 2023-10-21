@@ -1,4 +1,5 @@
 import SchemaDataReactTable from "#/components/common/SchemaDataReactTable"
+import CheckRecordTable from "#/components/common/table/CheckRecordTable"
 import { queryCheckRecords } from "#/lib/api/gql/checkRecord"
 import { BasePageProps } from "#/types/pageProp"
 
@@ -10,7 +11,7 @@ export default async function RegulatoryHomePage({
   console.log(checkRecords)
   return (
     <div className="space-y-4">
-      <Checkre
+      <CheckRecordTable lng={lng} data={checkRecords}/>
     </div>
   )
 }

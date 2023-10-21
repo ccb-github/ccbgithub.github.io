@@ -1,38 +1,43 @@
 "use client"
 
 import { SearchIcon } from "../icons"
-import { useRef } from "react"
+import { useMemo, useRef } from "react"
 import { useApp } from "#/hooks/useApp"
 
-import {
-  SchemaResultMapper,
-  SchemaName,
-  SearchResultMap,
-  NormalSchemaName,
-} from "#/types/schema"
-import { schemaJson } from "#/lib/schema"
+import { normalSchemaJson } from "#/lib/schema"
 import ReactSelect from "react-select"
 import { useTranslation } from "#/lib/i18n/client"
+import { NormalSchemaName } from "#/lib/schema/format"
 
+export type SearchResultMap<SearchResult> = Map<
+  string,
+  SearchResult
+>
 export default function SearchBySchemaName({
   className,
+  searchSchemaName: searchSchemaNameProp,
   placeHolder,
   onSearchSubmit,
 }: {
   className?: string
-  searchSchemaName: SchemaName
+  searchSchemaName: NormalSchemaName
   placeHolder?: string
-  onSearchSubmit: (searchResult: SearchResultMap) => any
+  onSearchSubmit: (searchResult: unknown) => unknown
 }) {
   const mongoApp = useApp()
   const { t } = useTranslation("dialog")
   //Current search schema name
   const searchSchemaRef = useRef<NormalSchemaName>()
+  let searchSchema : NormalSchemaName = searchSchemaNameProp
+  //const targetSchema = 
   //TODO empty string
   const searchQueryRef = useRef("")
   const collectionRef = useRef<
     Realm.Services.MongoDB.MongoDBCollection<any> | undefined
   >()
+  const mongoCollection = useMemo(() => {
+    return mongoApp.currentUser.
+  },[searchSchema]) 
   const onSubmit = async () => {
     if (searchSchemaRef.current === undefined) {
       alert(t("Please select the type first!"))
@@ -51,16 +56,25 @@ export default function SearchBySchemaName({
       field = "name"
       value = searchQueryRef.current
     }
-    filter[field] = value
+    /**
+     * @todo Unify the object define 
+     */
+    Object.defineProperty(filter, "field", {
+      enumerable: true,
+      value,
+      writable: true
+    })
+
 
     const resultMap = new Map<
       string,
-      | SchemaName
-      | SchemaResultMapper[Exclude<typeof searchSchemaRef.current, undefined>]
+      unknown
     >([
       ["type", searchSchemaRef.current],
-      ["resultData", await collectionRef.current?.findOne(filter)],
+      ["resultData", await mongoCollection?.findOne(filter)],
     ])
+    
+    
     onSearchSubmit(resultMap)
   }
   //Change the activate collection
@@ -74,23 +88,25 @@ export default function SearchBySchemaName({
     <div className={`flex justify-center ${className ?? ""}`}>
       <ReactSelect
         inputId="select-container"
-        options={Object.entries(schemaJson).map((schemaEntry) => ({
+        options={Object.entries(normalSchemaJson).map((schemaEntry) => ({
           name: schemaEntry[1].name,
           label: schemaEntry[1].name,
         }))}
         onChange={(value) => {
-          searchSchemaRef.current = value?.name
+          if(value === null) 
+            return 
+          searchSchema = value.name
           collectionRef.current = mongoApp.currentUser
             ?.mongoClient("mongodb-atlas")
             .db("qrcodeTraceability")
-            .collection(value!.name)
+            .collection(value.name)
         }}
       />
       <input
         type="text"
         className="rounded-md"
         required
-        placeholder={placeHolder || "Searchbar placeholder not set"}
+        placeholder={placeHolder || "SearchBar placeholder not set"}
         onChange={(searchQueryOnChangeEvent) =>
           (searchQueryRef.current =
             searchQueryOnChangeEvent.currentTarget.value)

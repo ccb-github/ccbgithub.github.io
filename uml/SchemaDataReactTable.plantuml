@@ -1,8 +1,5 @@
 @startuml react_table 
-class TableProps {
- 
-  
-  
+class TableProps { 
   className?: string
   trClass?: string
   -----------------------------
