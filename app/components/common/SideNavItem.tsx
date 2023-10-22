@@ -78,10 +78,11 @@ export default function SideNavItem({
             stroke-width="1.5"
             viewBox="0 0 24 24"
             width="24"
-            style={
-              {color:"whitesmoke",
-                width:16,height:16
-              }}
+            style={{
+              color:"whitesmoke",
+              width:16,height:16,
+              transform : `rotate(${isOpen? 0.25: 0}turn)`
+            }}
           >
             <path d="M9 18l6-6-6-6"></path>
           </svg>
