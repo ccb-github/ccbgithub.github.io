@@ -2,9 +2,9 @@
 
 import { normalSchemaJson } from "#/lib/schema"
 
-import React, { useMemo } from "react"
+import React, { useMemo, useState } from "react"
 
-import { FaReacteurope } from "react-icons/fa"
+import { FaReacteurope, FaSort, FaSortDown, FaSortUp } from "react-icons/fa"
 import Button from "./Button"
 import SearchBar from "./SearchBar"
 import { useTranslation } from "#/lib/i18n/client"
@@ -14,12 +14,14 @@ import { CustomRender } from "#/lib/reactTable/render"
 import {
   Column,
   ColumnDef,
+  ColumnFiltersState,
+  SortingState,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { NormalSchemaName, SchemaDataPropType, URL_TO_SCHEMANAME } from "#/lib/schema/format"
+import { NormalSchemaName, SchemaDataPropType } from "#/lib/schema/format"
 
 /* type BaseFilterProps<DataItem> = {
   setFilter: (newFilter: unknown) => unknown
@@ -94,6 +96,7 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
     [schemaType],
   )
   const currentPath = usePathname()
+  const [sorting, setSorting] = useState<SortingState>([])
   /**
    * The column definition array with shape
    *
@@ -118,13 +121,25 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
     () => ({}),
     [],
   )
-
+  
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  )
+  const [globalFilter, setGlobalFilter] = React.useState("")
   // Destruct the property we need in Table instance return by "useTable" hook
   const reactTableInstance = useReactTable({
     columns: columnDefs,
     data,
+    state: {
+      columnFilters,
+      globalFilter,
+      sorting,
+    },
+    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
     getSortedRowModel: getSortedRowModel(),
     getCoreRowModel: getCoreRowModel(),
+    onSortingChange: setSorting,
     defaultColumn: defaultColumnSetting,
   })
   //If we do not give the display column list, default to be all the properties list in schemaObject
@@ -150,6 +165,7 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
         onSearchSubmit={function () {}}
         className="flex flex-row items-center justify-start"
       >
+        {/* Insert button */}
         <Button onClick={() => {}}>
           <Link href={`./${currentPath.split("/").at(-1)}/insert`}>
             <FaReacteurope />
@@ -157,43 +173,39 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
           </Link>
         </Button>
       </SearchBar>
-      <table style={{ border: "solid 1px blue" }}>
+      <table className="border-blue-400">
         <thead>
           {getHeaderGroups().map((headerGroup) => {
             return (
               <tr key={headerGroup.id}>
                 <th scope="column">index</th>
-                {headerGroup.headers.map((column) => {
+                {headerGroup.headers.map((header) => {
                   return (
                     <th
-                      key={column.id}
-                      className="bg-slate-400"
-                      colSpan={column.colSpan}
+                      key={header.id}
+                      className="bg-blue-400 max-w-7 font-bold"
+                      colSpan={header.colSpan}
                       style={{
-                        maxWidth: "7rem",
-                        background: "aliceblue",
                         color: "black",
-                        fontWeight: "bold",
                       }}
                     >
                       {flexRender(
-                        t(column.column.columnDef.header as string),
-                        column.getContext(),
+                        t(header.column.columnDef.header as string),
+                        header.getContext(),
                       )}
                       {/* sort widget */}
-                      {/* <span className="cursor-pointer" key={column.id}>
-                      
-
-                        {column && column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <FaSortDown className="inline-block" />
-                          ) : (
-                            <FaSortUp className="inline-block" />
-                          )
-                        ) : (
+                      <span
+                        className="cursor-pointer"
+                        key={header.id}
+                        onClick={header.column.getToggleSortingHandler()}
+                      >
+                        {{
+                          asc: <FaSortUp className="inline-block" />,
+                          desc: <FaSortDown className="inline-block" />,
+                        }[header.column.getIsSorted() as string] ?? (
                           <FaSort className="inline-block" />
                         )}
-                      </span> */}
+                      </span>
                     </th>
                   )
                 })}
@@ -220,7 +232,6 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
                   >
                     <CustomRender
                       value={cell.getValue()}
-                      // @ts-ignore
                       dataType={schemaProperties[cell.column.id].dataType}
                     />
                   </td>

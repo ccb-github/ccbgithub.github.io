@@ -5,7 +5,7 @@ import * as Realm from "realm-web"
 import { useApp } from "#/hooks/useApp"
 import Link from "next/link"
 import { useTranslation } from "#/lib/i18n/client"
-import { roleUrlMap } from "#/lib/webcontents/user"
+import { roleUrlMap } from "#/lib/webContents/user"
 import { UserProfile } from "#/types/data"
 import Button from "../common/Button"
 import { FaEye } from "react-icons/fa"
@@ -54,7 +54,7 @@ export default function LoginForm({
         )
         return
       }
-      if (!userCustomData.emailVerified) {
+      if (userCustomData.emailVerified !== true) {
         alert(
           t("Your account is unverified, contact the admin", { ns: "dialog" }),
         )

@@ -1,12 +1,12 @@
 import { useApp } from "#/hooks/useApp";
 import { insertDataToCol } from "#/lib/api/mongoService";
 import fieldConvert from "#/lib/fieldConvert";
-import { SchemaObject } from "#/types/schema";
 import { useRef, useState, useEffect, FormEvent } from "react";
 import { BSON } from "realm-web";
 import { templateHTML } from "./templateHTML";
 import ModalQRCodeDialog from "./ModalQRCodeDialog";
 import RelatedItemDialog from "./related/RelatedItemDialog";
+import { SchemaObject } from "#/lib/schema/format";
 RelatedItemDialog
 /** filter: filterProps,
  * Describ
@@ -59,7 +59,7 @@ export default function AddCheckRecord({
           Object.defineProperty(insertData.current, item[0], {
             writable: true,
             enumerable: true,
-            value: fieldConvert(item[1], schemaObj.properties[item[0]].type),
+            value: fieldConvert(item[1] as string, schemaObj.properties[item[0]].type),
           })
         }
         insertData.current._id = new BSON.ObjectId()

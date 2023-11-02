@@ -3,7 +3,7 @@ import SideNavItem from "#/components/common/SideNavItem"
 
 import AccountFooter from "#/components/normal/AccountFooter"
 import { useTranslation } from "#/lib/i18n"
-import { adminSideBarItems } from "#/lib/webcontents/sideBar"
+import { adminSideBarItems } from "#/lib/webContents/sideBar"
 import { CommonLayoutProps } from "#/types/pageProp"
 import clsx from "clsx"
 

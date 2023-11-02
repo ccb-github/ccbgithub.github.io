@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import MainPanelNavItem from '#/components/common/MainPanelNavItem'
 import { useTranslation } from '#/lib/i18n'
-import { enterpriseMainPanels } from '#/lib/webcontents/mainPanel'
+import { enterpriseMainPanels } from '#/lib/webContents/mainPanel'
 import { type BasePageProps } from '#/types/pageProp'
 import { type NavItem } from '#/types/webContent'
 

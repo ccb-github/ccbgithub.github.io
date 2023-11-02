@@ -1,7 +1,6 @@
 import React from "react"
 
 import RelatedObjSelect from "#/components/form/related/RelatedObjSelect"
-import Button from "#/components/common/Button"
 import DateInputFieldTemplate from "#/components/common/input/DateInputFieldTemplate"
 import TypeSpan from "#/components/common/input/TypeSpan"
 import IntInputFieldTemplate from "#/components/common/input/IntInputFieldTemplate"
@@ -9,10 +8,9 @@ import BooleanInputFieldTemplate from "#/components/common/input/BooleanInputFie
 import { StringInputFieldTemplate } from "./input/StringInputFieldTemplate"
 import AsyncSelect from "../common/AsyncSelect"
 import { SchemaProperty, NormalSchemaName } from "#/lib/schema/format"
-
+import DoubleFieldTemplate from "../common/input/DoubleInputFieldTemplate"
 export function templateHTML(prop: SchemaProperty) {
   // const DATE_FORMAT = "YYYY-MM-DD HH:MM:SS"
-  const DOUBLE_PRECISION = 0.0001
   const RESERVE_NAME = ["ownerId", "_id"]
   //prop.name is reserved, omit
   if (RESERVE_NAME.includes(prop.name)) {
@@ -38,29 +36,7 @@ export function templateHTML(prop: SchemaProperty) {
   } else if (prop.dataType === "int") {
     return <IntInputFieldTemplate {...prop} key={prop.name} />
   } else if (prop.dataType === "double") {
-    return (
-      <div key={prop.name} className="form-group">
-        <div className="w-full p-4">
-          <label className=" control-label" htmlFor={prop.name}>
-            {prop.name}
-            {prop.optional ? "" : "*"}
-          </label>
-          <TypeSpan text="date" className="float-right" />
-          <Button text="refresh" className="float-right" onClick={() => {}} />
-        </div>
-        <div className=" w-full">
-          <input
-            id={prop.name}
-            name={prop.name}
-            type="number"
-            step={DOUBLE_PRECISION}
-            required={prop.optional}
-            placeholder={`please Enter your ${prop.name} here, precision up to ${DOUBLE_PRECISION}`}
-            className="form-control input-md w-full"
-          />
-        </div>
-      </div>
-    )
+    return <DoubleFieldTemplate {...prop} key={prop.name} />
   } else if (prop.dataType === "date") {
     return <DateInputFieldTemplate key={prop.name} {...prop} />
   } else if (prop.dataType === "string") {

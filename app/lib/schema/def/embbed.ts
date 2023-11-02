@@ -1,5 +1,4 @@
-import { EmbeddedSchemaJson, NormalSchemaJson } from "#/lib/schema"
-import { EmbedSchemaObject, NormalSchemaObject } from "../format"
+import { SchemaObject } from "../format"
 
 export type QrcodeSchemaEmbed = {
   value: string
@@ -8,8 +7,11 @@ export type LocationSchemaEmbed = {
   latitude: number
   longitude: number
 }
-const qrcodeSchemaEmbed: EmbedSchemaObject<keyof QrcodeSchemaEmbed> = {
-  
+type NeverTest = {
+  foo: never
+}
+
+const qrcodeSchemaEmbed: SchemaObject<"Qrcode", keyof QrcodeSchemaEmbed> = {
   name: "Qrcode",
   embedded: true,
   properties: {
@@ -20,33 +22,32 @@ const qrcodeSchemaEmbed: EmbedSchemaObject<keyof QrcodeSchemaEmbed> = {
       optional: false,
       mapTo: "value",
     },
-  }
-}
-const locationSchemaEmbed: EmbedSchemaObject<keyof LocationSchemaEmbed> = {
-  
-  name: "Location",
-  properties: {
-    latitude: {
-      name: "latitude",
-      dataType: "double",
-      indexed: false,
-      optional: false,
-      mapTo: "latitude",
-    },
-    longitude: {
-      name: "longitude",
-      dataType: "double",
-      indexed: false,
-      optional: false,
-      mapTo: "longitude",
-    },
   },
-  embedded: true,
-  
 }
-const embedSchema: EmbeddedSchemaJson = {
+const locationSchemaEmbed: SchemaObject<"Location", keyof LocationSchemaEmbed> =
+  {
+    name: "Location",
+    properties: {
+      latitude: {
+        name: "latitude",
+        dataType: "double",
+        indexed: false,
+        optional: false,
+        mapTo: "latitude",
+      },
+      longitude: {
+        name: "longitude",
+        dataType: "double",
+        indexed: false,
+        optional: false,
+        mapTo: "longitude",
+      },
+    },
+    embedded: true,
+  }
+const embedSchema = {
   Location: locationSchemaEmbed,
-  Qrcode: qrcodeSchemaEmbed
+  Qrcode: qrcodeSchemaEmbed,
 }
 
 export default embedSchema

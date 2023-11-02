@@ -3,7 +3,7 @@ import AccountFooter from "#/components/normal/AccountFooter"
 
 import BreadCrumb from "#/components/common/BreadCrumb"
 import SideNavItem from "#/components/common/SideNavItem"
-import { enterPriseSideBarItems } from "#/lib/webcontents/sideBar"
+import { enterPriseSideBarItems } from "#/lib/webContents/sideBar"
 import clsx from "clsx"
 import { t } from "i18next"
 import Link from "next/link"

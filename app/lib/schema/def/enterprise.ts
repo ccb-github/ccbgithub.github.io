@@ -1,4 +1,4 @@
-import { NormalSchemaObject } from "#/lib/schema/format"
+import { SchemaObject } from "#/lib/schema/format"
 import { BSON } from "realm-web"
 
 export type EnterpriseSchema = {
@@ -13,7 +13,10 @@ export type EnterpriseSchema = {
   registerPlace: string
   tradeMark?: string
 }
-export const enterpriseSchemaJson: NormalSchemaObject<keyof EnterpriseSchema> = {
+export const enterpriseSchemaJson: SchemaObject<
+  "Enterprise",
+  keyof EnterpriseSchema
+> = {
   name: "Enterprise",
   properties: {
     _id: {

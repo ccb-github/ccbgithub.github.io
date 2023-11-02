@@ -1,4 +1,4 @@
-import { adminMainPanels } from "#/lib/webcontents/mainPanel"
+import { adminMainPanels } from "#/lib/webContents/mainPanel"
 import Link from "next/link"
 import { useTranslation } from "#/lib/i18n"
 import { NavItem } from "#/types/webContent"
@@ -39,10 +39,6 @@ export default async function AdminHomePage({
           </div>
         </div>
       ))}
-      {/* <section>
-        
-        <QRCodeImg src="https://cn.bing.com"/>
-      </section> */}
     </>
   )
 }

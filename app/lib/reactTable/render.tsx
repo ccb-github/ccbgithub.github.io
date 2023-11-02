@@ -2,7 +2,7 @@ import DoubleCell from "#/components/common/table/cell/DoubleCell"
 import IntCell from "#/components/common/table/cell/IntCell"
 import ObjectIdCell from "#/components/common/table/cell/ObjectIdCell"
 import StringCell from "#/components/common/table/cell/StringCell"
-import { SchemaDataPropType } from "#/types/schema"
+import { SchemaDataPropType } from "#/lib/schema/format"
 
 function CustomRender({
   value,

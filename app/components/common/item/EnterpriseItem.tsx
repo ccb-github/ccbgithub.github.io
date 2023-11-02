@@ -1,21 +1,21 @@
-'use client'
+"use client"
 import { useTranslation } from "#/lib/i18n/client"
-import { SchemaResultMapper } from "#/types/schema"
+import { EnterpriseSchema } from "#/lib/schema/def/enterprise"
 
 export default function EnterpriseItem({
   lng,
   item,
 }: {
-  lng: string;
-  item: SchemaResultMapper["Enterprise"];
+  lng: string
+  item: EnterpriseSchema
 }) {
-  const { t } = useTranslation(lng);
+  const { t } = useTranslation(lng)
 
   return (
     <div data-v-3bcbdc80="" className="product_content">
       <table data-v-3bcbdc80="">
         <thead>
-        <tr data-v-3bcbdc80="">
+          <tr data-v-3bcbdc80="">
             <td data-v-3bcbdc80="" colSpan={2} style={{ textAlign: "left" }}>
               {/**/}
               <span
@@ -142,5 +142,5 @@ export default function EnterpriseItem({
         </div>
       </div>
     </div>
-  );
+  )
 }

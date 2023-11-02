@@ -27,7 +27,7 @@ interface MongodbListProps {
  * @param {any} filter
  * @param {string} id: The objectid(primary key) string
  * @param {string} lng: Language string, etc: ch, en
- * @returns {SchemaObject}
+ * @returns {React.ReactNode} The table of the corresponding data 
  */
 export default function MongodbList({
   type,

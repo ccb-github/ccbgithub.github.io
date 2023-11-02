@@ -5,14 +5,13 @@ import clsx from "clsx"
 import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
 import { useState } from "react"
-import { FaChevronCircleDown, FaChevronCircleUp } from "react-icons/fa"
 //TODO type link, remove unnecessary props
 export default function SideNavItem({
   text,
   link,
   items,
   lng,
-  i18ns
+  i18ns,
 }: {
   text: string
   link?: string
@@ -40,7 +39,7 @@ export default function SideNavItem({
               "text-blue-400 hover:bg-blue-800": !isActive,
               "text-white": isActive,
               opened: isOpen,
-            }
+            },
           )}
         >
           {text}
@@ -56,32 +55,33 @@ export default function SideNavItem({
               "text-blue-400 hover:bg-blue-800": !isActive,
               "text-white": isActive,
               opened: isOpen,
-            }
+            },
           )}
         >
           {" "}
-          {isOpen ? (
+          {/* {isOpen ? (
             <FaChevronCircleUp className="self-center mr-2" />
           ) : (
             <FaChevronCircleDown className="self-center mr-2" />
-          )}
+          )} */}
           {text}
           <svg
-            className="with-icon_icon__MHUeb"
+            className="with-icon_icon__MHUeb self-center"
             data-testid="geist-icon"
             fill="none"
             height="24"
-            shape-rendering="geometricPrecision"
+            shapeRendering="geometricPrecision"
             stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
             viewBox="0 0 24 24"
             width="24"
             style={{
-              color:"whitesmoke",
-              width:16,height:16,
-              transform : `rotate(${isOpen? 0.25: 0}turn)`
+              color: "whitesmoke",
+              width: 16,
+              height: 16,
+              transform: `rotate(${isOpen ? 0.25 : 0}turn)`,
             }}
           >
             <path d="M9 18l6-6-6-6"></path>

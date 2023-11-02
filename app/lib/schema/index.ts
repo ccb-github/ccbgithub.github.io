@@ -7,16 +7,8 @@ import checkRecordSchema from "./def/checkRecord"
 import Stock from "./def/stock"
 import Order, { OrderSchema } from "./def/order"
 import Logistic from "./def/logistic"
-import { EmbedSchemaObject, EmbeddedSchemaName, NormalSchemaName, NormalSchemaObject } from "./format"
 
-export type NormalSchemaJson = {
-  [key in NormalSchemaName]: NormalSchemaObject
-}
-export type EmbeddedSchemaJson = {
-  [key in EmbeddedSchemaName]: EmbedSchemaObject<string>
-}
-
-export const normalSchemaJson: NormalSchemaJson = {
+export const normalSchemaJson = {
   Category: categorySchema,
   Checker,
   CheckRecord: checkRecordSchema,

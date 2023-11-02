@@ -1,7 +1,7 @@
 import { CommonLayoutProps } from "#/types/pageProp"
 import AccountFooter from "#/components/normal/AccountFooter"
 import BreadCrumb from "#/components/common/BreadCrumb"
-import { regulatorySideBarItems } from "#/lib/webcontents/sideBar"
+import { regulatorySideBarItems } from "#/lib/webContents/sideBar"
 import SideNavItem from "#/components/common/SideNavItem"
 import { XIcon, MenuAlt2Icon } from "@heroicons/react/outline"
 import clsx from "clsx"
