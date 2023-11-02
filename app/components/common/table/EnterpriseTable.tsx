@@ -14,7 +14,10 @@ import SchemaDataReactTable from "../SchemaDataReactTable"
 import { useApp } from "#/hooks/useApp"
 import { useRouter } from "next/navigation"
 import { type GeneralDataTableWrapperProps } from "#/types/table"
-import enterpriseSchemaJson, { EnterpriseSchema } from "#/lib/schema/def/enterprise"
+import enterpriseSchemaJson, {
+  EnterpriseSchema,
+} from "#/lib/schema/def/enterprise"
+import { roleUrlMap } from "#/lib/webContents/user"
 
 type EnterpriseReactTableProps = GeneralDataTableWrapperProps<
   Partial<Record<keyof EnterpriseSchema, string>> & {
@@ -36,8 +39,10 @@ export default function EnterpriseTable({
   const realmApp = useApp()
   const router = useRouter()
   const editLink = `/${lng}/${
-    realmApp.currentUser?.customData.role ?? "share"
-  }/edit/order`
+    roleUrlMap[
+      realmApp.currentUser?.customData.role as keyof typeof roleUrlMap
+    ] ?? "share"
+  }/edit/enterprise`
 
   return (
     <SchemaDataReactTable<
@@ -49,14 +54,13 @@ export default function EnterpriseTable({
       data={data}
       schemaType={"Enterprise"}
       deleteEnabled={true}
-      columnOptions={
-        Object.values(enterpriseSchemaJson.properties).map(
+      columnOptions={Object.values(enterpriseSchemaJson.properties).map(
         (prop) => ({
           accessor: prop.mapTo as keyof EnterpriseSchema,
           header: t(prop.mapTo),
           type: prop.dataType,
-        }))
-      }
+        }),
+      )}
       customColumn={() => {
         return (
           <>
@@ -68,7 +72,7 @@ export default function EnterpriseTable({
                 deleteDocuments(realmApp.currentUser!, "Enterprise", {
                   _id: fieldConvert(
                     self.dataset.id!,
-                    schemaPropertiesRef.current["_id"].dataType
+                    schemaPropertiesRef.current["_id"].dataType,
                   ),
                 })
                   .then(() => {

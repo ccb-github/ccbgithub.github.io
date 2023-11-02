@@ -14,6 +14,7 @@ import { useApp } from "#/hooks/useApp"
 import { useRouter } from "next/navigation"
 import { type GeneralDataTableWrapperProps } from "#/types/table"
 import productSchemaJson, { ProductSchema } from "#/lib/schema/def/product"
+import { roleUrlMap } from "#/lib/webContents/user"
 
 type ProductReactTableProps = GeneralDataTableWrapperProps<
   Partial<Record<keyof ProductSchema, string>> & {
@@ -35,7 +36,9 @@ export default function ProductTable({ data, lng }: ProductReactTableProps) {
   const realmApp = useApp()
   const router = useRouter()
   const editLink = `/${lng}/${
-    realmApp.currentUser?.customData.role ?? "share"
+    roleUrlMap[
+      realmApp.currentUser?.customData.role as keyof typeof roleUrlMap
+    ] ?? "share"
   }/edit/product`
 
   return (
@@ -55,7 +58,7 @@ export default function ProductTable({ data, lng }: ProductReactTableProps) {
         }),
       )}
       deleteEnabled={true}
-      customColumn={() => {
+      customColumn={(id) => {
         return (
           <>
             <Button
@@ -81,7 +84,7 @@ export default function ProductTable({ data, lng }: ProductReactTableProps) {
               <FaReacteurope className="inline-block w-4 h-4" />
             </Button>
             <Button className="m-auto">
-              <Link href={editLink}>
+              <Link href={`${editLink}/${id}`}>
                 {t("Edit")}
                 <EditIcon className="inline-block w-4 h-4" />
               </Link>

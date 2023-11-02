@@ -13,6 +13,7 @@ import { useApp } from "#/hooks/useApp"
 import { useRouter } from "next/navigation"
 import { type GeneralDataTableWrapperProps } from "#/types/table"
 import regulatorySchemaJson, { RegulatorySchema } from "#/lib/schema/def/regulatory"
+import { roleUrlMap } from "#/lib/webContents/user"
 
 type RegulatoryReactTableProps = GeneralDataTableWrapperProps<
   Partial<Record<keyof RegulatorySchema, string>> & {
@@ -33,7 +34,9 @@ export default function RegulatoryTable({
   const realmApp = useApp()
   const router = useRouter()
   const editLink = `/${lng}/${
-    realmApp.currentUser?.customData.role ?? "share"
+    roleUrlMap[
+      realmApp.currentUser?.customData.role as keyof typeof roleUrlMap
+    ] ?? "share"
   }/edit/regulatory`
 
   return (

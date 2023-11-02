@@ -1,6 +1,5 @@
 "use client"
 import { normalSchemaJson } from "#/lib/schema"
-import type { SchemaResultMapper } from "#/types/schema"
 import React, { useRef } from "react"
 import { FaReacteurope } from "react-icons/fa"
 
@@ -15,6 +14,7 @@ import { useApp } from "#/hooks/useApp"
 import { useRouter } from "next/navigation"
 import { type GeneralDataTableWrapperProps } from "#/types/table"
 import { CategorySchema } from "#/lib/schema/def/category"
+import { roleUrlMap } from "#/lib/webContents/user"
 
 type CategoryReactTableProps = GeneralDataTableWrapperProps<
   Partial<Record<keyof CategorySchema, string>> & {
@@ -33,12 +33,14 @@ export default function CategoryTable({ data, lng }: CategoryReactTableProps) {
   const realmApp = useApp()
   const router = useRouter()
   const editLink = `/${lng}/${
-    realmApp.currentUser?.customData.role ?? "share"
+    roleUrlMap[
+      realmApp.currentUser?.customData.role as keyof typeof roleUrlMap
+    ] ?? "share"
   }/edit/category`
 
   return (
     <SchemaDataReactTable<
-      Partial<Record<keyof SchemaResultMapper["Category"], string>> & {
+      Partial<Record<keyof CategorySchema, string>> & {
         _id: string
       }
     >
