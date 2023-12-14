@@ -1,5 +1,5 @@
 import { CommonLayoutProps } from "#/types/pageProp"
-import AccountFooter from "#/components/normal/AccountFooter"
+import AccountHeader from "#/components/normal/AccountHeader"
 
 import BreadCrumb from "#/components/common/BreadCrumb"
 import SideNavItem from "#/components/common/SideNavItem"
@@ -74,7 +74,7 @@ export default function EnterpriseRootLayout({
 
       <div className="flex h-full flex-col lg:pl-72">
         <div className="flex-grow-0 rounded-lg" id="account-footer-container">
-          <AccountFooter lng={lng} />
+          <AccountHeader lng={lng} />
         </div>
         <BreadCrumb className="flex-grow-0" lng={lng} />
         <div

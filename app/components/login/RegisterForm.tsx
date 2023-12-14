@@ -7,7 +7,7 @@ import * as Realm from "realm-web"
 import { t } from "i18next"
 import Link from "next/link"
 import { roleUrlMap } from "#/lib/webContents/user"
-import { UserProfile } from "#/types/data"
+import { type UserProfile } from "#/types/data"
 
 export default function RegisterForm({ lng }: { lng: string }) {
   const email = useRef("")
@@ -50,8 +50,6 @@ export default function RegisterForm({ lng }: { lng: string }) {
       })
       .catch((error) => {
         event.preventDefault()
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-ignore
         alert(error?.message)
         console.error(error)
       })
@@ -62,7 +60,7 @@ export default function RegisterForm({ lng }: { lng: string }) {
       <form
         id="register-form"
         className="form p-4 border border-solid"
-        onSubmit={() => false}
+        onSubmit={registerWithEmailAndPassword}
       >
         <h2 className="text-info text-center text-xl">{t("Register")}</h2>
         <div className="form-group">
@@ -111,21 +109,20 @@ export default function RegisterForm({ lng }: { lng: string }) {
         </div>
         <div className="form-group">
           <span className="space-x-1">
+            <Link href={`${lng}`} className="underline">
+              {t("Back to login")}
+            </Link>
             <label htmlFor="remember-me" className="text-info">
               <span>{t("Remember me")}</span>
               <span>
                 <input id="remember-me" name="remember-me" type="checkbox" />
               </span>
             </label>
-            <Link href={`${lng}`} className="underline">
-              {t("Back to login")}
-            </Link>
           </span>
           <button
             name={"submit"}
             type={"submit"}
             className="btn btn-info btn-md bg-blue-300 rounded"
-            onClick={registerWithEmailAndPassword}
           >
             {t("Register")}
           </button>

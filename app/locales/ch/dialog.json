@@ -5,5 +5,6 @@
     "confirm": "确认",
     "cancel": "取消",
     "Please select the type first!" : "请先选择类型",
-    "Your account is unverified, contact the admin": "你的账号没有通过验证，请联系管理员"
+    "Your account is unverified, contact the admin": "你的账号没有通过验证，请联系管理员",
+    "User load timeout" :"用户信息加载 {{time}}ms 后失败."
 }

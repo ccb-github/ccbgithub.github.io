@@ -54,14 +54,6 @@ export function templateHTML(prop: SchemaProperty) {
         </div>
         <div className="w-full">
           <AsyncSelect selectName={prop.name} />
-          {/* <input
-            id={prop.name}
-            name={prop.name}
-            type="text"
-            placeholder={`please Enter your ${prop.name} here`}
-            className="form-control input-md w-full"
-            required={!prop.optional}
-          /> */}
         </div>
       </div>
     )

@@ -28,7 +28,7 @@ export default function EditDataForm({
   initialValue,
   lng,
 }: {
-  schemaObj: SchemaObject<"TypeDefault">
+  schemaObj: SchemaObject<"TypeDefault", "_id">
   customizeSubmitAction?: (theData: unknown) => void
   lng: string
   initialValue: unknown

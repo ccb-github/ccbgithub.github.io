@@ -1,6 +1,6 @@
 "use client"
+import { NormalSchemaName } from "#/lib/schema/format"
 import { SearchIcon } from "../icons"
-import { NormalSchemaName } from "#/types/schema"
 
 export default function SearchBar({
   className,
@@ -11,7 +11,7 @@ export default function SearchBar({
   className?: string
   searchSchemaName: NormalSchemaName
   placeHolder?: string
-  onSearchSubmit: (searchResult: string) => any
+  onSearchSubmit: (searchResult: string) => unknown
   children: React.ReactNode
 }) {
   const submitValue = "submit data"

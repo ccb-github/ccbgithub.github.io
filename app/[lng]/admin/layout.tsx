@@ -1,7 +1,7 @@
 import BreadCrumb from "#/components/common/BreadCrumb"
 import SideNavItem from "#/components/common/SideNavItem"
 
-import AccountFooter from "#/components/normal/AccountFooter"
+import AccountHeader from "#/components/normal/AccountHeader"
 import { useTranslation } from "#/lib/i18n"
 import { adminSideBarItems } from "#/lib/webContents/sideBar"
 import { CommonLayoutProps } from "#/types/pageProp"
@@ -11,7 +11,6 @@ import Link from "next/link"
 import SideBarToggleButton from "../../components/common/SideBarToggleButton"
 import TopTabBar from "#/components/common/TopTabBar"
 import Script from "next/script"
-//import { useState } from "react";
 
 type AdminLayoutProps = CommonLayoutProps & {
   modal: React.ReactNode
@@ -21,7 +20,6 @@ export default async function AdminRootLayout({
   modal,
   params: { lng },
 }: AdminLayoutProps & { one: React.ReactNode }) {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { t } = await useTranslation(lng, "admin")
 
   return (
@@ -81,7 +79,7 @@ export default async function AdminRootLayout({
       </div>
       <div className="flex h-full flex-col lg:pl-72">
         <div className="flex-grow-0 rounded-lg" id="footer">
-          <AccountFooter lng={lng} />
+          <AccountHeader lng={lng} />
         </div>
         <TopTabBar lng={lng} />
         <BreadCrumb className="flex-grow-0" lng={lng} />

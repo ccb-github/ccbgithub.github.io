@@ -1,7 +1,9 @@
 "use client"
 import { BasePageProps } from "#/types/pageProp"
 
-import SearchBySchemaName, { SearchResultMap } from "#/components/common/SearchBySchemaName"
+import SearchBySchemaName, {
+  SearchResultMap,
+} from "#/components/common/SearchBySchemaName"
 import { useRef, useState } from "react"
 import ProductItem from "#/components/common/item/ProductItem"
 
@@ -12,7 +14,7 @@ import { useApp } from "#/hooks/useApp"
 import OrderItem from "#/components/common/item/OrderItem"
 import Link from "next/link"
 import { useTranslation } from "#/lib/i18n/client"
-import { SchemaName } from "#/lib/schema/format"
+import { NormalSchemaName, SchemaName } from "#/lib/schema/format"
 
 const SearchResultWrapper = ({
   type,
@@ -20,7 +22,7 @@ const SearchResultWrapper = ({
   lng,
 }: {
   type: SchemaName
-  data: any
+  data: unknown
   lng: string
 }) => {
   const { t } = useTranslation(lng)
@@ -50,7 +52,8 @@ const SearchResultWrapper = ({
 export default function CustomerHomePage({ params: { lng } }: BasePageProps) {
   const { t } = useTranslation(lng)
   const realmApp = useApp()
-  const [searchResult, setSearchResult] = useState<SearchResultMap<{}>>()
+  const [searchResult, setSearchResult] =
+    useState<SearchResultMap<object | NormalSchemaName>>()
   const accountDataRef = useRef(realmApp.currentUser?.customData)
   if (!accountDataRef.current?.emailVerified) {
     return (

@@ -1,6 +1,6 @@
-import type { SchemaObject } from "#/types/schema"
 import { BSON } from "realm-web"
 import { ProductSchema } from "#/lib/schema/def/product"
+import { SchemaObject } from "../format"
 export type OrderSchema = {
   _id: BSON.ObjectID
   customerId: string
@@ -9,7 +9,7 @@ export type OrderSchema = {
   paymentMethod: string
   products: Array<ProductSchema>
 }
-const Order: SchemaObject<keyof OrderSchema> = {
+const Order: SchemaObject<"Order", keyof OrderSchema> = {
   name: "Order",
   properties: {
     _id: {
@@ -18,6 +18,7 @@ const Order: SchemaObject<keyof OrderSchema> = {
       indexed: true,
       optional: false,
       mapTo: "_id",
+      roleType: "select",
     },
     customerId: {
       name: "customerId",
@@ -25,6 +26,7 @@ const Order: SchemaObject<keyof OrderSchema> = {
       indexed: false,
       optional: false,
       mapTo: "customerId",
+      roleType: "select",
     },
 
     orderTime: {
@@ -33,6 +35,7 @@ const Order: SchemaObject<keyof OrderSchema> = {
       indexed: false,
       optional: false,
       mapTo: "orderTime",
+      roleType: "select",
     },
     paymentMethod: {
       name: "paymentMethod",
@@ -40,6 +43,7 @@ const Order: SchemaObject<keyof OrderSchema> = {
       indexed: false,
       optional: false,
       mapTo: "paymentMethod",
+      roleType: "select",
     },
     transitionId: {
       name: "transitionId",
@@ -47,6 +51,7 @@ const Order: SchemaObject<keyof OrderSchema> = {
       indexed: false,
       optional: false,
       mapTo: "transitionId",
+      roleType: "select",
     },
     products: {
       name: "products",
@@ -55,6 +60,7 @@ const Order: SchemaObject<keyof OrderSchema> = {
       indexed: false,
       optional: false,
       mapTo: "products",
+      roleType: "select",
     },
   },
   primaryKey: "_id",

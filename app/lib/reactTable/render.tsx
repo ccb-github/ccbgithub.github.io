@@ -1,14 +1,18 @@
 import DoubleCell from "#/components/common/table/cell/DoubleCell"
 import IntCell from "#/components/common/table/cell/IntCell"
-import ObjectIdCell from "#/components/common/table/cell/ObjectIdCell"
+import LinkCell from "#/components/common/table/cell/LinkCell"
 import StringCell from "#/components/common/table/cell/StringCell"
-import { SchemaDataPropType } from "#/lib/schema/format"
+import ValueCell from "#/components/common/table/cell/ValueCell"
+import { NormalSchemaName, SchemaDataPropType } from "#/lib/schema/format"
 
 function CustomRender({
   value,
   dataType,
+  relationSchemaName,
 }: {
   value: unknown
+  relationSchemaName?: NormalSchemaName
+
   dataType: SchemaDataPropType
 }) {
   console.log(`The datatype in render ${dataType}`)
@@ -20,7 +24,11 @@ function CustomRender({
     case "string":
       return <StringCell value={value} />
     case "objectId":
-      return <ObjectIdCell value={value} />
+      return relationSchemaName ? (
+        <LinkCell value={value} relLink={`${relationSchemaName}/${value}`} />
+      ) : (
+        <ValueCell value={value} />
+      )
 
     case "date":
       return <p>{value as string}</p>

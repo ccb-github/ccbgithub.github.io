@@ -1,5 +1,5 @@
 import { CommonLayoutProps } from "#/types/pageProp"
-import AccountFooter from "#/components/normal/AccountFooter"
+import AccountHeader from "#/components/normal/AccountHeader"
 import BreadCrumb from "#/components/common/BreadCrumb"
 import { regulatorySideBarItems } from "#/lib/webContents/sideBar"
 import SideNavItem from "#/components/common/SideNavItem"
@@ -72,7 +72,7 @@ export default async function RegulatoryRootLayout({
       </div>
 
       <div className="flex h-full flex-col lg:pl-72">
-        <AccountFooter lng={lng} />
+        <AccountHeader lng={lng} />
         <BreadCrumb className="flex-grow-0" lng={lng} />
 
         <div

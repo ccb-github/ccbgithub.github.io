@@ -36,7 +36,10 @@ export type NormalSchemaName =
   | "CheckRecord"
   | "Stock"
   | "Logistic"
-  //This name is for default type definition
+  /*  
+      This value option is for type definition 
+      for some generic component which does not bond with specific schema
+   */
   | "TypeDefault"
 
 export type SchemaName = EmbeddedSchemaName | NormalSchemaName
@@ -60,7 +63,7 @@ export interface SchemaProperty<DefaultValue = string> {
 
 export type SchemaObject<
   TheName extends SchemaName,
-  SchemaPropKey extends string = "_id",
+  SchemaPropKey extends string,
 > = {
   name: TheName
   primaryKey: TheName extends NormalSchemaName ? string : never
@@ -72,7 +75,7 @@ export type SchemaObject<
         //_id is mandatory for a normal schema
         _id: SchemaProperty
       }
-    : object)
+    : unknown)
 }
 // export interface NormalSchemaObject<NormalSchemaName, SchemaPropKey extends string = "_id"> {
 //   name: NormalSchemaName

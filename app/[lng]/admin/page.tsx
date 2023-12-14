@@ -2,7 +2,6 @@ import { adminMainPanels } from "#/lib/webContents/mainPanel"
 import Link from "next/link"
 import { useTranslation } from "#/lib/i18n"
 import { NavItem } from "#/types/webContent"
-
 type PageParams = {
   lng: string
 }

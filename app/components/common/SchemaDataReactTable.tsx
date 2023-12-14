@@ -18,6 +18,7 @@ import {
   SortingState,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
@@ -89,7 +90,6 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
   customColumn,
   lng,
 }: ReactTableProps<DataItem>): React.JSX.Element {
-  //TODO the language props
   const { t } = useTranslation(lng, schemaType.toLowerCase())
   const schemaProperties = useMemo(
     () => normalSchemaJson[schemaType].properties,
@@ -98,8 +98,7 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
   const currentPath = usePathname()
   const [sorting, setSorting] = useState<SortingState>([])
   /**
-   * The column definition array with shape
-   *
+   * The column definition array with shape of @type{DataItem}
    */
   const columnDefs = useMemo<ColumnDef<DataItem>[]>(() => {
     if (columnOptions === undefined) {
@@ -121,7 +120,7 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
     () => ({}),
     [],
   )
-  
+
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   )
@@ -139,9 +138,11 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
     onGlobalFilterChange: setGlobalFilter,
     getSortedRowModel: getSortedRowModel(),
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     defaultColumn: defaultColumnSetting,
   })
+
   //If we do not give the display column list, default to be all the properties list in schemaObject
   //const columnAccessors = columnAccessorsProp || Object.keys(schemaProperties)
   if (data.length === 0 && columnOptions === undefined) {
@@ -232,47 +233,13 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
                   >
                     <CustomRender
                       value={cell.getValue()}
+                      roleType={schemaProperties[cell.column.id].roleType}
                       dataType={schemaProperties[cell.column.id].dataType}
+                      {...schemaProperties[cell.column.id]}
                     />
                   </td>
                 ))}
                 <th scope="row" className="space-x-2 h-8">
-                  {/*   <Button
-                    className="m-auto"
-                    dataId={(row.original as { _id: string })._id}
-                    onClick={(event) => {
-                      const self: HTMLButtonElement =
-                        event.currentTarget as HTMLButtonElement
-                      deleteDocuments(realmApp.currentUser!, schemaType, {
-                        _id: fieldConvert(
-                          self.dataset.id!,
-                          schemaProperties["_id"].dataType,
-                        ),
-                      })
-                        .then(() => {
-                          router.refresh()
-                        })
-                        .catch((error) => {
-                          throw error
-                        })
-                    }}
-                    disabled={!deleteEnabled}
-                  >
-                    {t("Delete")}
-                    <FaReacteurope className="inline-block w-4 h-4" />
-                  </Button>
-                  <Button className="m-auto">
-                    <Link
-                      href={`/${lng}/${
-                        roleUrlMap[realmApp.currentUser?.customData.role]
-                      }/edit/${schemaType.toLowerCase()}?id=${
-                        row.original["_id"]
-                      }`}
-                    >
-                      {t("Edit", "common")}
-                      <EditIcon className="inline-block w-4 h-4" />
-                    </Link>
-                  </Button> */}
                   {typeof customColumn === "function" &&
                     customColumn(row.original["_id"])}
                 </th>
@@ -281,6 +248,46 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
           })}
         </tbody>
       </table>
+      <div id="paginationFooter" className="flex items-center gap-2 w-full">
+        <Button
+          className="rounded"
+          onClick={() => reactTableInstance.setPageIndex(0)}
+          disabled={!reactTableInstance.getCanPreviousPage()}
+        >
+          {"<<"}
+        </Button>
+        <Button
+          onClick={() => reactTableInstance.previousPage()}
+          disabled={!reactTableInstance.getCanPreviousPage()}
+        >
+          {"<"}
+        </Button>
+        <Button
+          className="border rounded p-1"
+          onClick={() => reactTableInstance.nextPage()}
+          disabled={!reactTableInstance.getCanNextPage()}
+        >
+          {">"}
+        </Button>
+        <Button
+          className="border rounded p-1"
+          onClick={() =>
+            reactTableInstance.setPageIndex(
+              reactTableInstance.getPageCount() - 1,
+            )
+          }
+          disabled={!reactTableInstance.getCanNextPage()}
+        >
+          {">>"}
+        </Button>
+        <span className="flex items-center gap-1">
+          <div>Page</div>
+          <strong>
+            {reactTableInstance.getState().pagination.pageIndex + 1} of{" "}
+            {reactTableInstance.getPageCount()}
+          </strong>
+        </span>
+      </div>
     </>
   )
 }

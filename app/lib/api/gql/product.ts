@@ -21,7 +21,7 @@ export async function queryProducts() {
   try {
     const client = createClient(getCookieByName("accessToken")!)
     console.log(
-      "Accesstoken of the created client",
+      "Access token of the created client",
       getCookieByName("accessToken"),
     )
     console.groupEnd()
@@ -86,9 +86,7 @@ export async function updateProducts({
 
 const QUERY_PRODUCT_BY_ID = gql`
   query queryProductById($id: ObjectId!) {
-    product(query: {
-      _id: $id
-    }) {
+    product(query: { _id: $id }) {
       _id
       name
       assemblePlace
@@ -103,7 +101,7 @@ export async function queryProductById({
   _id,
 }: {
   _id: string
-}): Promise<{ product: Partial<ProductSchema> }> {
+}): Promise<{ product: Partial<Record<keyof ProductSchema, string>> }> {
   try {
     const client = createClient(getCookieByName("accessToken")!)
     const { data } = await client.query({

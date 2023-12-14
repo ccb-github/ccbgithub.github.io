@@ -31,6 +31,7 @@ const Checker: SchemaObject<"Checker", keyof CheckerSchema> = {
       name: "belong",
       dataType: "object",
       objectType: "Regulatory",
+      relationSchemaName: "Regulatory",
       indexed: false,
       optional: true,
       mapTo: "belong",

@@ -2,18 +2,34 @@
 import { useApp } from "#/hooks/useApp"
 import { UserProfile } from "#/types/data"
 import { useEffect, useState } from "react"
-import Button from "../common/Button"
+import Button from "#/components/common/Button"
 import { useRouter } from "next/navigation"
 import { FaUser } from "react-icons/fa"
 import { useTranslation } from "#/lib/i18n/client"
+import { clearTimeout, setTimeout } from "timers"
 
-export default function AccountFooter({ lng }: { lng: string }) {
+export default function AccountHeader({ lng }: { lng: string }) {
+  const USER_LOADING_TIMEOUT = 5000 //ms
   const realmApp = useApp()
   const [userData, setUserData] = useState<UserProfile | undefined>()
   const { t } = useTranslation(lng)
   const router = useRouter()
-  const [isLoading, setIsLoading] = useState(true)
 
+  const [isLoading, setIsLoading] = useState(true)
+  useEffect(() => {
+    const clearUserLoadingTimeout = setTimeout(() => {
+      if (realmApp.currentUser === null)
+        alert(
+          t(["User load timeout"], {
+            time: USER_LOADING_TIMEOUT,
+            ns: "dialog",
+          }),
+        )
+    }, USER_LOADING_TIMEOUT)
+    return () => {
+      clearTimeout(clearUserLoadingTimeout)
+    }
+  }, [realmApp.currentUser, t])
   useEffect(() => {
     if (realmApp?.currentUser === null || realmApp?.currentUser === undefined) {
       return
@@ -23,7 +39,7 @@ export default function AccountFooter({ lng }: { lng: string }) {
       setIsLoading(false)
       return realmApp?.currentUser!.customData as UserProfile
     })
-  }, [realmApp, realmApp?.currentUser])
+  }, [realmApp, realmApp.currentUser])
 
   return (
     <div className="flex items-center space-x-4 p-3.5 lg:px-5 lg:py-3">
@@ -40,7 +56,6 @@ export default function AccountFooter({ lng }: { lng: string }) {
       >
         <FaUser className="h-8 inline" />
         {t("Log out")}
-        
       </Button>
       {/* <div className="text-sm text-gray-400"> */}
       {isLoading ? (

@@ -1,6 +1,12 @@
-import type { SchemaObject } from "#/types/schema"
+import { BSON } from "realm-web"
+import { SchemaObject } from "../format"
 
-const Stock: SchemaObject = {
+type StockSchema = {
+  _id: BSON.ObjectID
+  address: string
+  name: string
+}
+const Stock: SchemaObject<"Stock", keyof StockSchema> = {
   name: "Stock",
   properties: {
     _id: {
@@ -9,6 +15,7 @@ const Stock: SchemaObject = {
       indexed: true,
       optional: false,
       mapTo: "_id",
+      roleType: "normal",
     },
     address: {
       name: "address",
@@ -16,6 +23,7 @@ const Stock: SchemaObject = {
       indexed: false,
       optional: true,
       mapTo: "address",
+      roleType: "normal",
     },
     name: {
       name: "name",
@@ -23,6 +31,7 @@ const Stock: SchemaObject = {
       indexed: false,
       optional: false,
       mapTo: "name",
+      roleType: "normal",
     },
   },
   primaryKey: "_id",

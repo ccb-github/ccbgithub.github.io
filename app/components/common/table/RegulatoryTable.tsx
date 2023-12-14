@@ -12,7 +12,9 @@ import SchemaDataReactTable from "../SchemaDataReactTable"
 import { useApp } from "#/hooks/useApp"
 import { useRouter } from "next/navigation"
 import { type GeneralDataTableWrapperProps } from "#/types/table"
-import regulatorySchemaJson, { RegulatorySchema } from "#/lib/schema/def/regulatory"
+import regulatorySchemaJson, {
+  RegulatorySchema,
+} from "#/lib/schema/def/regulatory"
 import { roleUrlMap } from "#/lib/webContents/user"
 
 type RegulatoryReactTableProps = GeneralDataTableWrapperProps<
@@ -55,11 +57,12 @@ export default function RegulatoryTable({
             <Button
               className="m-auto"
               onClick={(event) => {
-                const self: HTMLButtonElement = event.currentTarget as HTMLButtonElement
+                const self: HTMLButtonElement =
+                  event.currentTarget as HTMLButtonElement
                 deleteDocuments(realmApp.currentUser!, "Regulatory", {
                   _id: fieldConvert(
                     self.dataset.id!,
-                    schemaPropertiesRef.current["_id"].dataType
+                    schemaPropertiesRef.current["_id"].dataType,
                   ),
                 })
                   .then(() => {
@@ -68,7 +71,7 @@ export default function RegulatoryTable({
                   .catch((error) => {
                     throw error
                   })
-              } }
+              }}
             >
               {t("Delete", "common")}
               <FaReacteurope className="inline-block w-4 h-4" />
@@ -81,14 +84,14 @@ export default function RegulatoryTable({
             </span>
           </>
         )
-      } } 
-      columnOptions={
-        Object.values(regulatorySchemaJson.properties).map(
+      }}
+      columnOptions={Object.values(regulatorySchemaJson.properties).map(
         (prop) => ({
           accessor: prop.mapTo as keyof RegulatorySchema,
           header: t(prop.mapTo),
           type: prop.dataType,
-        }))
-      }    />
+        }),
+      )}
+    />
   )
 }

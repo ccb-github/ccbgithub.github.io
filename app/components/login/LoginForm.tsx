@@ -50,7 +50,9 @@ export default function LoginForm({
       const userCustomData = loginUser.customData as UserProfile
       if (!userCustomData.role) {
         alert(
-          t("Your account is unverified, contact the admin", { ns: "dialog" }),
+          t("Your account doesn't have a proper role yet, contact the admin", {
+            ns: "dialog",
+          }),
         )
         return
       }
@@ -62,16 +64,6 @@ export default function LoginForm({
 
       router.push(`./${lng}/${roleUrlMap[userCustomData.role]}`)
     } catch (error) {
-      switch ((error as { errorCode?: string }).errorCode) {
-        case "AuthError":
-          alert(`AuthError ${(error as { errorCode: string }).errorCode}`)
-          break
-        case "InvalidPassword":
-          alert(`Invalid password, message:${error}`)
-          break
-        default:
-          break
-      }
       alert((error as { message?: string }).message ?? "No message provide")
       console.error(error)
       throw error

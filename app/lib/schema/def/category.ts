@@ -1,9 +1,8 @@
 import { BSON } from "realm-web"
-import { NormalSchemaObject } from "#/lib/schema/format"
-import MongodbList from "#/components/common/MongodbList"
+import { type SchemaObject } from "#/lib/schema/format"
 
 /**
- * @description The data model of category collection 
+ * @description The data model of category collection
  * category stands for the category of the product
  */
 export type CategorySchema = {
@@ -26,9 +25,9 @@ export type CategoryGqlResult = Partial<
   _id: string
 }
 /**
- * @param {CategorySchema} Derive from categorySchema 
+ * @param {CategorySchema} Derive from categorySchema
  */
-const categorySchema: NormalSchemaObject<keyof CategorySchema> = {
+const categorySchema: SchemaObject<"Category", keyof CategorySchema> = {
   name: "Category",
   // dataType: "selectList",
   properties: {
@@ -38,6 +37,7 @@ const categorySchema: NormalSchemaObject<keyof CategorySchema> = {
       indexed: true,
       optional: false,
       mapTo: "_id",
+      roleType: "normal",
     },
     description: {
       name: "description",
@@ -45,6 +45,7 @@ const categorySchema: NormalSchemaObject<keyof CategorySchema> = {
       indexed: false,
       optional: false,
       mapTo: "description",
+      roleType: "normal",
     },
     name: {
       name: "name",
@@ -52,6 +53,7 @@ const categorySchema: NormalSchemaObject<keyof CategorySchema> = {
       indexed: false,
       optional: true,
       mapTo: "name",
+      roleType: "normal",
     },
     createdAt: {
       name: "createdAt",
@@ -59,6 +61,7 @@ const categorySchema: NormalSchemaObject<keyof CategorySchema> = {
       indexed: false,
       optional: false,
       mapTo: "createdAt",
+      roleType: "normal",
     },
   },
   primaryKey: "_id",

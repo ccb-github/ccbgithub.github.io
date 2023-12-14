@@ -7,9 +7,6 @@ export type LocationSchemaEmbed = {
   latitude: number
   longitude: number
 }
-type NeverTest = {
-  foo: never
-}
 
 const qrcodeSchemaEmbed: SchemaObject<"Qrcode", keyof QrcodeSchemaEmbed> = {
   name: "Qrcode",
@@ -21,6 +18,7 @@ const qrcodeSchemaEmbed: SchemaObject<"Qrcode", keyof QrcodeSchemaEmbed> = {
       indexed: false,
       optional: false,
       mapTo: "value",
+      roleType: "select",
     },
   },
 }
@@ -34,6 +32,7 @@ const locationSchemaEmbed: SchemaObject<"Location", keyof LocationSchemaEmbed> =
         indexed: false,
         optional: false,
         mapTo: "latitude",
+        roleType: "select",
       },
       longitude: {
         name: "longitude",
@@ -41,6 +40,7 @@ const locationSchemaEmbed: SchemaObject<"Location", keyof LocationSchemaEmbed> =
         indexed: false,
         optional: false,
         mapTo: "longitude",
+        roleType: "select",
       },
     },
     embedded: true,

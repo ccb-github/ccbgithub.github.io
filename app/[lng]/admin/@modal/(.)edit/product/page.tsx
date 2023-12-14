@@ -13,18 +13,20 @@ export default async function ProductEditPage({
   params: { lng },
   searchParams,
 }: BasePageProps) {
-  console.log("This Product editpage ([admin/@modal/.edit/product) is rendered")
+  console.log(
+    "This Product edit page ([admin/@modal/.edit/product) is rendered",
+  )
   const schemaObj = normalSchemaJson["Product"]
   const { id } = searchParams
   const { t } = await useTranslation(lng)
   const { product } = await queryProductById({
     _id: id as string,
   })
-  console.log(product)
+  console.log("The product", product)
   const editProductSubmit = async (editedProductData: FormData) => {
     "use server"
     let setData = Object.create({})
-    console.log(`The setdata in enterprise form ${editedProductData.entries()}`)
+    console.log(`The setData in enterprise form ${editedProductData.entries()}`)
 
     setData = {
       address: editedProductData.get("address"),

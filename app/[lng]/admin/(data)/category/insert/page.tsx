@@ -33,7 +33,7 @@ export default async function Page({ params: { lng } }: BasePageProps) {
       action={submitData}
       id="insertForm"
       className="
-        h-full overflow-y-scrol pt-2 
+        h-full overflow-y-scroll pt-2 
         grid grid-cols-1 lg:grid-cols-2
       "
     >

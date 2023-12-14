@@ -15,9 +15,10 @@ import { useRouter } from "next/navigation"
 import { type GeneralDataTableWrapperProps } from "#/types/table"
 import productSchemaJson, { ProductSchema } from "#/lib/schema/def/product"
 import { roleUrlMap } from "#/lib/webContents/user"
+import { CheckRecordSchema } from "#/lib/schema/def/checkRecord"
 
 type CheckRecordReactTableProps = GeneralDataTableWrapperProps<
-  Partial<Record<keyof CheckRe, string>> & {
+  Partial<Record<keyof CheckRecordSchema, string>> & {
     _id: string
   }
 >
@@ -26,7 +27,10 @@ type CheckRecordReactTableProps = GeneralDataTableWrapperProps<
  * @prop {ProductReactTableProps} props -- The react props
  * @returns {React.ReactNode} -- Product data table
  */
-export default function ProductTable({ data, lng }: CheckRecordReactTableProps) {
+export default function ProductTable({
+  data,
+  lng,
+}: CheckRecordReactTableProps) {
   //TODO the language props
   // const [columnResizeMode] = useState<ColumnResizeMode>(
   //   ColumnResizeMode["onChange"],
