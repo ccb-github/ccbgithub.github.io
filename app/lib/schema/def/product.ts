@@ -25,6 +25,7 @@ export const productSchemaJson: SchemaObject<"Product", keyof ProductSchema> = {
     _id: {
       name: "_id",
       dataType: "objectId",
+      roleType: "normal",
       indexed: true,
       optional: false,
       mapTo: "_id",
@@ -35,6 +36,7 @@ export const productSchemaJson: SchemaObject<"Product", keyof ProductSchema> = {
       indexed: false,
       optional: true,
       mapTo: "assemblePlace",
+      roleType: "normal",
     },
     category: {
       name: "category",
@@ -52,6 +54,7 @@ export const productSchemaJson: SchemaObject<"Product", keyof ProductSchema> = {
       indexed: false,
       optional: false,
       mapTo: "description",
+      roleType: "normal",
     },
     name: {
       name: "name",
@@ -59,6 +62,7 @@ export const productSchemaJson: SchemaObject<"Product", keyof ProductSchema> = {
       indexed: false,
       optional: false,
       mapTo: "name",
+      roleType: "normal",
     },
     ownerId: {
       name: "ownerId",
@@ -66,6 +70,7 @@ export const productSchemaJson: SchemaObject<"Product", keyof ProductSchema> = {
       indexed: false,
       optional: false,
       mapTo: "ownerId",
+      roleType: "normal",
     },
     status: {
       name: "status",
@@ -73,6 +78,7 @@ export const productSchemaJson: SchemaObject<"Product", keyof ProductSchema> = {
       indexed: false,
       optional: false,
       mapTo: "status",
+      roleType: "normal",
     },
     produceDay: {
       name: "produceDay",
@@ -80,6 +86,7 @@ export const productSchemaJson: SchemaObject<"Product", keyof ProductSchema> = {
       indexed: false,
       optional: false,
       mapTo: "produceDay",
+      roleType: "normal",
     },
     shelfLife: {
       name: "shelfLife",
@@ -87,6 +94,7 @@ export const productSchemaJson: SchemaObject<"Product", keyof ProductSchema> = {
       indexed: false,
       optional: false,
       mapTo: "shelfLife",
+      roleType: "normal",
     },
     standard: {
       name: "standard",
@@ -94,6 +102,7 @@ export const productSchemaJson: SchemaObject<"Product", keyof ProductSchema> = {
       indexed: false,
       optional: false,
       mapTo: "standard",
+      roleType: "normal",
     },
     producer: {
       name: "producer",

@@ -1,6 +1,10 @@
-import { NormalSchemaObject } from "#/lib/schema/format"
+import { SchemaObject } from "#/lib/schema/format"
+import { type BSON } from "realm-web"
 
-const Logistic: NormalSchemaObject = {
+export type LogisticSchema = {
+  _id: BSON.ObjectID
+}
+const Logistic: SchemaObject<"Logistic", keyof LogisticSchema> = {
   name: "Logistic",
   properties: {
     _id: {
@@ -9,6 +13,7 @@ const Logistic: NormalSchemaObject = {
       indexed: true,
       optional: false,
       mapTo: "_id",
+      roleType: "select",
     },
   },
   primaryKey: "_id",

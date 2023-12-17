@@ -7,6 +7,7 @@ import checkRecordSchema from "./def/checkRecord"
 import Stock from "./def/stock"
 import Order, { OrderSchema } from "./def/order"
 import Logistic from "./def/logistic"
+import typeDefaultSchema from "./def/_default"
 
 export const normalSchemaJson = {
   Category: categorySchema,
@@ -18,6 +19,7 @@ export const normalSchemaJson = {
   Order,
   Stock,
   Logistic,
+  TypeDefault: typeDefaultSchema,
 }
 
 export type SchemaTypeMapper = {

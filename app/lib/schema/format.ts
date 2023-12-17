@@ -51,7 +51,7 @@ export interface SchemaProperty<DefaultValue = string> {
   name: string
   optional: boolean
   dataType: SchemaDataPropType
-  roleType?: RoleType
+  roleType: RoleType
   /**
    * This field will present when this is an foreign key field
    */

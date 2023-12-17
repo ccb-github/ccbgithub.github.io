@@ -19,6 +19,7 @@ export const regulatorySchemaJson: SchemaObject<
       indexed: true,
       optional: false,
       mapTo: "_id",
+      roleType: "normal",
     },
     address: {
       name: "address",
@@ -26,6 +27,7 @@ export const regulatorySchemaJson: SchemaObject<
       indexed: false,
       optional: true,
       mapTo: "address",
+      roleType: "normal",
     },
     description: {
       name: "description",
@@ -33,6 +35,7 @@ export const regulatorySchemaJson: SchemaObject<
       indexed: false,
       optional: false,
       mapTo: "description",
+      roleType: "normal",
     },
     name: {
       name: "name",
@@ -40,6 +43,7 @@ export const regulatorySchemaJson: SchemaObject<
       indexed: false,
       optional: true,
       mapTo: "name",
+      roleType: "normal",
     },
     ownerId: {
       name: "ownerId",
@@ -47,6 +51,7 @@ export const regulatorySchemaJson: SchemaObject<
       indexed: false,
       optional: false,
       mapTo: "ownerId",
+      roleType: "normal",
     },
   },
   primaryKey: "_id",

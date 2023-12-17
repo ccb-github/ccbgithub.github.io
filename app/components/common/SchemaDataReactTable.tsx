@@ -1,12 +1,10 @@
 "use client"
 
 import { normalSchemaJson } from "#/lib/schema"
-
 import React, { useMemo, useState } from "react"
-
 import { FaReacteurope, FaSort, FaSortDown, FaSortUp } from "react-icons/fa"
-import Button from "./Button"
-import SearchBar from "./SearchBar"
+import Button from "#/components/common/Button"
+import SearchBar from "#/components/common/SearchBar"
 import { useTranslation } from "#/lib/i18n/client"
 import Link from "next/link"
 import { usePathname } from "next/navigation"

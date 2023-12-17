@@ -3,22 +3,20 @@ import React, { useState, useEffect } from "react"
 import { useApp } from "#/hooks/useApp"
 import { BSON } from "realm-web"
 import SchemaDataReactTable from "./SchemaDataReactTable"
-import { normalSchemaJson } from "#/lib/schema"
 import { ProductSchema } from "#/lib/schema/def/product"
 import { URL_TO_SCHEMANAME } from "#/lib/schema/format"
-import QRCode from "#/lib/qrcode/class/QRCodeClass"
 
-type X = typeof URL_TO_SCHEMANAME
 interface MongodbListProps {
   type: keyof typeof URL_TO_SCHEMANAME
   id?: string
   filter?: Realm.Services.MongoDB.Filter
   lng: string
-  sortOption?: unknown
+  sortOption?: Record<string, unknown>
 }
+
 //TODO default value with name
 /** filter: filterProps,
- * Description 
+ * Description
  * @description Display data base on given  {@link MongodbList#SchemaName}
  * Search by filter, given param id will filter._id
  * @date 2023-03-29
@@ -27,7 +25,7 @@ interface MongodbListProps {
  * @param {any} filter
  * @param {string} id: The objectid(primary key) string
  * @param {string} lng: Language string, etc: ch, en
- * @returns {React.ReactNode} The table of the corresponding data 
+ * @returns {React.ReactNode} The table of the corresponding data
  */
 export default function MongodbList({
   type,
@@ -40,7 +38,7 @@ export default function MongodbList({
   const [filter] = useState({})
   //Table head
   const [sortOption] = useState(sortOptionProps || {})
-  const [datas, setDatas] = useState<ProductSchema[]>([])
+  const [data, setData] = useState<ProductSchema[]>([])
   const mongodbApp = useApp()
   useEffect(() => {
     if (mongodbApp?.currentUser) {
@@ -60,8 +58,8 @@ export default function MongodbList({
       // }}).then( res => console.log(res))
       mongoCollection
         .find(filter, { sort: sortOption })
-        .then((foundDatas) => {
-          setDatas((_currentDatas: any[]) => [...foundDatas])
+        .then((foundData) => {
+          setData(() => [...foundData])
         })
         .catch((error) => {
           console.error(error)
@@ -75,17 +73,11 @@ export default function MongodbList({
   // }
 
   return (
-    <div id="data-table" className="h-full w-full">
-      <SchemaDataReactTable
-        data={datas}
-        lng={lng}
-        schemaType={schemaType}
-        deleteEnabled={false}
-      />
-    </div>
+    <SchemaDataReactTable
+      data={data}
+      lng={lng}
+      schemaType={schemaType}
+      deleteEnabled={false}
+    />
   )
 }
-
-// function useTable(arg0: { columns: { Header: string; accessor: string; }[]; data: { col1: string; col2: string; }[]; }): { getTableProps: any; getTableBodyProps: any; headerGroups: any; rows: any; prepareRow: any; } {
-//   throw new Error('Function not implemented.');
-// }

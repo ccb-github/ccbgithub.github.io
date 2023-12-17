@@ -25,6 +25,7 @@ export const enterpriseSchemaJson: SchemaObject<
       indexed: true,
       optional: false,
       mapTo: "_id",
+      roleType: "select",
     },
     address: {
       name: "address",
@@ -32,6 +33,7 @@ export const enterpriseSchemaJson: SchemaObject<
       indexed: false,
       optional: true,
       mapTo: "address",
+      roleType: "select",
     },
     createdAt: {
       name: "createdAt",
@@ -39,6 +41,7 @@ export const enterpriseSchemaJson: SchemaObject<
       indexed: false,
       optional: false,
       mapTo: "createdAt",
+      roleType: "select",
     },
     creditCode: {
       name: "creditCode",
@@ -46,6 +49,7 @@ export const enterpriseSchemaJson: SchemaObject<
       indexed: false,
       optional: false,
       mapTo: "creditCode",
+      roleType: "select",
     },
     description: {
       name: "description",
@@ -53,6 +57,7 @@ export const enterpriseSchemaJson: SchemaObject<
       indexed: false,
       optional: false,
       mapTo: "description",
+      roleType: "select",
     },
     email: {
       name: "email",
@@ -60,6 +65,7 @@ export const enterpriseSchemaJson: SchemaObject<
       indexed: false,
       optional: true,
       mapTo: "email",
+      roleType: "select",
     },
     name: {
       name: "name",
@@ -67,6 +73,7 @@ export const enterpriseSchemaJson: SchemaObject<
       indexed: false,
       optional: true,
       mapTo: "name",
+      roleType: "select",
     },
     registerPlace: {
       name: "registerPlace",
@@ -74,6 +81,7 @@ export const enterpriseSchemaJson: SchemaObject<
       indexed: false,
       optional: false,
       mapTo: "registerPlace",
+      roleType: "select",
     },
     tradeMark: {
       name: "tradeMark",
@@ -81,6 +89,7 @@ export const enterpriseSchemaJson: SchemaObject<
       indexed: false,
       optional: true,
       mapTo: "tradeMark",
+      roleType: "select",
     },
     ownerId: {
       name: "ownerId",
@@ -88,6 +97,7 @@ export const enterpriseSchemaJson: SchemaObject<
       indexed: false,
       optional: false,
       mapTo: "ownerId",
+      roleType: "select",
     },
   },
   primaryKey: "_id",

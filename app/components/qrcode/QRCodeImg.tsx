@@ -1,6 +1,5 @@
 "use client"
 import { useCallback, useEffect, useRef } from "react"
-import { Trans } from "react-i18next"
 import { updateQRCode } from "#/lib/qrcode"
 import Image from "next/image"
 
