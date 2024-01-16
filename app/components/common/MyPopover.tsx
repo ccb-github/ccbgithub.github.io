@@ -1,5 +1,6 @@
 "use client"
-import { Popover } from '@headlessui/react'
+import { Popover } from "@headlessui/react"
+import BlurImage from "./BlurImage"
 
 export default function MyPopover() {
   return (
@@ -13,8 +14,7 @@ export default function MyPopover() {
           <a href="/security">Security</a>
           <a href="/integrations">Integrations</a>
         </div>
-
-        <img src="/solutions.jpg" alt="" />
+        <BlurImage src={""} alt="Hint image" />
       </Popover.Panel>
     </Popover>
   )

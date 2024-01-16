@@ -3,6 +3,7 @@ import { useContext, useEffect, useRef } from "react"
 import { useTranslation } from "#/lib/i18n/client"
 import Button from "#/components/common/Button"
 import { ConfirmContext } from "#/context/ConfirmContext"
+import { Language } from "#/lib/i18n/settings"
 
 // TODO event listener unbind
 export default function ConfirmDialog({
@@ -10,12 +11,14 @@ export default function ConfirmDialog({
   confirmAction = async () => {
     console.log("Confirm action")
   },
+  defaultOpen = true,
   closeAction = async () => {
     console.log("Close action")
   },
 }: {
-  lng: string
+  lng: Language
   desc?: string
+  defaultOpen?: boolean
   confirmAction: () => Promise<boolean | void>
   closeAction: () => Promise<boolean | void>
 }) {
@@ -38,9 +41,10 @@ export default function ConfirmDialog({
   // }
   const { t } = useTranslation(lng, "dialog")
   const dialogRef = useRef<HTMLDialogElement>(null)
+  const {opened, setOpened, message } = useContext(ConfirmContext)
   // const confirmButtonRef = useRef<HTMLDialogElement>(null)
   // const cancelButtonRef = useRef<HTMLDialogElement>(null)
-  let confirmDialogContext = useContext(ConfirmContext)
+
   useEffect(() => {
     /* const favDialog = document.getElementById("favDialog") as HTMLDialogElement
 
@@ -50,6 +54,7 @@ export default function ConfirmDialog({
     if (dialogRef.current === null) {
       return
     }
+    if (opened) dialogRef.current.showModal()
     const confirmBtn = dialogRef.current.querySelector(
       "#confirmBtn",
     ) as HTMLButtonElement
@@ -59,10 +64,7 @@ export default function ConfirmDialog({
 
     confirmBtn.onclick = async () => {
       confirmAction()
-      confirmDialogContext = {
-        ...confirmDialogContext,
-        confirmed: true,
-      }
+      setOpened(true)
 
       return true
     }
@@ -75,15 +77,15 @@ export default function ConfirmDialog({
     // "Confirm" button of form triggers "close" on dialog because of [method="dialog"]
     dialogRef.current.addEventListener("close", () => {
       closeAction()
-      confirmDialogContext.opened = false
+      setOpened(false)
     })
-  }, [closeAction, confirmAction, confirmDialogContext])
+  }, [closeAction, confirmAction, opened, setOpened])
 
   return (
     <dialog id="favDialog" ref={dialogRef} className="rounded-md p-8">
       <form method="dialog">
         <h2 className="font-bold">Confirm the option</h2>
-        <p>{confirmDialogContext.message}</p>
+        <p>{message}</p>
         <div className="w-full flex">
           <Button id="confirmBtn" type="submit" className="flex-1 bg-slate-50">
             {t("Confirm")}

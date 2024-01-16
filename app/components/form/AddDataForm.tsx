@@ -107,7 +107,7 @@ export default function AddDataForm<
           })
         }
 
-        ;({ insertedId: insertResult } = await insertDataToCol(
+        ({ insertedId: insertResult } = await insertDataToCol(
           mongodbApp!.currentUser!,
           schemaObj["name"],
           insertData,

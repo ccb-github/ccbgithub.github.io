@@ -1,10 +1,11 @@
 "use client"
-import { SchemaProperty } from "#/types/schema"
+
 import { useState } from "react"
 import { FiRefreshCw } from "react-icons/fi"
-import Button from "../Button"
-import TypeSpan from "./TypeSpan"
 import { useTranslation } from "#/lib/i18n/client"
+import { type SchemaProperty } from "#/lib/schema/format"
+import Button from "#/components/common/Button"
+import TypeSpan from "#/components/common/input/TypeSpan"
 
 export default function DateInputFieldTemplate(props: SchemaProperty) {
   const { t } = useTranslation("common")

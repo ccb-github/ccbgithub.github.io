@@ -1,28 +1,36 @@
-'use client'
-import i18next, { KeyPrefix, Namespace } from 'i18next'
-import { initReactI18next, useTranslation as useTranslationOrg } from 'react-i18next'
-import resourcesToBackend from 'i18next-resources-to-backend'
-// import LocizeBackend from 'i18next-locize-backend'
-import LanguageDetector from 'i18next-browser-languagedetector'
-import { getOptions, languages } from './settings'
-import { Language, LanguageNameSpace } from '.'
-import { useEffect, useState } from 'react'
+"use client"
+import i18next, { KeyPrefix, Namespace } from "i18next"
+import {
+  initReactI18next,
+  useTranslation as useTranslationOrg,
+} from "react-i18next"
+import resourcesToBackend from "i18next-resources-to-backend"
+import LanguageDetector from "i18next-browser-languagedetector"
+import { Language, getOptions, languages } from "./settings"
+import { LanguageNameSpace } from "."
 
-const runsOnServerSide = typeof window === 'undefined'
+import { useEffect, useState } from "react"
+
+const runsOnServerSide = typeof window === "undefined"
 
 // on client side the normal singleton is ok
 i18next
   .use(initReactI18next)
   .use(LanguageDetector)
-  .use(resourcesToBackend((language: Language, namespace: LanguageNameSpace) => import(`#/locales/${language}/${namespace}.json`)))
+  .use(
+    resourcesToBackend(
+      (language: string, namespace: LanguageNameSpace) =>
+        import(`#/locales/${language}/${namespace}.json`),
+    ),
+  )
   // .use(LocizeBackend) // locize backend could be used on client side, but prefer to keep it in sync with server side
   .init({
     ...getOptions(),
     lng: undefined, // let detect the language on client side
     detection: {
-      order: ['path', 'htmlTag', 'cookie', 'navigator'],
+      order: ["path", "htmlTag", "cookie", "navigator"],
     },
-    preload: runsOnServerSide ? languages : []
+    preload: runsOnServerSide ? languages : [],
   })
 
 // export function useTranslation(
@@ -32,17 +40,17 @@ i18next
 //     keyPrefix?: KeyPrefix<Namespace>;
 //   } = {}
 // ) {
-//   if (i18next.resolvedLanguage !== lng) 
+//   if (i18next.resolvedLanguage !== lng)
 //     i18next.changeLanguage(lng);
 //   return useTranslationOrg(ns, options);
 // }
 
-export function useTranslation(  
+export function useTranslation(
   lng: Language,
   ns?: LanguageNameSpace,
   options: {
-    keyPrefix?: KeyPrefix<Namespace>;
-  } = {}
+    keyPrefix?: KeyPrefix<Namespace>
+  } = {},
 ) {
   const ret = useTranslationOrg(ns, options)
   const { i18n } = ret

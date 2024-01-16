@@ -1,13 +1,16 @@
 "use client"
+import ConfirmDialog from "#/components/common/dialog/ConfirmDialog"
 import { Dialog } from "@headlessui/react"
-import React, { createContext } from "react"
+import React, { createContext, useState } from "react"
 
 export const ConfirmContext = createContext<{
   confirmed: boolean
   opened: boolean
+  setOpened: React.Dispatch<React.SetStateAction<boolean>>
   message: string
 }>({
   confirmed: false,
+  setOpened: () => false,
   opened: false,
   message: "Default message",
 })
@@ -17,16 +20,23 @@ export default function ConfirmContextProvider({
 }: {
   children: React.ReactNode
 }) {
+  const [opened, setOpened] = useState(false)
   return (
     <ConfirmContext.Provider
       value={{
         confirmed: false,
-        opened: false,
+        setOpened,
+        opened,
         message: "Default message",
       }}
     >
-      <Dialog
-        open
+      <ConfirmDialog
+        lng={"ch"}
+        confirmAction={async function () {}}
+        closeAction={async function () {}}
+      />
+      {/* <Dialog
+        open={}
         onClose={() => {
           alert("Dialog closed")
         }}
@@ -35,7 +45,7 @@ export default function ConfirmContextProvider({
         <Dialog.Panel>
           <Dialog.Title>Title</Dialog.Title>
         </Dialog.Panel>
-      </Dialog>
+      </Dialog> */}
       {children}
     </ConfirmContext.Provider>
   )

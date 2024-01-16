@@ -1,6 +1,6 @@
 "use client"
 import { normalSchemaJson } from "#/lib/schema"
-import React, { useRef } from "react"
+import React, { useMemo, useRef } from "react"
 import { FaReacteurope } from "react-icons/fa"
 
 import { useTranslation } from "#/lib/i18n/client"
@@ -35,11 +35,15 @@ export default function ProductTable({ data, lng }: ProductReactTableProps) {
   const schemaPropertiesRef = useRef(productSchemaJson.properties)
   const realmApp = useApp()
   const router = useRouter()
-  const editLink = `/${lng}/${
-    roleUrlMap[
-      realmApp.currentUser?.customData.role as keyof typeof roleUrlMap
-    ] ?? "share"
-  }/edit/product`
+  const editLink = useMemo(
+    () =>
+      `/${lng}/${
+        roleUrlMap[
+          realmApp.currentUser?.customData.role as keyof typeof roleUrlMap
+        ] ?? "share"
+      }/edit/product`,
+    [lng, realmApp.currentUser?.customData.role],
+  )
 
   return (
     <SchemaDataReactTable<
@@ -84,7 +88,7 @@ export default function ProductTable({ data, lng }: ProductReactTableProps) {
               <FaReacteurope className="inline-block w-4 h-4" />
             </Button>
             <Button className="m-auto">
-              <Link href={`${editLink}/${id}`}>
+              <Link href={`${editLink}/?id=${id}`}>
                 {t("Edit")}
                 <EditIcon className="inline-block w-4 h-4" />
               </Link>

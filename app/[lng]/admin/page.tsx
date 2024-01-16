@@ -2,6 +2,8 @@ import { adminMainPanels } from "#/lib/webContents/mainPanel"
 import Link from "next/link"
 import { useTranslation } from "#/lib/i18n"
 import { NavItem } from "#/types/webContent"
+import TempComponent from "./upload/TempComponent"
+
 type PageParams = {
   lng: string
 }
@@ -13,9 +15,9 @@ export default async function AdminHomePage({
 }) {
   const { lng } = params
   const { t } = await useTranslation(lng, "admin")
-
   return (
     <>
+      <TempComponent/>
       {adminMainPanels.map((section) => (
         <div key={section.name} className="space-y-5">
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
