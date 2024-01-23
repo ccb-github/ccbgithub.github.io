@@ -30,11 +30,6 @@ export default function ConfirmContextProvider({
         message: "Default message",
       }}
     >
-      <ConfirmDialog
-        lng={"ch"}
-        confirmAction={async function () {}}
-        closeAction={async function () {}}
-      />
       {/* <Dialog
         open={}
         onClose={() => {

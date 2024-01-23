@@ -1,0 +1,996 @@
+input CategoryQueryInput {
+  createdAt_lt: DateTime
+  name_gt: String
+  description_gte: String
+  OR: [CategoryQueryInput!]
+  createdAt_in: [DateTime]
+  name_in: [String]
+  _id_lt: ObjectId
+  createdAt: DateTime
+  createdAt_ne: DateTime
+  name_exists: Boolean
+  name_gte: String
+  createdAt_exists: Boolean
+  name_lt: String
+  name_lte: String
+  AND: [CategoryQueryInput!]
+  _id_in: [ObjectId]
+  description_nin: [String]
+  name_ne: String
+  description_exists: Boolean
+  name: String
+  createdAt_gt: DateTime
+  _id_ne: ObjectId
+  description_lt: String
+  _id_exists: Boolean
+  _id_gt: ObjectId
+  _id: ObjectId
+  createdAt_nin: [DateTime]
+  description_lte: String
+  _id_nin: [ObjectId]
+  name_nin: [String]
+  description_in: [String]
+  description: String
+  createdAt_lte: DateTime
+  _id_gte: ObjectId
+  createdAt_gte: DateTime
+  _id_lte: ObjectId
+  description_gt: String
+  description_ne: String
+}
+
+scalar DateTime
+
+type Enterprise {
+  _id: ObjectId!
+  address: String
+  createdAt: DateTime!
+  creditCode: String!
+  description: String!
+  email: String
+  name: String
+  ownerId: String!
+  registerPlace: String!
+  tradeMark: String
+}
+
+input CheckerInsertInput {
+  major: String
+  name: String
+  ownerId: String!
+  _id: ObjectId
+  address: String
+  belong: CheckerBelongRelationInput
+  email: String!
+}
+
+input OrderUpdateInput {
+  products: OrderProductsRelationInput
+  customerId: String
+  orderTime: DateTime
+  orderTime_unset: Boolean
+  paymentMethod: String
+  paymentMethod_unset: Boolean
+  products_unset: Boolean
+  transitionId_unset: Boolean
+  _id: ObjectId
+  transitionId: ObjectId
+  _id_unset: Boolean
+  customerId_unset: Boolean
+}
+
+enum CheckRecordSortByInput {
+  _ID_DESC
+  DEVICE_DESC
+  OPERATOR_DESC
+  TARGET_DESC
+  DEVICE_ASC
+  NAME_ASC
+  NAME_DESC
+  OPERATOR_ASC
+  RESULT_ASC
+  _ID_ASC
+  TARGET_ASC
+  METHOD_DESC
+  RESULT_DESC
+  METHOD_ASC
+}
+
+input OrderQueryInput {
+  transitionId_gt: ObjectId
+  paymentMethod_exists: Boolean
+  customerId: String
+  customerId_exists: Boolean
+  paymentMethod_gte: String
+  transitionId_lte: ObjectId
+  _id_lte: ObjectId
+  transitionId: ObjectId
+  transitionId_in: [ObjectId]
+  products: [ProductQueryInput]
+  _id_gt: ObjectId
+  paymentMethod_lte: String
+  _id: ObjectId
+  _id_lt: ObjectId
+  customerId_gt: String
+  _id_gte: ObjectId
+  paymentMethod_gt: String
+  customerId_in: [String]
+  orderTime: DateTime
+  customerId_gte: String
+  orderTime_gte: DateTime
+  customerId_nin: [String]
+  orderTime_ne: DateTime
+  orderTime_nin: [DateTime]
+  orderTime_lte: DateTime
+  _id_ne: ObjectId
+  paymentMethod_nin: [String]
+  paymentMethod_lt: String
+  transitionId_ne: ObjectId
+  transitionId_lt: ObjectId
+  customerId_lte: String
+  transitionId_nin: [ObjectId]
+  _id_nin: [ObjectId]
+  products_exists: Boolean
+  transitionId_exists: Boolean
+  orderTime_in: [DateTime]
+  transitionId_gte: ObjectId
+  OR: [OrderQueryInput!]
+  orderTime_exists: Boolean
+  paymentMethod_ne: String
+  paymentMethod: String
+  AND: [OrderQueryInput!]
+  _id_exists: Boolean
+  products_in: [ProductQueryInput]
+  customerId_lt: String
+  customerId_ne: String
+  products_nin: [ProductQueryInput]
+  paymentMethod_in: [String]
+  orderTime_gt: DateTime
+  orderTime_lt: DateTime
+  _id_in: [ObjectId]
+}
+
+scalar Long
+
+type Order {
+  _id: ObjectId!
+  customerId: String!
+  orderTime: DateTime!
+  paymentMethod: String!
+  products: [Product]
+  transitionId: ObjectId!
+}
+
+input OrderProductsRelationInput {
+  create: [ProductInsertInput]
+  link: [ObjectId]
+}
+
+input CategoryInsertInput {
+  description: String
+  name: String!
+  _id: ObjectId
+  createdAt: DateTime!
+}
+
+type CheckRecord {
+  _id: ObjectId!
+  device: String!
+  method: String
+  name: String!
+  operator: Checker
+  result: String!
+  target: ObjectId
+}
+
+type Checker {
+  _id: ObjectId!
+  address: String
+  belong: Regulatory
+  email: String!
+  major: String
+  name: String
+  ownerId: String!
+}
+
+input CheckRecordUpdateInput {
+  device: String
+  name: String
+  _id: ObjectId
+  result_unset: Boolean
+  method_unset: Boolean
+  operator_unset: Boolean
+  operator: CheckRecordOperatorRelationInput
+  method: String
+  name_unset: Boolean
+  _id_unset: Boolean
+  device_unset: Boolean
+  result: String
+  target_unset: Boolean
+  target: ObjectId
+}
+
+input ProductUpdateInput {
+  shelfLife: Long
+  category: String
+  checker_unset: Boolean
+  standard: String
+  producer_unset: Boolean
+  produceDay_unset: Boolean
+  status_unset: Boolean
+  checkRecord: ProductCheckRecordRelationInput
+  shelfLife_unset: Boolean
+  name_unset: Boolean
+  assemblePlace: String
+  checker: ProductCheckerRelationInput
+  ownerId_unset: Boolean
+  status: String
+  assemblePlace_unset: Boolean
+  standard_unset: Boolean
+  producer: ProductProducerRelationInput
+  produceDay: DateTime
+  category_unset: Boolean
+  description: String
+  description_unset: Boolean
+  name: String
+  checkRecord_unset: Boolean
+  ownerId: String
+  _id: ObjectId
+  _id_unset: Boolean
+}
+
+input ProductCheckRecordRelationInput {
+  create: CheckRecordInsertInput
+  link: ObjectId
+}
+
+type InsertManyPayload {
+  insertedIds: [ObjectId]!
+}
+
+input CheckerQueryInput {
+  name: String
+  address_in: [String]
+  ownerId_gte: String
+  belong: RegulatoryQueryInput
+  name_in: [String]
+  address_gte: String
+  ownerId_exists: Boolean
+  major_ne: String
+  _id_gt: ObjectId
+  address_lte: String
+  email_lte: String
+  _id_exists: Boolean
+  email_exists: Boolean
+  email: String
+  email_in: [String]
+  name_gt: String
+  email_lt: String
+  major_lt: String
+  belong_exists: Boolean
+  major_lte: String
+  ownerId_in: [String]
+  name_nin: [String]
+  address_lt: String
+  ownerId_ne: String
+  major_exists: Boolean
+  name_gte: String
+  _id_ne: ObjectId
+  ownerId_nin: [String]
+  name_exists: Boolean
+  address_gt: String
+  _id_lt: ObjectId
+  ownerId_lt: String
+  major_gte: String
+  address: String
+  email_ne: String
+  ownerId: String
+  major: String
+  AND: [CheckerQueryInput!]
+  email_gte: String
+  _id_nin: [ObjectId]
+  address_nin: [String]
+  ownerId_lte: String
+  address_exists: Boolean
+  _id_gte: ObjectId
+  _id: ObjectId
+  email_gt: String
+  ownerId_gt: String
+  major_in: [String]
+  major_gt: String
+  OR: [CheckerQueryInput!]
+  _id_lte: ObjectId
+  major_nin: [String]
+  email_nin: [String]
+  _id_in: [ObjectId]
+  name_lt: String
+  address_ne: String
+  name_ne: String
+  name_lte: String
+}
+
+type Regulatory {
+  _id: ObjectId!
+  address: String
+  creditCode: String!
+  description: String!
+  name: String
+  ownerId: String!
+}
+
+input ProductQueryInput {
+  assemblePlace_gt: String
+  assemblePlace_gte: String
+  standard_gte: String
+  status_lt: String
+  assemblePlace_in: [String]
+  assemblePlace_lt: String
+  description_gt: String
+  ownerId: String
+  _id_in: [ObjectId]
+  status_lte: String
+  category_gt: String
+  checkRecord: CheckRecordQueryInput
+  checker_exists: Boolean
+  shelfLife_exists: Boolean
+  category_nin: [String]
+  produceDay_in: [DateTime]
+  produceDay_lt: DateTime
+  status_exists: Boolean
+  ownerId_gt: String
+  shelfLife_ne: Long
+  name_lte: String
+  shelfLife_gte: Long
+  name_exists: Boolean
+  ownerId_in: [String]
+  ownerId_exists: Boolean
+  standard_lte: String
+  category_gte: String
+  description_nin: [String]
+  ownerId_lte: String
+  _id_ne: ObjectId
+  name: String
+  name_nin: [String]
+  _id_lte: ObjectId
+  status_gte: String
+  ownerId_lt: String
+  OR: [ProductQueryInput!]
+  category_lt: String
+  producer: EnterpriseQueryInput
+  name_in: [String]
+  AND: [ProductQueryInput!]
+  category_lte: String
+  status_ne: String
+  name_ne: String
+  shelfLife_nin: [Long]
+  description_gte: String
+  category_in: [String]
+  standard_in: [String]
+  standard_nin: [String]
+  assemblePlace_nin: [String]
+  description_in: [String]
+  category_ne: String
+  checker: CheckerQueryInput
+  ownerId_gte: String
+  description_ne: String
+  shelfLife: Long
+  _id: ObjectId
+  category_exists: Boolean
+  shelfLife_lte: Long
+  category: String
+  checkRecord_exists: Boolean
+  shelfLife_gt: Long
+  description_lt: String
+  shelfLife_lt: Long
+  standard_ne: String
+  description: String
+  status_nin: [String]
+  ownerId_nin: [String]
+  produceDay_gte: DateTime
+  description_lte: String
+  standard_lt: String
+  producer_exists: Boolean
+  produceDay_gt: DateTime
+  status_gt: String
+  produceDay_exists: Boolean
+  _id_nin: [ObjectId]
+  _id_gte: ObjectId
+  standard_gt: String
+  _id_exists: Boolean
+  standard: String
+  status: String
+  name_lt: String
+  name_gte: String
+  assemblePlace: String
+  shelfLife_in: [Long]
+  produceDay_ne: DateTime
+  status_in: [String]
+  assemblePlace_ne: String
+  name_gt: String
+  assemblePlace_exists: Boolean
+  standard_exists: Boolean
+  produceDay_nin: [DateTime]
+  description_exists: Boolean
+  _id_lt: ObjectId
+  _id_gt: ObjectId
+  ownerId_ne: String
+  produceDay: DateTime
+  assemblePlace_lte: String
+  produceDay_lte: DateTime
+}
+
+input EnterpriseInsertInput {
+  creditCode: String!
+  ownerId: String!
+  _id: ObjectId
+  address: String
+  registerPlace: String!
+  email: String
+  name: String
+  tradeMark: String
+  createdAt: DateTime!
+  description: String!
+}
+
+input CheckRecordInsertInput {
+  result: String!
+  _id: ObjectId
+  target: ObjectId
+  device: String!
+  method: String
+  name: String!
+  operator: CheckRecordOperatorRelationInput
+}
+
+enum CheckerSortByInput {
+  NAME_DESC
+  OWNERID_ASC
+  BELONG_ASC
+  _ID_DESC
+  ADDRESS_ASC
+  BELONG_DESC
+  OWNERID_DESC
+  _ID_ASC
+  EMAIL_ASC
+  EMAIL_DESC
+  MAJOR_ASC
+  MAJOR_DESC
+  ADDRESS_DESC
+  NAME_ASC
+}
+
+enum ProductSortByInput {
+  STANDARD_ASC
+  _ID_DESC
+  CHECKER_DESC
+  PRODUCEDAY_DESC
+  PRODUCER_ASC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  NAME_ASC
+  _ID_ASC
+  ASSEMBLEPLACE_ASC
+  CATEGORY_ASC
+  CATEGORY_DESC
+  SHELFLIFE_ASC
+  SHELFLIFE_DESC
+  STATUS_ASC
+  ASSEMBLEPLACE_DESC
+  CHECKRECORD_ASC
+  CHECKRECORD_DESC
+  OWNERID_ASC
+  PRODUCER_DESC
+  STANDARD_DESC
+  STATUS_DESC
+  CHECKER_ASC
+  NAME_DESC
+  OWNERID_DESC
+  PRODUCEDAY_ASC
+}
+
+input RegulatoryInsertInput {
+  creditCode: String!
+  description: String!
+  name: String
+  ownerId: String!
+  _id: ObjectId
+  address: String
+}
+
+input CheckRecordQueryInput {
+  method_gte: String
+  target_lte: ObjectId
+  method: String
+  OR: [CheckRecordQueryInput!]
+  name: String
+  device_lte: String
+  name_in: [String]
+  device: String
+  result_exists: Boolean
+  method_gt: String
+  operator_exists: Boolean
+  target_in: [ObjectId]
+  method_in: [String]
+  device_gte: String
+  name_exists: Boolean
+  _id_gt: ObjectId
+  device_in: [String]
+  result_in: [String]
+  _id_ne: ObjectId
+  _id: ObjectId
+  target_exists: Boolean
+  _id_lt: ObjectId
+  method_lte: String
+  name_lt: String
+  _id_nin: [ObjectId]
+  device_exists: Boolean
+  _id_in: [ObjectId]
+  _id_lte: ObjectId
+  target_gt: ObjectId
+  method_ne: String
+  device_ne: String
+  target_nin: [ObjectId]
+  _id_gte: ObjectId
+  name_nin: [String]
+  method_lt: String
+  AND: [CheckRecordQueryInput!]
+  target: ObjectId
+  operator: CheckerQueryInput
+  result_lt: String
+  device_gt: String
+  name_gt: String
+  result_lte: String
+  result_nin: [String]
+  name_gte: String
+  target_lt: ObjectId
+  method_nin: [String]
+  name_lte: String
+  result_gt: String
+  name_ne: String
+  target_ne: ObjectId
+  result: String
+  target_gte: ObjectId
+  device_nin: [String]
+  _id_exists: Boolean
+  device_lt: String
+  method_exists: Boolean
+  result_ne: String
+  result_gte: String
+}
+
+enum EnterpriseSortByInput {
+  CREATEDAT_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  EMAIL_DESC
+  NAME_ASC
+  OWNERID_DESC
+  TRADEMARK_ASC
+  ADDRESS_ASC
+  NAME_DESC
+  OWNERID_ASC
+  REGISTERPLACE_DESC
+  TRADEMARK_DESC
+  _ID_DESC
+  CREATEDAT_ASC
+  CREDITCODE_ASC
+  _ID_ASC
+  ADDRESS_DESC
+  CREDITCODE_DESC
+  EMAIL_ASC
+  REGISTERPLACE_ASC
+}
+
+type DeleteManyPayload {
+  deletedCount: Int!
+}
+
+scalar ObjectId
+
+input ProductInsertInput {
+  checkRecord: ProductCheckRecordRelationInput
+  produceDay: DateTime!
+  shelfLife: Long!
+  assemblePlace: String
+  category: String!
+  checker: ProductCheckerRelationInput
+  description: String!
+  ownerId: String!
+  status: String!
+  name: String!
+  standard: String!
+  _id: ObjectId
+  producer: ProductProducerRelationInput
+}
+
+input CheckerBelongRelationInput {
+  create: RegulatoryInsertInput
+  link: ObjectId
+}
+
+input OrderInsertInput {
+  products: OrderProductsRelationInput
+  transitionId: ObjectId!
+  _id: ObjectId
+  customerId: String!
+  orderTime: DateTime!
+  paymentMethod: String!
+}
+
+input CheckerUpdateInput {
+  major: String
+  _id: ObjectId
+  name: String
+  ownerId: String
+  email: String
+  address: String
+  belong: CheckerBelongRelationInput
+  ownerId_unset: Boolean
+  address_unset: Boolean
+  belong_unset: Boolean
+  name_unset: Boolean
+  _id_unset: Boolean
+  major_unset: Boolean
+  email_unset: Boolean
+}
+
+input RegulatoryQueryInput {
+  address_lt: String
+  address_ne: String
+  _id_ne: ObjectId
+  creditCode_lt: String
+  AND: [RegulatoryQueryInput!]
+  creditCode_lte: String
+  _id_in: [ObjectId]
+  creditCode_in: [String]
+  address_gte: String
+  creditCode_exists: Boolean
+  ownerId_gte: String
+  _id_gt: ObjectId
+  description: String
+  name_gte: String
+  ownerId_in: [String]
+  description_exists: Boolean
+  ownerId_lt: String
+  OR: [RegulatoryQueryInput!]
+  ownerId: String
+  address_in: [String]
+  ownerId_nin: [String]
+  address_lte: String
+  address_nin: [String]
+  _id_gte: ObjectId
+  _id_exists: Boolean
+  description_nin: [String]
+  name_in: [String]
+  _id: ObjectId
+  ownerId_lte: String
+  address_gt: String
+  name: String
+  creditCode: String
+  address_exists: Boolean
+  _id_lt: ObjectId
+  description_in: [String]
+  name_exists: Boolean
+  creditCode_ne: String
+  description_gt: String
+  _id_lte: ObjectId
+  creditCode_gt: String
+  name_lte: String
+  _id_nin: [ObjectId]
+  ownerId_gt: String
+  description_lte: String
+  creditCode_gte: String
+  creditCode_nin: [String]
+  address: String
+  description_ne: String
+  name_ne: String
+  description_lt: String
+  ownerId_ne: String
+  description_gte: String
+  ownerId_exists: Boolean
+  name_gt: String
+  name_lt: String
+  name_nin: [String]
+}
+
+input CategoryUpdateInput {
+  description_unset: Boolean
+  name: String
+  name_unset: Boolean
+  _id: ObjectId
+  _id_unset: Boolean
+  createdAt: DateTime
+  createdAt_unset: Boolean
+  description: String
+}
+
+type Product {
+  _id: ObjectId!
+  assemblePlace: String
+  category: String!
+  checkRecord: CheckRecord
+  checker: Checker
+  description: String!
+  name: String!
+  ownerId: String!
+  produceDay: DateTime!
+  producer: Enterprise
+  shelfLife: Long!
+  standard: String!
+  status: String!
+}
+
+type UpdateManyPayload {
+  matchedCount: Int!
+  modifiedCount: Int!
+}
+
+input RegulatoryUpdateInput {
+  ownerId_unset: Boolean
+  description: String
+  name_unset: Boolean
+  address_unset: Boolean
+  _id: ObjectId
+  creditCode_unset: Boolean
+  creditCode: String
+  description_unset: Boolean
+  name: String
+  ownerId: String
+  _id_unset: Boolean
+  address: String
+}
+
+type Query {
+  categories(query: CategoryQueryInput, limit: Int = 100, sortBy: CategorySortByInput): [Category]!
+  category(query: CategoryQueryInput): Category
+  checkRecord(query: CheckRecordQueryInput): CheckRecord
+  checkRecords(query: CheckRecordQueryInput, limit: Int = 100, sortBy: CheckRecordSortByInput): [CheckRecord]!
+  checker(query: CheckerQueryInput): Checker
+  checkers(query: CheckerQueryInput, limit: Int = 100, sortBy: CheckerSortByInput): [Checker]!
+  enterprise(query: EnterpriseQueryInput): Enterprise
+  enterprises(query: EnterpriseQueryInput, limit: Int = 100, sortBy: EnterpriseSortByInput): [Enterprise]!
+  order(query: OrderQueryInput): Order
+  orders(limit: Int = 100, sortBy: OrderSortByInput, query: OrderQueryInput): [Order]!
+  product(query: ProductQueryInput): Product
+  products(limit: Int = 100, sortBy: ProductSortByInput, query: ProductQueryInput): [Product]!
+  regulatories(query: RegulatoryQueryInput, limit: Int = 100, sortBy: RegulatorySortByInput): [Regulatory]!
+  regulatory(query: RegulatoryQueryInput): Regulatory
+}
+
+input EnterpriseQueryInput {
+  createdAt_ne: DateTime
+  ownerId_exists: Boolean
+  createdAt_gte: DateTime
+  creditCode_gt: String
+  _id_gt: ObjectId
+  createdAt_in: [DateTime]
+  ownerId: String
+  name_gte: String
+  createdAt_exists: Boolean
+  description_ne: String
+  createdAt_lt: DateTime
+  email_lt: String
+  ownerId_in: [String]
+  registerPlace_in: [String]
+  _id_nin: [ObjectId]
+  tradeMark_ne: String
+  registerPlace_gt: String
+  creditCode_lt: String
+  createdAt_lte: DateTime
+  email_ne: String
+  address_lt: String
+  name_gt: String
+  registerPlace: String
+  tradeMark_in: [String]
+  name_nin: [String]
+  name_lt: String
+  creditCode_gte: String
+  ownerId_lte: String
+  ownerId_gte: String
+  _id_ne: ObjectId
+  _id_in: [ObjectId]
+  tradeMark_gt: String
+  ownerId_ne: String
+  creditCode_ne: String
+  description_gt: String
+  AND: [EnterpriseQueryInput!]
+  name_lte: String
+  registerPlace_lt: String
+  address_gte: String
+  name: String
+  createdAt_gt: DateTime
+  creditCode_exists: Boolean
+  description_nin: [String]
+  _id_lte: ObjectId
+  tradeMark_nin: [String]
+  ownerId_nin: [String]
+  creditCode_lte: String
+  address_in: [String]
+  _id_exists: Boolean
+  address_gt: String
+  registerPlace_nin: [String]
+  tradeMark_lte: String
+  tradeMark_exists: Boolean
+  _id_gte: ObjectId
+  description_lte: String
+  registerPlace_gte: String
+  name_exists: Boolean
+  tradeMark: String
+  tradeMark_lt: String
+  description_in: [String]
+  email_lte: String
+  registerPlace_lte: String
+  email_in: [String]
+  description_gte: String
+  email_gte: String
+  name_in: [String]
+  creditCode_nin: [String]
+  address_exists: Boolean
+  address_lte: String
+  description_exists: Boolean
+  address_ne: String
+  email_exists: Boolean
+  registerPlace_exists: Boolean
+  name_ne: String
+  address: String
+  createdAt: DateTime
+  ownerId_gt: String
+  ownerId_lt: String
+  creditCode_in: [String]
+  address_nin: [String]
+  tradeMark_gte: String
+  description_lt: String
+  _id_lt: ObjectId
+  _id: ObjectId
+  creditCode: String
+  description: String
+  createdAt_nin: [DateTime]
+  email_nin: [String]
+  OR: [EnterpriseQueryInput!]
+  email: String
+  email_gt: String
+  registerPlace_ne: String
+}
+
+enum OrderSortByInput {
+  TRANSITIONID_ASC
+  TRANSITIONID_DESC
+  _ID_ASC
+  CUSTOMERID_ASC
+  CUSTOMERID_DESC
+  ORDERTIME_ASC
+  ORDERTIME_DESC
+  PAYMENTMETHOD_DESC
+  _ID_DESC
+  PAYMENTMETHOD_ASC
+}
+
+type Mutation {
+  deleteManyCategories(query: CategoryQueryInput): DeleteManyPayload
+  deleteManyCheckRecords(query: CheckRecordQueryInput): DeleteManyPayload
+  deleteManyCheckers(query: CheckerQueryInput): DeleteManyPayload
+  deleteManyEnterprises(query: EnterpriseQueryInput): DeleteManyPayload
+  deleteManyOrders(query: OrderQueryInput): DeleteManyPayload
+  deleteManyProducts(query: ProductQueryInput): DeleteManyPayload
+  deleteManyRegulatories(query: RegulatoryQueryInput): DeleteManyPayload
+  deleteOneCategory(query: CategoryQueryInput!): Category
+  deleteOneCheckRecord(query: CheckRecordQueryInput!): CheckRecord
+  deleteOneChecker(query: CheckerQueryInput!): Checker
+  deleteOneEnterprise(query: EnterpriseQueryInput!): Enterprise
+  deleteOneOrder(query: OrderQueryInput!): Order
+  deleteOneProduct(query: ProductQueryInput!): Product
+  deleteOneRegulatory(query: RegulatoryQueryInput!): Regulatory
+  insertManyCategories(data: [CategoryInsertInput!]!): InsertManyPayload
+  insertManyCheckRecords(data: [CheckRecordInsertInput!]!): InsertManyPayload
+  insertManyCheckers(data: [CheckerInsertInput!]!): InsertManyPayload
+  insertManyEnterprises(data: [EnterpriseInsertInput!]!): InsertManyPayload
+  insertManyOrders(data: [OrderInsertInput!]!): InsertManyPayload
+  insertManyProducts(data: [ProductInsertInput!]!): InsertManyPayload
+  insertManyRegulatories(data: [RegulatoryInsertInput!]!): InsertManyPayload
+  insertOneCategory(data: CategoryInsertInput!): Category
+  insertOneCheckRecord(data: CheckRecordInsertInput!): CheckRecord
+  insertOneChecker(data: CheckerInsertInput!): Checker
+  insertOneEnterprise(data: EnterpriseInsertInput!): Enterprise
+  insertOneOrder(data: OrderInsertInput!): Order
+  insertOneProduct(data: ProductInsertInput!): Product
+  insertOneRegulatory(data: RegulatoryInsertInput!): Regulatory
+  replaceOneCategory(query: CategoryQueryInput, data: CategoryInsertInput!): Category
+  replaceOneCheckRecord(query: CheckRecordQueryInput, data: CheckRecordInsertInput!): CheckRecord
+  replaceOneChecker(query: CheckerQueryInput, data: CheckerInsertInput!): Checker
+  replaceOneEnterprise(query: EnterpriseQueryInput, data: EnterpriseInsertInput!): Enterprise
+  replaceOneOrder(query: OrderQueryInput, data: OrderInsertInput!): Order
+  replaceOneProduct(query: ProductQueryInput, data: ProductInsertInput!): Product
+  replaceOneRegulatory(query: RegulatoryQueryInput, data: RegulatoryInsertInput!): Regulatory
+  updateManyCategories(set: CategoryUpdateInput!, query: CategoryQueryInput): UpdateManyPayload
+  updateManyCheckRecords(query: CheckRecordQueryInput, set: CheckRecordUpdateInput!): UpdateManyPayload
+  updateManyCheckers(query: CheckerQueryInput, set: CheckerUpdateInput!): UpdateManyPayload
+  updateManyEnterprises(query: EnterpriseQueryInput, set: EnterpriseUpdateInput!): UpdateManyPayload
+  updateManyOrders(query: OrderQueryInput, set: OrderUpdateInput!): UpdateManyPayload
+  updateManyProducts(query: ProductQueryInput, set: ProductUpdateInput!): UpdateManyPayload
+  updateManyRegulatories(query: RegulatoryQueryInput, set: RegulatoryUpdateInput!): UpdateManyPayload
+  updateOneCategory(query: CategoryQueryInput, set: CategoryUpdateInput!): Category
+  updateOneCheckRecord(query: CheckRecordQueryInput, set: CheckRecordUpdateInput!): CheckRecord
+  updateOneChecker(query: CheckerQueryInput, set: CheckerUpdateInput!): Checker
+  updateOneEnterprise(query: EnterpriseQueryInput, set: EnterpriseUpdateInput!): Enterprise
+  updateOneOrder(set: OrderUpdateInput!, query: OrderQueryInput): Order
+  updateOneProduct(query: ProductQueryInput, set: ProductUpdateInput!): Product
+  updateOneRegulatory(query: RegulatoryQueryInput, set: RegulatoryUpdateInput!): Regulatory
+  upsertOneCategory(data: CategoryInsertInput!, query: CategoryQueryInput): Category
+  upsertOneCheckRecord(query: CheckRecordQueryInput, data: CheckRecordInsertInput!): CheckRecord
+  upsertOneChecker(data: CheckerInsertInput!, query: CheckerQueryInput): Checker
+  upsertOneEnterprise(query: EnterpriseQueryInput, data: EnterpriseInsertInput!): Enterprise
+  upsertOneOrder(query: OrderQueryInput, data: OrderInsertInput!): Order
+  upsertOneProduct(query: ProductQueryInput, data: ProductInsertInput!): Product
+  upsertOneRegulatory(query: RegulatoryQueryInput, data: RegulatoryInsertInput!): Regulatory
+}
+
+input EnterpriseUpdateInput {
+  registerPlace: String
+  email_unset: Boolean
+  registerPlace_unset: Boolean
+  createdAt_unset: Boolean
+  ownerId: String
+  description: String
+  tradeMark: String
+  _id_unset: Boolean
+  address_unset: Boolean
+  tradeMark_unset: Boolean
+  name: String
+  createdAt: DateTime
+  creditCode: String
+  name_unset: Boolean
+  email: String
+  _id: ObjectId
+  description_unset: Boolean
+  address: String
+  creditCode_unset: Boolean
+  ownerId_unset: Boolean
+}
+
+input ProductProducerRelationInput {
+  create: EnterpriseInsertInput
+  link: ObjectId
+}
+
+enum CategorySortByInput {
+  CREATEDAT_ASC
+  CREATEDAT_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  NAME_ASC
+  NAME_DESC
+  _ID_ASC
+  _ID_DESC
+}
+
+enum RegulatorySortByInput {
+  _ID_ASC
+  ADDRESS_DESC
+  CREDITCODE_ASC
+  CREDITCODE_DESC
+  DESCRIPTION_ASC
+  OWNERID_DESC
+  _ID_DESC
+  ADDRESS_ASC
+  DESCRIPTION_DESC
+  NAME_ASC
+  NAME_DESC
+  OWNERID_ASC
+}
+
+input CheckRecordOperatorRelationInput {
+  create: CheckerInsertInput
+  link: ObjectId
+}
+
+type Category {
+  _id: ObjectId!
+  createdAt: DateTime!
+  description: String
+  name: String!
+}
+
+input ProductCheckerRelationInput {
+  create: CheckerInsertInput
+  link: ObjectId
+}

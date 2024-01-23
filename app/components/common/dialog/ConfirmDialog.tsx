@@ -4,15 +4,15 @@ import { useTranslation } from "#/lib/i18n/client"
 import Button from "#/components/common/Button"
 import { ConfirmContext } from "#/context/ConfirmContext"
 import { Language } from "#/lib/i18n/settings"
+import { Dialog } from "@headlessui/react"
 
 // TODO event listener unbind
 export default function ConfirmDialog({
   lng,
-  confirmAction = async () => {
+  confirmAction: confirmActionProp = async () => {
     console.log("Confirm action")
   },
-  defaultOpen = true,
-  closeAction = async () => {
+  closeAction: closeActionProp = async () => {
     console.log("Close action")
   },
 }: {
@@ -41,52 +41,54 @@ export default function ConfirmDialog({
   // }
   const { t } = useTranslation(lng, "dialog")
   const dialogRef = useRef<HTMLDialogElement>(null)
-  const {opened, setOpened, message } = useContext(ConfirmContext)
+  const { opened, setOpened } = useContext(ConfirmContext)
   // const confirmButtonRef = useRef<HTMLDialogElement>(null)
   // const cancelButtonRef = useRef<HTMLDialogElement>(null)
+  async function confirmAction() {
+    const actionPropResult = await confirmActionProp()
+    console.log(`ConfirmActionProp result ${JSON.stringify(actionPropResult)}`)
+    setOpened(true)
 
+    return true
+  }
+
+  async function closeAction() {
+    const actionPropResult = await closeActionProp()
+    console.log(`CloseActionProp result ${JSON.stringify(actionPropResult)}`)
+    setOpened(false)
+
+    return false
+  }
   useEffect(() => {
-    /* const favDialog = document.getElementById("favDialog") as HTMLDialogElement
-
-    if (favDialog === null || favDialog.querySelector("#confirmBtn") === null) {
-      throw new Error("No document find with id" + "favDialog")
-    } */
-    if (dialogRef.current === null) {
-      return
-    }
-    if (opened) dialogRef.current.showModal()
-    const confirmBtn = dialogRef.current.querySelector(
+    // Bind the event
+    const confirmBtn = dialogRef.current?.querySelector(
       "#confirmBtn",
     ) as HTMLButtonElement
-    const cancelBtn = dialogRef.current.querySelector(
+    const cancelBtn = dialogRef.current?.querySelector(
       "#cancelBtn",
     ) as HTMLButtonElement
 
-    confirmBtn.onclick = async () => {
-      confirmAction()
-      setOpened(true)
+    confirmBtn.onclick = confirmAction
 
-      return true
-    }
-
-    cancelBtn.onclick = async () => {
-      closeAction()
-      dialogRef.current!.close()
-    }
+    cancelBtn.onclick = closeAction
 
     // "Confirm" button of form triggers "close" on dialog because of [method="dialog"]
-    dialogRef.current.addEventListener("close", () => {
-      closeAction()
+    dialogRef.current?.addEventListener("close", () => {
+      closeActionProp()
       setOpened(false)
     })
-  }, [closeAction, confirmAction, opened, setOpened])
+  }, [closeAction, confirmAction, setOpened])
 
+  useEffect(() => {
+    if (opened) {
+      dialogRef.current?.showModal()
+    }
+  }, [opened])
   return (
     <dialog id="favDialog" ref={dialogRef} className="rounded-md p-8">
       <form method="dialog">
-        <h2 className="font-bold">Confirm the option</h2>
-        <p>{message}</p>
-        <div className="w-full flex">
+        <h2 className="font-bold">{t("Confirm the option")}</h2>
+        <div className="w-full flex space-x-2">
           <Button id="confirmBtn" type="submit" className="flex-1 bg-slate-50">
             {t("Confirm")}
           </Button>

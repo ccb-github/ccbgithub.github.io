@@ -17,7 +17,7 @@ export default async function AdminHomePage({
   const { t } = await useTranslation(lng, "admin")
   return (
     <>
-      <TempComponent/>
+      <TempComponent />
       {adminMainPanels.map((section) => (
         <div key={section.name} className="space-y-5">
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">

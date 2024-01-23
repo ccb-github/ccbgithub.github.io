@@ -1,12 +1,13 @@
 "use client"
 import ConfirmDialog from "#/components/common/dialog/ConfirmDialog";
+import { Language } from "#/lib/i18n/settings";
 import { useRouter } from "next/navigation";
 
 
 export default function ModelConfirmDialog({
   params: { lng },
 }: {
-  params: { lng: string }
+  params: { lng: Language }
 }) {
   console.log("Yes this dialog is rendered")
   const router = useRouter()
