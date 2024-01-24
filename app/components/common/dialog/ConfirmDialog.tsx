@@ -1,10 +1,9 @@
 "use client"
-import { useContext, useEffect, useRef } from "react"
+import { useCallback, useContext, useEffect, useRef } from "react"
 import { useTranslation } from "#/lib/i18n/client"
 import Button from "#/components/common/Button"
 import { ConfirmContext } from "#/context/ConfirmContext"
 import { Language } from "#/lib/i18n/settings"
-import { Dialog } from "@headlessui/react"
 
 // TODO event listener unbind
 export default function ConfirmDialog({
@@ -44,21 +43,20 @@ export default function ConfirmDialog({
   const { opened, setOpened } = useContext(ConfirmContext)
   // const confirmButtonRef = useRef<HTMLDialogElement>(null)
   // const cancelButtonRef = useRef<HTMLDialogElement>(null)
-  async function confirmAction() {
+  const confirmAction = useCallback(async () => {
     const actionPropResult = await confirmActionProp()
     console.log(`ConfirmActionProp result ${JSON.stringify(actionPropResult)}`)
     setOpened(true)
 
     return true
-  }
+  }, [confirmActionProp, setOpened])
 
-  async function closeAction() {
+  const closeAction = useCallback(async () => {
     const actionPropResult = await closeActionProp()
     console.log(`CloseActionProp result ${JSON.stringify(actionPropResult)}`)
     setOpened(false)
-
     return false
-  }
+  }, [closeActionProp, setOpened])
   useEffect(() => {
     // Bind the event
     const confirmBtn = dialogRef.current?.querySelector(
@@ -77,7 +75,7 @@ export default function ConfirmDialog({
       closeActionProp()
       setOpened(false)
     })
-  }, [closeAction, confirmAction, setOpened])
+  }, [closeAction, closeActionProp, confirmAction, setOpened])
 
   useEffect(() => {
     if (opened) {
@@ -92,7 +90,6 @@ export default function ConfirmDialog({
           <Button id="confirmBtn" type="submit" className="flex-1 bg-slate-50">
             {t("Confirm")}
           </Button>
-
           <Button id="cancelBtn" value="bg-slate-50">
             {t("Cancel")}
           </Button>
