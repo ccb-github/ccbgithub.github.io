@@ -50,7 +50,13 @@ export default async function AdminRootLayout({
             </h3>
           </Link>
         </div>
-        <SideBarToggleButton />
+        <SideBarToggleButton
+          // onClick={(event) => {
+          //   const parentContainer = event!.currentTarget!
+          //     .parentElement as HTMLButtonElement
+          //   parentContainer.classList.toggle("closed")
+          // }}
+        />
 
         <div
           id="side-nav-container"

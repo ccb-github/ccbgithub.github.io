@@ -13,7 +13,7 @@ export type EnterpriseSchema = {
   registerPlace: string
   tradeMark?: string
 }
-export const enterpriseSchemaJson: NormalSchemaObject<keyof EnterpriseSchema> = {
+export const enterpriseSchema: NormalSchemaObject<keyof EnterpriseSchema> = {
   name: "Enterprise",
   properties: {
     _id: {
@@ -90,4 +90,4 @@ export const enterpriseSchemaJson: NormalSchemaObject<keyof EnterpriseSchema> = 
   primaryKey: "_id",
   embedded: false,
 }
-export default enterpriseSchemaJson
+export default enterpriseSchema

@@ -1,7 +1,7 @@
-import { RegulatorySchema, SchemaResultMapper } from "#/types/schema"
 import { gql } from "@apollo/client"
 import { createClient } from "../apolloClient"
 import { getCookieByName } from "#/components/util/cookie"
+import { RegulatorySchema } from "#/lib/schema/def/regulatory"
 
 export const UPDATE_REGULATORIES = gql`
   mutation updateRegulatories(
@@ -18,9 +18,11 @@ export async function updateRegulatories({
   query,
   set,
 }: {
-  query?: Partial<SchemaResultMapper["Regulatory"]>
-  set?: Partial<SchemaResultMapper["Regulatory"]>
-}): Promise<{ regulatories: SchemaResultMapper["Regulatory"] }> {
+  query?: Partial<Record<keyof RegulatorySchema, unknown>>
+  set?: Partial<Record<keyof RegulatorySchema, unknown>>
+}): Promise<{
+  regulatories: Partial<Record<keyof RegulatorySchema, unknown>>
+}> {
   try {
     const client = createClient(getCookieByName("accessToken")!)
     const { data } = await client.mutate({
@@ -49,10 +51,10 @@ export const QUERY_REGULATORIES = gql`
   }
 `
 
-export async function queryRegulatories({
+export async function getAllRegulatory({
   query,
 }: {
-  query?: Partial<SchemaResultMapper["Regulatory"]>
+  query?: Partial<Record<keyof RegulatorySchema, string>>
 }): Promise<
   readonly (Partial<Record<keyof RegulatorySchema, string>> & { _id: string })[]
 > {

@@ -1,6 +1,6 @@
-import type { SchemaObject } from "#/types/schema"
-import { BSON } from "realm-web"
-import { ProductSchema } from "#/lib/schema/def/product"
+import { type BSON } from "realm-web"
+import { type ProductSchema } from "#/lib/schema/def/product"
+import { type NormalSchemaObject } from "#/lib/schema/format"
 export type OrderSchema = {
   _id: BSON.ObjectID
   customerId: string
@@ -9,7 +9,7 @@ export type OrderSchema = {
   paymentMethod: string
   products: Array<ProductSchema>
 }
-const Order: SchemaObject<keyof OrderSchema> = {
+const Order: NormalSchemaObject<keyof OrderSchema> = {
   name: "Order",
   properties: {
     _id: {

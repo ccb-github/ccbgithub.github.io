@@ -1,12 +1,9 @@
 import Button from "#/components/common/Button"
-
 import { templateHTML } from "#/components/form/templateHTML"
 import { queryProductById, updateProducts } from "#/lib/api/gql/product"
 import { useTranslation } from "#/lib/i18n"
-import { normalSchemaJson } from "#/lib/schema"
-import productSchemaJson from "#/lib/schema/def/product"
+import productSchema, { ProductSchema } from "#/lib/schema/def/product"
 import { BasePageProps } from "#/types/pageProp"
-
 import Script from "next/script"
 import { BSON } from "realm-web"
 
@@ -14,7 +11,7 @@ export default async function ProductEditPage({
   params: { lng },
   searchParams,
 }: BasePageProps) {
-  console.log("This Product editpage ([@modal/.edit/) is rendered")
+  console.log("This Product edit page ([@modal/.edit/) is rendered")
   const { id } = searchParams
   const { t } = await useTranslation(lng)
   const { product } = await queryProductById({
@@ -35,16 +32,16 @@ export default async function ProductEditPage({
       })
       console.log(
         `
-        The update result for enterprise with id ${id} ${JSON.stringify(
-          result)}
-        `)
+        The update result for enterprise with id ${id} ${JSON.stringify(result)}
+        `,
+      )
     } catch (error) {
       console.error(error)
     }
   }
   return (
     <>
-      <dialog id={"editProductDialog"}>
+      <dialog id="editProductDialog">
         <form
           method="dialog"
           action={editProductSubmit}
@@ -54,10 +51,10 @@ export default async function ProductEditPage({
             h-full overflow-y-scroll pt-2 px-2
           `}
         >
-          {Object.values(productSchemaJson.properties).map((prop) =>
+          {Object.values(productSchema.properties).map((prop) =>
             templateHTML({
               ...prop,
-              defaultValue: product[prop.mapTo],
+              defaultValue: product[prop.mapTo as keyof ProductSchema],
             }),
           )}
 

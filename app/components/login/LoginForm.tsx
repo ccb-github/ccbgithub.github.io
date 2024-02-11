@@ -1,6 +1,6 @@
 "use client"
 import { useRouter } from "next/navigation"
-import React, { FormEvent, useEffect, useRef } from "react"
+import React, { FormEvent, useEffect, useRef, useState } from "react"
 import * as Realm from "realm-web"
 import { useApp } from "#/hooks/useApp"
 import Link from "next/link"
@@ -22,6 +22,8 @@ export default function LoginForm({
   const realmApp = useApp()
   const router = useRouter()
   const pwInput = useRef<HTMLInputElement>(null)
+  // state to Control loading indication
+  const [loading, setLoading] = useState(false)
   const { t } = useTranslation(lng)
 
   useEffect(() => {
@@ -37,6 +39,7 @@ export default function LoginForm({
   }, [])
   const loginRealmAppAsync = async (event: FormEvent) => {
     event.preventDefault()
+    setLoading(true)
     console.log({ email: email.current, password: password.current })
     //Create an email credential
     const credentials = Realm.Credentials.emailPassword(
@@ -50,7 +53,7 @@ export default function LoginForm({
       const userCustomData = loginUser.customData as UserProfile
       if (!userCustomData.role) {
         alert(
-          t("Your account is unverified, contact the admin", { ns: "dialog" }),
+          t("Your account do not have valid role field, contact the admin", { ns: "dialog" }),
         )
         return
       }
@@ -59,7 +62,6 @@ export default function LoginForm({
           t("Your account is unverified, contact the admin", { ns: "dialog" }),
         )
       }
-
       router.push(`./${lng}/${roleUrlMap[userCustomData.role]}`)
     } catch (error) {
       switch ((error as { errorCode?: string }).errorCode) {
@@ -75,6 +77,8 @@ export default function LoginForm({
       alert((error as { message?: string }).message ?? "No message provide")
       console.error(error)
       throw error
+    } finally {
+      setLoading(false)
     }
   }
   // <CheckInCircleIcon/>
@@ -87,7 +91,6 @@ export default function LoginForm({
       <form
         id="login-form"
         className="form p-4 border border-solid"
-        // action={`${lng}/admin`}
         onSubmit={() => false}
       >
         <h2 className="text-info text-center text-xl">{t("Login")}</h2>
@@ -100,9 +103,9 @@ export default function LoginForm({
             name="username"
             id="username"
             className="form-control"
-            onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
-              (email.current = event.target.value)
-            }
+            onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
+              email.current = event.target.value
+            }}
           />
         </div>
         <div className="form-group">
@@ -156,7 +159,7 @@ export default function LoginForm({
             type="submit"
             className="btn btn-info btn-md bg-blue-500 
               rounded hover:bg-blue-300"
-            loadingIndication={true}
+            loadingIndication={loading}
             onClick={loginRealmAppAsync}
           >
             {t("Login")}

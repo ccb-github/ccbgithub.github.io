@@ -9,10 +9,7 @@ import ReactSelect from "react-select"
 import { useTranslation } from "#/lib/i18n/client"
 import { NormalSchemaName } from "#/lib/schema/format"
 
-export type SearchResultMap<SearchResult> = Map<
-  string,
-  SearchResult
->
+export type SearchResultMap<SearchResult> = Map<string, SearchResult>
 export default function SearchBySchemaName({
   className,
   searchSchemaName: searchSchemaNameProp,
@@ -28,17 +25,19 @@ export default function SearchBySchemaName({
   const { t } = useTranslation("dialog")
   //Current search schema name
   const searchSchemaRef = useRef<NormalSchemaName>()
-  let searchSchema : NormalSchemaName = searchSchemaNameProp
-  //const targetSchema = 
+  let searchSchema: NormalSchemaName = searchSchemaNameProp
+  //const targetSchema =
   //TODO empty string
   const searchQueryRef = useRef("")
   const collectionRef = useRef<
-    Realm.Services.MongoDB.MongoDBCollection<any> | undefined
+    Realm.Services.MongoDB.MongoDBCollection<{ _id: unknown }> | undefined
   >()
   const mongoCollection = useMemo(() => {
-    return mongoApp.currentUser!.mongoClient("mongodb-atlas")
-    .db(process.env.NEXT_PUBLIC_MONGODB_ATLAS_DATABASE!).collection(searchSchema)
-  },[searchSchema]) 
+    return mongoApp
+      .currentUser!.mongoClient("mongodb-atlas")
+      .db(process.env.NEXT_PUBLIC_MONGODB_ATLAS_DATABASE!)
+      .collection(searchSchema)
+  }, [mongoApp.currentUser, searchSchema])
   const onSubmit = async () => {
     if (searchSchemaRef.current === undefined) {
       alert(t("Please select the type first!"))
@@ -49,7 +48,7 @@ export default function SearchBySchemaName({
     //query matching
 
     if (searchQueryRef.current.match(/:\s/)) {
-      [field, value] = searchQueryRef.current.split(":")
+      ;[field, value] = searchQueryRef.current.split(":")
       //Remove the space prefix, to do search with field:
       value = value.slice(1)
       console.log("Field and value:", { field, value })
@@ -58,24 +57,19 @@ export default function SearchBySchemaName({
       value = searchQueryRef.current
     }
     /**
-     * @todo Unify the object define 
+     * @todo Unify the object define
      */
     Object.defineProperty(filter, "field", {
       enumerable: true,
       value,
-      writable: true
+      writable: true,
     })
 
-
-    const resultMap = new Map<
-      string,
-      unknown
-    >([
+    const resultMap = new Map<string, unknown>([
       ["type", searchSchemaRef.current],
       ["resultData", await mongoCollection?.findOne(filter)],
     ])
-    
-    
+
     onSearchSubmit(resultMap)
   }
   //Change the activate collection
@@ -94,8 +88,9 @@ export default function SearchBySchemaName({
           label: schemaEntry[1].name,
         }))}
         onChange={(value) => {
-          if(value === null) 
-            return 
+          if (value === null) { 
+           return
+          }
           searchSchema = value.name
           collectionRef.current = mongoApp.currentUser
             ?.mongoClient("mongodb-atlas")

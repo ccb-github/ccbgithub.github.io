@@ -1,9 +1,8 @@
 "use client"
-import ConfirmDialog from "#/components/common/dialog/ConfirmDialog";
-import { useRouter } from "next/navigation";
+import ConfirmDialog from "#/components/common/dialog/ConfirmDialog"
+import { useRouter } from "next/navigation"
 
-
-export default function ModelConfirmDialog({
+export default function AdminModelConfirmDialog({
   params: { lng },
 }: {
   params: { lng: string }
@@ -21,5 +20,5 @@ export default function ModelConfirmDialog({
         return false
       }}
     />
-  );
+  )
 }

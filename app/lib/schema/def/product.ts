@@ -16,7 +16,7 @@ export type ProductSchema = {
   standard: string
   status: string
 }
-export const productSchemaJson: NormalSchemaObject<keyof ProductSchema> = {
+export const productSchema: NormalSchemaObject<keyof ProductSchema> = {
   name: "Product",
   properties: {
     _id: {
@@ -107,4 +107,4 @@ export const productSchemaJson: NormalSchemaObject<keyof ProductSchema> = {
   embedded: false,
 }
 
-export default productSchemaJson
+export default productSchema

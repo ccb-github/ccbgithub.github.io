@@ -9,7 +9,7 @@ export default async function EnterpriseCategoryManagePage({
   const categories = await queryCategories()
 
   return (
-    <div id="data-table" className="h-full w-full">
+    <div id="data-table" className="flex flex-column h-full w-full">
       <CategoryTable lng={lng} data={categories} />
     </div>
   )

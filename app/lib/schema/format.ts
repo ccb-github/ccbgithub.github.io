@@ -1,6 +1,6 @@
 export type RoleType = "select" | "normal"
-// TODO keep two field exclusive
 
+// TODO keep two field exclusive
 export type SchemaDataPropType =
   | "double"
   | "int"
@@ -15,16 +15,16 @@ export type SchemaDataPropType =
 // Mongodb has two types of schema(one embedded for sub data purely exists for main data, other one normal)
 export type EmbeddedSchemaName = "Location" | "Qrcode"
 
-export enum URL_TO_SCHEMANAME{
+export enum URL_TO_SCHEMANAME {
   "product" = "Product",
   "enterprise" = "Enterprise",
   "order" = "Order",
-  "checker"  = "Checker",
+  "checker" = "Checker",
   "regulatory" = "Regulatory",
   "category" = "Category",
   "checkRecord" = "CheckRecord",
   "stock" = "Stock",
-  "logistic" = "Logistic"
+  "logistic" = "Logistic",
 }
 export type NormalSchemaName =
   | "Enterprise"
@@ -40,7 +40,7 @@ export type NormalSchemaName =
 export type SchemaName = EmbeddedSchemaName | NormalSchemaName
 
 // TODO with different shape
-export interface SchemaProperty<DefaultValue = string, PropKey = string> {
+export interface SchemaProperty<DefaultValue = string, SchemaPropKey = string> {
   defaultValue?: DefaultValue
   min?: number
   name: string
@@ -52,7 +52,7 @@ export interface SchemaProperty<DefaultValue = string, PropKey = string> {
    */
   relationSchemaName?: NormalSchemaName
   indexed: boolean
-  mapTo: string
+  mapTo: SchemaPropKey
   objectType?: SchemaName
 }
 export interface EmbedSchemaObject<SchemaPropKey extends string> {
@@ -60,16 +60,16 @@ export interface EmbedSchemaObject<SchemaPropKey extends string> {
   embedded: true
   properties: {
     [PropKey in SchemaPropKey]: SchemaProperty
-  } 
+  }
 }
 export interface NormalSchemaObject<SchemaPropKey extends string = "_id"> {
-  name: SchemaName
+  name: NormalSchemaName
   primaryKey: string
   embedded: false
   properties: {
     [PropKey in SchemaPropKey]: SchemaProperty
   } & {
-    //_id is ma for a schema
+    //_id is required for a schema
     _id: SchemaProperty
   }
 }

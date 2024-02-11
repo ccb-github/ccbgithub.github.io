@@ -13,10 +13,11 @@ import SchemaDataReactTable from "../SchemaDataReactTable"
 import { useApp } from "#/hooks/useApp"
 import { useRouter } from "next/navigation"
 import { type GeneralDataTableWrapperProps } from "#/types/table"
-import productSchemaJson, { ProductSchema } from "#/lib/schema/def/product"
+import productSchema, { ProductSchema } from "#/lib/schema/def/product"
+import { CheckRecordSchema } from "#/lib/schema/def/checkRecord"
 
 type CheckRecordReactTableProps = GeneralDataTableWrapperProps<
-  Partial<Record<keyof CheckRe, string>> & {
+  Partial<Record<keyof CheckRecordSchema, string>> & {
     _id: string
   }
 >
@@ -31,7 +32,7 @@ export default function ProductTable({ data, lng }: CheckRecordReactTableProps) 
   //   ColumnResizeMode["onChange"],
   // )
   const { t } = useTranslation(lng, "product")
-  const schemaPropertiesRef = useRef(productSchemaJson.properties)
+  const schemaPropertiesRef = useRef(productSchema.properties)
   const realmApp = useApp()
   const router = useRouter()
   const editLink = `/${lng}/${

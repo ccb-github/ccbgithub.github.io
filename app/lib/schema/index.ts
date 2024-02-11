@@ -1,13 +1,20 @@
-import categorySchema, { CategorySchema } from "./def/category"
-import Checker from "./def/checker"
-import enterpriseSchemaJson, { EnterpriseSchema } from "./def/enterprise"
-import productSchemaJson, { ProductSchema } from "./def/product"
-import regulatorySchemaJson, { RegulatorySchema } from "./def/regulatory"
-import checkRecordSchema from "./def/checkRecord"
-import Stock from "./def/stock"
-import Order, { OrderSchema } from "./def/order"
-import Logistic from "./def/logistic"
-import { EmbedSchemaObject, EmbeddedSchemaName, NormalSchemaName, NormalSchemaObject } from "./format"
+import categorySchema, { CategorySchema } from "#/lib/schema/def/category"
+import Checker from "#/lib/schema/def/checker"
+import enterpriseSchema, { EnterpriseSchema } from "#/lib/schema/def/enterprise"
+import productSchema, { ProductSchema } from "#/lib/schema/def/product"
+import regulatorySchema, {
+  type RegulatorySchema,
+} from "#/lib/schema/def/regulatory"
+import checkRecordSchema from "#/lib/schema/def/checkRecord"
+import Stock from "#/lib/schema/def/stock"
+import Order, { OrderSchema } from "#/lib/schema/def/order"
+import Logistic from "#/lib/schema/def/logistic"
+import {
+  EmbedSchemaObject,
+  EmbeddedSchemaName,
+  NormalSchemaName,
+  NormalSchemaObject,
+} from "./format"
 
 export type NormalSchemaJson = {
   [key in NormalSchemaName]: NormalSchemaObject
@@ -20,9 +27,9 @@ export const normalSchemaJson: NormalSchemaJson = {
   Category: categorySchema,
   Checker,
   CheckRecord: checkRecordSchema,
-  Enterprise: enterpriseSchemaJson,
-  Product: productSchemaJson,
-  Regulatory: regulatorySchemaJson,
+  Enterprise: enterpriseSchema,
+  Product: productSchema,
+  Regulatory: regulatorySchema,
   Order,
   Stock,
   Logistic,

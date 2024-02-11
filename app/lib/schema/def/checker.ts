@@ -1,6 +1,14 @@
 import { NormalSchemaObject } from "#/lib/schema/format"
+import { BSON } from "realm-web"
 
-const Checker: NormalSchemaObject<"_id" | "address"> = {
+export type CheckerSchema = {
+  _id: BSON.ObjectID
+  address?: string
+  belong: BSON.ObjectID
+  email: string
+  name: string
+}
+const Checker: NormalSchemaObject<keyof CheckerSchema> = {
   name: "Checker",
   properties: {
     _id: {

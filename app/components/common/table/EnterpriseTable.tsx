@@ -14,7 +14,7 @@ import SchemaDataReactTable from "../SchemaDataReactTable"
 import { useApp } from "#/hooks/useApp"
 import { useRouter } from "next/navigation"
 import { type GeneralDataTableWrapperProps } from "#/types/table"
-import enterpriseSchemaJson, { EnterpriseSchema } from "#/lib/schema/def/enterprise"
+import enterpriseSchema, { EnterpriseSchema } from "#/lib/schema/def/enterprise"
 
 type EnterpriseReactTableProps = GeneralDataTableWrapperProps<
   Partial<Record<keyof EnterpriseSchema, string>> & {
@@ -50,7 +50,7 @@ export default function EnterpriseTable({
       schemaType={"Enterprise"}
       deleteEnabled={true}
       columnOptions={
-        Object.values(enterpriseSchemaJson.properties).map(
+        Object.values(enterpriseSchema.properties).map(
         (prop) => ({
           accessor: prop.mapTo as keyof EnterpriseSchema,
           header: t(prop.mapTo),

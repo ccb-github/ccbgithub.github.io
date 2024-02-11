@@ -1,9 +1,8 @@
 import { BSON } from "realm-web"
 import { NormalSchemaObject } from "#/lib/schema/format"
-import MongodbList from "#/components/common/MongodbList"
 
 /**
- * @description The data model of category collection 
+ * @description The data model of category collection
  * category stands for the category of the product
  */
 export type CategorySchema = {
@@ -16,6 +15,8 @@ export type CategoryGqlQuery = Partial<
   Record<keyof CategorySchema, unknown>
 > & {
   _id: string
+  name: string
+  description?: string
 }
 
 export type CategoryGqlInsert = CategorySchema
@@ -26,7 +27,7 @@ export type CategoryGqlResult = Partial<
   _id: string
 }
 /**
- * @param {CategorySchema} Derive from categorySchema 
+ * @param {CategorySchema} Derive from categorySchema
  */
 const categorySchema: NormalSchemaObject<keyof CategorySchema> = {
   name: "Category",

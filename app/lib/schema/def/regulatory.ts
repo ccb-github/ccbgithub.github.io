@@ -7,7 +7,7 @@ export type RegulatorySchema = {
   description: string
   ownerId: string
 }
-export const regulatorySchemaJson: NormalSchemaObject<keyof RegulatorySchema> = {
+export const regulatorySchema: NormalSchemaObject<keyof RegulatorySchema> = {
   name: "Regulatory",
   properties: {
     _id: {
@@ -50,4 +50,4 @@ export const regulatorySchemaJson: NormalSchemaObject<keyof RegulatorySchema> = 
   embedded: false,
 }
 
-export default regulatorySchemaJson
+export default regulatorySchema

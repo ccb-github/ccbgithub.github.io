@@ -2,8 +2,11 @@ import { getCookieByName } from "#/components/util/cookie"
 
 import { ApolloError, gql } from "@apollo/client"
 import { createClient } from "../apolloClient"
-import { CategoryGqlInsert, CategoryGqlQuery, CategorySchema } from "#/lib/schema/def/category"
-// import { CategoryGqlInsert, CategoryGqlQuery } from "#/lib/schema/category"
+import {
+  CategoryGqlInsert,
+  CategoryGqlQuery,
+  CategorySchema,
+} from "#/lib/schema/def/category"
 
 export const QUERY_CATEGORIES = gql`
   query queryCategories($query: CategoryQueryInput) {
