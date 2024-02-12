@@ -4,7 +4,7 @@ import { SearchIcon } from "../icons"
 import { useMemo, useRef } from "react"
 import { useApp } from "#/hooks/useApp"
 
-import { normalSchemaJson } from "#/lib/schema"
+import { normalSchemaMap } from "#/lib/schema"
 import ReactSelect from "react-select"
 import { useTranslation } from "#/lib/i18n/client"
 import { NormalSchemaName } from "#/lib/schema/format"
@@ -83,7 +83,7 @@ export default function SearchBySchemaName({
     <div className={`flex justify-center ${className ?? ""}`}>
       <ReactSelect
         inputId="select-container"
-        options={Object.entries(normalSchemaJson).map((schemaEntry) => ({
+        options={Object.entries(normalSchemaMap).map((schemaEntry) => ({
           name: schemaEntry[1].name,
           label: schemaEntry[1].name,
         }))}

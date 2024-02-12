@@ -1,5 +1,5 @@
 "use client"
-import { normalSchemaJson } from "#/lib/schema"
+import { normalSchemaMap } from "#/lib/schema"
 import type { SchemaResultMapper } from "#/types/schema"
 import React, { useRef } from "react"
 import { FaReacteurope } from "react-icons/fa"
@@ -29,7 +29,7 @@ type CategoryReactTableProps = GeneralDataTableWrapperProps<
 export default function CategoryTable({ data, lng }: CategoryReactTableProps) {
   const { t } = useTranslation(lng, "enterprise")
 
-  const schemaPropertiesRef = useRef(normalSchemaJson["Category"].properties)
+  const schemaPropertiesRef = useRef(normalSchemaMap["Category"].properties)
   const realmApp = useApp()
   const router = useRouter()
   const editLink = `/${lng}/${
@@ -80,7 +80,7 @@ export default function CategoryTable({ data, lng }: CategoryReactTableProps) {
           </>
         )
       }}
-      columnOptions={Object.values(normalSchemaJson["Category"].properties).map(
+      columnOptions={Object.values(normalSchemaMap["Category"].properties).map(
         (prop) => ({
           accessor: prop.mapTo as keyof CategorySchema,
           header: t(prop.mapTo),

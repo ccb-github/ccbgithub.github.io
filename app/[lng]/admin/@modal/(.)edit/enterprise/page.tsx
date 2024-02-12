@@ -3,7 +3,7 @@ import Button from "#/components/common/Button"
 import { templateHTML } from "#/components/form/templateHTML"
 
 import { getEnterpriseById, updateEnterprise } from "#/lib/api/gql/enterprise"
-import { normalSchemaJson } from "#/lib/schema"
+import { normalSchemaMap } from "#/lib/schema"
 import { BasePageProps } from "#/types/pageProp"
 import Script from "next/script"
 import { BSON } from "realm-web"
@@ -12,7 +12,7 @@ import { BSON } from "realm-web"
 export default async function EnterpriseEditPage({
   searchParams,
 }: BasePageProps) {
-  const schemaObj = normalSchemaJson["Enterprise"]
+  const schemaObj = normalSchemaMap["Enterprise"]
 
   const { id } = searchParams
   const { enterprise } = await getEnterpriseById(id as string)

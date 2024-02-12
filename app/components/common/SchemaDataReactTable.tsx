@@ -1,6 +1,6 @@
 "use client"
 
-import { normalSchemaJson } from "#/lib/schema"
+import { normalSchemaMap } from "#/lib/schema"
 
 import React, { useMemo } from "react"
 
@@ -90,7 +90,7 @@ export default function SchemaDataReactTable<DataItem extends { _id: string }>({
   //TODO the language props
   const { t } = useTranslation(lng, schemaType.toLowerCase())
   const schemaProperties = useMemo(
-    () => normalSchemaJson[schemaType].properties,
+    () => normalSchemaMap[schemaType].properties,
     [schemaType],
   )
   const currentPath = usePathname()

@@ -1,7 +1,7 @@
 import categorySchema, { CategorySchema } from "#/lib/schema/def/category"
 import Checker from "#/lib/schema/def/checker"
 import enterpriseSchema, { EnterpriseSchema } from "#/lib/schema/def/enterprise"
-import productSchema, { ProductSchema } from "#/lib/schema/def/product"
+import productSchemaObject, { ProductSchema } from "#/lib/schema/def/product"
 import regulatorySchema, {
   type RegulatorySchema,
 } from "#/lib/schema/def/regulatory"
@@ -9,26 +9,26 @@ import checkRecordSchema from "#/lib/schema/def/checkRecord"
 import Stock from "#/lib/schema/def/stock"
 import Order, { OrderSchema } from "#/lib/schema/def/order"
 import Logistic from "#/lib/schema/def/logistic"
-import {
+import type {
   EmbedSchemaObject,
   EmbeddedSchemaName,
   NormalSchemaName,
   NormalSchemaObject,
 } from "./format"
 
-export type NormalSchemaJson = {
+export type NormalSchemaMap = {
   [key in NormalSchemaName]: NormalSchemaObject
 }
-export type EmbeddedSchemaJson = {
+export type EmbeddedSchemaMap = {
   [key in EmbeddedSchemaName]: EmbedSchemaObject<string>
 }
 
-export const normalSchemaJson: NormalSchemaJson = {
+export const normalSchemaMap: NormalSchemaMap = {
   Category: categorySchema,
   Checker,
   CheckRecord: checkRecordSchema,
   Enterprise: enterpriseSchema,
-  Product: productSchema,
+  Product: productSchemaObject,
   Regulatory: regulatorySchema,
   Order,
   Stock,
@@ -41,4 +41,4 @@ export type SchemaTypeMapper = {
   Product: ProductSchema
   Order: OrderSchema
   Regulatory: RegulatorySchema
-}
+} & Record<keyof NormalSchemaMap, Record<string, unknown>>

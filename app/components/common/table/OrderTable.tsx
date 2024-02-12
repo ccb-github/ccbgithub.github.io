@@ -1,5 +1,5 @@
 "use client"
-import { normalSchemaJson } from "#/lib/schema"
+import { normalSchemaMap } from "#/lib/schema"
 import React, { useMemo, useRef } from "react"
 import { FaReacteurope } from "react-icons/fa"
 import { useTranslation } from "#/lib/i18n/client"
@@ -34,7 +34,7 @@ export default function OrderTable({ data, lng }: OrderTableProps) {
   // const [columnResizeMode] = useState<ColumnResizeMode>(
   //   ColumnResizeMode["onChange"],
   // )
-  const schemaPropertiesRef = useRef(normalSchemaJson["Order"].properties)
+  const schemaPropertiesRef = useRef(normalSchemaMap["Order"].properties)
   const realmApp = useApp()
   const router = useRouter()
   // const defaultColumn = useMemo(
@@ -58,7 +58,7 @@ export default function OrderTable({ data, lng }: OrderTableProps) {
       data={data}
       schemaType={"Order"}
       deleteEnabled={true}
-      columnOptions={Object.values(normalSchemaJson["Order"].properties).map(
+      columnOptions={Object.values(normalSchemaMap["Order"].properties).map(
         (prop) => ({
           accessor: prop.mapTo as keyof OrderSchema,
           header: t(prop.mapTo),

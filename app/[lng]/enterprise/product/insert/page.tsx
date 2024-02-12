@@ -1,6 +1,6 @@
 "use client"
 import AddDataForm from "#/components/form/AddDataForm"
-import { normalSchemaJson } from "#/lib/schema"
+import { normalSchemaMap } from "#/lib/schema"
 import { BasePageProps } from "#/types/pageProp"
 
 export default function Page({ params }: BasePageProps) {
@@ -9,7 +9,7 @@ export default function Page({ params }: BasePageProps) {
   return (
     <AddDataForm
       lng={lng}
-      schemaObj={normalSchemaJson["Product"]}
+      schemaObj={normalSchemaMap["Product"]}
       schemaName={"Product"}
     />
   )

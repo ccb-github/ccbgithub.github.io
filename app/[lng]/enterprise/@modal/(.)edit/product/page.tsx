@@ -2,7 +2,7 @@ import Button from "#/components/common/Button"
 import { templateHTML } from "#/components/form/templateHTML"
 import { queryProductById, updateProducts } from "#/lib/api/gql/product"
 import { useTranslation } from "#/lib/i18n"
-import productSchema, { ProductSchema } from "#/lib/schema/def/product"
+import productSchemaObject, { ProductSchema } from "#/lib/schema/def/product"
 import { BasePageProps } from "#/types/pageProp"
 import Script from "next/script"
 import { BSON } from "realm-web"
@@ -51,7 +51,7 @@ export default async function ProductEditPage({
             h-full overflow-y-scroll pt-2 px-2
           `}
         >
-          {Object.values(productSchema.properties).map((prop) =>
+          {Object.values(productSchemaObject.properties).map((prop) =>
             templateHTML({
               ...prop,
               defaultValue: product[prop.mapTo as keyof ProductSchema],

@@ -1,7 +1,7 @@
 import DateInputFieldTemplate from "#/components/common/input/DateInputFieldTemplate"
 import { StringInputFieldTemplate } from "#/components/form/input/StringInputFieldTemplate"
 
-import { normalSchemaJson } from "#/lib/schema"
+import { normalSchemaMap } from "#/lib/schema"
 import { useTranslation } from "#/lib/i18n"
 import { BasePageProps } from "#/types/pageProp"
 import { BSON } from "realm-web"
@@ -65,11 +65,11 @@ export default async function Page({ params: { lng } }: BasePageProps) {
         </div>
       </div> */}
       <StringInputFieldTemplate
-        {...normalSchemaJson["Category"].properties["name"]}
+        {...normalSchemaMap["Category"].properties["name"]}
         name={t("name", { ns: "category" })}
       />
       <StringInputFieldTemplate
-        {...normalSchemaJson["Category"].properties["description"]}
+        {...normalSchemaMap["Category"].properties["description"]}
         name={t("description")}
       />
       <DateInputFieldTemplate

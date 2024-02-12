@@ -1,4 +1,4 @@
-import { EmbeddedSchemaJson, NormalSchemaJson } from "#/lib/schema"
+import { EmbeddedSchemaMap, NormalSchemaMap } from "#/lib/schema"
 import { EmbedSchemaObject, NormalSchemaObject } from "../format"
 
 export type QrcodeSchemaEmbed = {
@@ -44,7 +44,7 @@ const locationSchemaEmbed: EmbedSchemaObject<keyof LocationSchemaEmbed> = {
   embedded: true,
   
 }
-const embedSchema: EmbeddedSchemaJson = {
+const embedSchema: EmbeddedSchemaMap = {
   Location: locationSchemaEmbed,
   Qrcode: qrcodeSchemaEmbed
 }

@@ -6,7 +6,7 @@ import { templateHTML } from "#/components/form/templateHTML";
 import { queryProductById, updateProducts } from "#/lib/api/gql/product";
 
 import { useTranslation } from "#/lib/i18n";
-import { normalSchemaJson } from "#/lib/schema";
+import { normalSchemaMap } from "#/lib/schema";
 import { BasePageProps } from "#/types/pageProp";
 import Script from "next/script";
 import { BSON } from "realm-web";
@@ -14,7 +14,7 @@ import { BSON } from "realm-web";
 
 export default async function ProductEditPage({ params: {lng}, searchParams}: BasePageProps) {
   console.log("This Product edit page ([@modal/.edit/) is rendered")
-  const schemaObj = normalSchemaJson["Product"]
+  const schemaObj = normalSchemaMap["Product"]
   const { id } = searchParams  
   const { t } = await useTranslation(lng)
   const { product } = await queryProductById({

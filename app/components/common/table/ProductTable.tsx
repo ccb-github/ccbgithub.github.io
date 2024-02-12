@@ -1,5 +1,5 @@
 "use client"
-import { normalSchemaJson } from "#/lib/schema"
+import { normalSchemaMap } from "#/lib/schema"
 import React, { useRef } from "react"
 import { FaReacteurope } from "react-icons/fa"
 
@@ -13,7 +13,7 @@ import SchemaDataReactTable from "../SchemaDataReactTable"
 import { useApp } from "#/hooks/useApp"
 import { useRouter } from "next/navigation"
 import { type GeneralDataTableWrapperProps } from "#/types/table"
-import productSchema, { ProductSchema } from "#/lib/schema/def/product"
+import productSchemaObject, { ProductSchema } from "#/lib/schema/def/product"
 
 type ProductReactTableProps = GeneralDataTableWrapperProps<
   Partial<Record<keyof ProductSchema, string>> & {
@@ -31,7 +31,7 @@ export default function ProductTable({ data, lng }: ProductReactTableProps) {
   //   ColumnResizeMode["onChange"],
   // )
   const { t } = useTranslation(lng, "product")
-  const schemaPropertiesRef = useRef(productSchema.properties)
+  const schemaPropertiesRef = useRef(productSchemaObject.properties)
   const realmApp = useApp()
   const router = useRouter()
   const editLink = `/${lng}/${
@@ -47,7 +47,7 @@ export default function ProductTable({ data, lng }: ProductReactTableProps) {
       lng={lng}
       data={data}
       schemaType={"Product"}
-      columnOptions={Object.values(normalSchemaJson["Product"].properties).map(
+      columnOptions={Object.values(normalSchemaMap["Product"].properties).map(
         (prop) => ({
           accessor: prop.mapTo as keyof ProductSchema,
           header: t(prop.mapTo),

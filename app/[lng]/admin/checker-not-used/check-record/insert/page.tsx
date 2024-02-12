@@ -1,7 +1,7 @@
 import DateInputFieldTemplate from "#/components/common/input/DateInputFieldTemplate"
 import { StringInputFieldTemplate } from "#/components/form/input/StringInputFieldTemplate"
 import { useTranslation } from "#/lib/i18n"
-import { normalSchemaJson } from "#/lib/schema"
+import { normalSchemaMap } from "#/lib/schema"
 import { BasePageProps } from "#/types/pageProp"
 
 export default async function Page({ params: { lng } }: BasePageProps) {
@@ -37,7 +37,7 @@ export default async function Page({ params: { lng } }: BasePageProps) {
       <h2 className="col-span-1 lg:col-span-2">{t("New check record")}</h2>
 
       <StringInputFieldTemplate
-        {...normalSchemaJson["CheckRecord"].properties["name"]}
+        {...normalSchemaMap["CheckRecord"].properties["name"]}
         name={t("name", { ns: "CheckRecord" })}
       />
       <DateInputFieldTemplate

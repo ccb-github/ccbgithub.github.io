@@ -7,6 +7,7 @@ export type RegulatorySchema = {
   description: string
   ownerId: string
 }
+
 export const regulatorySchema: NormalSchemaObject<keyof RegulatorySchema> = {
   name: "Regulatory",
   properties: {

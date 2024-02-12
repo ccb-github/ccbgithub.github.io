@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react"
 import { useApp } from "#/hooks/useApp"
 import { BSON } from "realm-web"
 import SchemaDataReactTable from "./SchemaDataReactTable"
-import { normalSchemaJson } from "#/lib/schema"
+import { normalSchemaMap } from "#/lib/schema"
 import { ProductSchema } from "#/lib/schema/def/product"
 import { URL_TO_SCHEMANAME } from "#/lib/schema/format"
-import QRCode from "#/lib/qrcode/class/QRCodeClass"
+
 
 type X = typeof URL_TO_SCHEMANAME
 interface MongodbListProps {
@@ -18,7 +18,7 @@ interface MongodbListProps {
 }
 //TODO default value with name
 /** filter: filterProps,
- * Description 
+ * Description
  * @description Display data base on given  {@link MongodbList#SchemaName}
  * Search by filter, given param id will filter._id
  * @date 2023-03-29
